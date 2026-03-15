@@ -282,12 +282,12 @@ const G={
   tutClick(){if(this.tutStep>0){this.tutStep++;this.updateTut();}},
   updateTut(){
     UI.clearHL();
-    if(this.tutStep===1)UI.hlEl('#hud .stat-box:nth-child(1)','【💰 資金】\n每年=工廠營收+基礎收入-維護費。\n即使原料不足也有最低保障收入。');
-    else if(this.tutStep===2)UI.hlEl('#hud .stat-box:nth-child(5)','【☣️ 污染值】⚠️ 核心機制！\n每座工廠每年產生污染。\n>30罰款 >50管制 >70關廠！\n投資💧廢水 ☀️綠能 🏅ZDHC 來降低。');
-    else if(this.tutStep===3)UI.hlEl('#hud .stat-box:nth-child(4)','【🌿 ESG分數】\n環保永續評分，會自動下滑！\n建造綠色設施 💧☀️♻️🏅 可加分。\n污染越高，每年ESG下滑越快。\n後期國際訂單強制要求ESG達標！');
-    else if(this.tutStep===4){UI.tab('build',true);UI.hlEl('#tc-build','【🏭 建設區】\n生產工廠（有營收但每年產生污染☣️）\n綠色卡片：環保投資（持續降污染、建設時+ESG）\n💧廢水回收（一開始可用）\n☀️綠能、♻️循環（技術20+才解鎖）\n🏅ZDHC（技術40+且ESG40+，限一次認證）');}
-    else if(this.tutStep===5){UI.tab('trade',true);UI.hlEl('#tc-trade','【🌍 國際貿易】\n左：從🇩🇪🇨🇳🇹🇼採購原料\n右：🇯🇵🇺🇸🇩🇪⋯國際訂單出口\n滿足條件就能出貨賺大錢！');}
-    else if(this.tutStep===6){UI.hlEl('#next-btn','【下一年度】\n推進時間：計算營收、扣維護費、\n累積污染、觸發歷史事件。\n第四階段起加收碳稅！');}
+    if(this.tutStep===1)UI.hlEl('#hud .stat-box:nth-child(1)','💰 資金\n建工廠賺錢，但要付維護費。\n沒錢就什麼都做不了！');
+    else if(this.tutStep===2)UI.hlEl('#hud .stat-box:nth-child(5)','☣️ 污染\n工廠越多，污染越高。\n超標會被罰款、甚至被迫關廠。\n建環保設施才能降下來。');
+    else if(this.tutStep===3)UI.hlEl('#hud .stat-box:nth-child(4)','🌿 ESG\n污染高的話，ESG 每年自動下滑。\n建綠色設施可以拉回來。\n後期客戶不達標就不下單！');
+    else if(this.tutStep===4){UI.tab('build',true);UI.hlEl('#tc-build','🏭 建設\n普通工廠賺錢但污染。\n綠色卡片（💧☀️♻️🏅）降污染、提升 ESG。\n先買廢水回收，之後解鎖更強的！');}
+    else if(this.tutStep===5){UI.tab('trade',true);UI.hlEl('#tc-trade','🌍 國際貿易\n左邊買原料讓工廠運轉。\n右邊接國際訂單，賺大錢！');}
+    else if(this.tutStep===6){UI.hlEl('#next-btn','⏩ 下一年度\n按下去推進一年。\n收入、污染、事件一起結算。\n準備好了就按！');}
     else{this.tutStep=0;UI.clearHL();UI.tab('build',true);const s=STAGES[0];const goals=s.goals.map(g=>'🔹 '+g.txt).join('<br>');UI.showModal(s.title,'<div style="text-align:left;line-height:1.6;">'+s.desc+'<br><br><span style="color:var(--gold)">🏆 本階段目標：</span><br>'+goals+'</div>',()=>UI.closeModal());}
   },
   calcRev(){let r=0;BKEYS.forEach(k=>{if(B[k].rev>0&&this.c[k]>0)r+=B[k].rev*this.c[k];});return r;},
