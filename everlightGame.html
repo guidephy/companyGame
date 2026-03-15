@@ -435,10 +435,11 @@ const UI={
     const fv=document.getElementById('factory-view');fv.className='';if(G.poll>=70)fv.className='very-polluted';else if(G.poll>=40)fv.className='polluted';
     const fg=document.getElementById('factory-grid');fg.innerHTML='';
     BKEYS.forEach(k=>{for(let i=0;i<G.c[k];i++){const el=document.createElement('div');el.className='ficon';el.innerText=B[k].e;el.title=B[k].name;fg.appendChild(el);}});
+    this.renderBuild();
   },
   toast(msg,type='good'){const c=document.getElementById('toast-c');const t=document.createElement('div');t.className='toast '+type;t.innerText=msg;c.appendChild(t);setTimeout(()=>{t.classList.add('hiding');setTimeout(()=>t.remove(),500);},2500);},
   showModal(title,html,onClose){document.getElementById('m-title').innerHTML=title;document.getElementById('m-body').innerHTML='<div style="font-size:13px;line-height:1.6;color:var(--txt);text-align:left;">'+html+'</div>';
-    document.getElementById('modal-ov').style.display='flex';const btn=document.getElementById('m-btn');btn.innerText='確 定';btn.className='mbtn';btn.onclick=onClose||(()=>this.closeModal());document.getElementById('m-foot').innerHTML='';document.getElementById('m-foot').appendChild(btn);},
+    document.getElementById('modal-ov').style.display='flex';const foot=document.getElementById('m-foot');foot.innerHTML='';const btn=document.createElement('button');btn.id='m-btn';btn.className='mbtn';btn.innerText='確 定';btn.onclick=onClose||(()=>this.closeModal());foot.appendChild(btn);},
   closeModal(){document.getElementById('modal-ov').style.display='none';},
   showEvent(ev){
     let html='<div style="font-size:14px;font-weight:700;color:'+(ev.tone==='bad'?'var(--red)':ev.tone==='good'?'var(--green)':'var(--gold)')+';margin-bottom:6px;">'+ev.hl+'</div>';
@@ -450,7 +451,7 @@ const UI={
       if(ev.eff)G.applyEff(ev.eff);
       this.showModal(ev.tone==='bad'?'⚠️ 事件':'📰 事件',html,null);
       const foot=document.getElementById('m-foot');foot.innerHTML='';
-      ev.choices.forEach(ch=>{const btn=document.createElement('div');btn.className='ch-btn';btn.innerHTML='<div class="ch-title">'+ch.label+'</div><div class="ch-desc">'+ch.desc+'</div>';btn.onclick=()=>{G.applyEff(ch.fx);this.closeModal();UI.updateAll();};foot.appendChild(btn);});
+      ev.choices.forEach(ch=>{const btn=document.createElement('div');btn.className='ch-btn';btn.innerHTML='<div class="ch-title">'+ch.label+'</div><div class="ch-desc">'+ch.desc+'</div>';btn.onclick=()=>{G.applyEff(ch.fx);this.closeModal();UI.updateAll();UI.renderBuild();};foot.appendChild(btn);});
     }else{this.showModal(ev.tone==='bad'?'⚠️ 事件':'📰 事件',html,()=>{this.closeModal();UI.updateAll();});}
   },
   showTurnReport(inc,maint,cTax,pollD){
