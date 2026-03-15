@@ -100,6 +100,7 @@ body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dv
 @keyframes fTip{from{transform:translate(-50%,0);}to{transform:translate(-50%,-8px);}}
 .tut-next{font-size:10px;color:var(--light);margin-top:6px;}
 .hl-target{z-index:2001!important;position:relative!important;box-shadow:0 0 0 4px #e74c3c,0 0 0 8px rgba(231,76,60,0.4),0 0 30px rgba(231,76,60,0.5)!important;}
+#next-btn.hl-target{position:fixed!important;}
 @keyframes nameShake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
 </style>
 </head>
@@ -120,7 +121,9 @@ body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dv
   <div id="info-bar-goals"><div class="bar-title">🏆 階段目標</div><div id="goal-list"></div></div>
 </div>
 <div id="game-stage"><div id="factory-view">
-  <div id="year-display">1972年</div><div id="stage-badge">第一階段</div><div id="factory-grid"></div>
+  <div id="year-display">1972年</div><div id="stage-badge">第一階段</div>
+  <div id="zdhc-badge" style="display:none;position:absolute;top:36px;right:8px;padding:2px 10px;background:linear-gradient(135deg,rgba(200,146,42,0.92),rgba(180,120,20,0.92));color:#fff;font-size:10px;font-weight:700;border-radius:10px;letter-spacing:1px;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:92;">🏅 ZDHC認證</div>
+  <div id="factory-grid"></div>
   <div id="data-overlay">
     <div class="drow"><span>年營收</span><span class="dval" id="s-rev">$0</span></div>
     <div class="drow"><span>工廠數</span><span class="dval" id="s-fac">0</span></div>
@@ -176,7 +179,7 @@ const B={
   circle:{id:'circle',name:'循環經濟',e:'♻️',cost:900,rev:0,poll:-2,treq:25,d:'廢棄物資源化，年省成本，建設時ESG+10',ot:'esg',boost:10,ereq:25,green:true},
   zdhc:{id:'zdhc',name:'ZDHC認證',e:'🏅',cost:1200,rev:0,poll:-3,treq:40,d:'零排放化學品計畫，建設時ESG+18，限一次申請',ot:'esg',boost:18,ereq:40,green:true,max:1}
 };
-const BKEYS=['dye','toner','spec','pharma','elec','global','rd','water','solar','circle','zdhc'];
+const BKEYS=['dye','toner','spec','pharma','elec','global','rd','water','solar','circle'];/* zdhc removed: cert via event only */
 const SUP=[
   {id:'basf',name:'巴斯夫',flag:'🇩🇪',base:108,route:'safe',label:'德國・穩定供應',swing:0.14},
   {id:'cn',name:'中國廠商',flag:'🇨🇳',base:90,route:'risk',label:'中國・波動大品質風險',swing:0.30},
@@ -209,7 +212,7 @@ const STAGES=[
  desc:'💎 與<b style="color:var(--teal)">工研院材化所</b>合作開發IC光阻劑！<br><br><div style="font-family:monospace;background:#1a2a3a;color:#40c8a8;padding:6px 8px;border-radius:6px;font-size:11px;">💡 完成半導體客戶訂單，讓世界看見觀音！</div>',
  goals:[{txt:'電子材料 ≥ 2',ck:g=>g.c.elec>=2},{txt:'技術力 ≥ 50',ck:g=>g.tech>=50},{txt:'完成1筆半導體訂單',ck:g=>g.done.some(id=>{for(let s=1;s<=5;s++){const c=(CONTRACTS[s]||[]).find(x=>x.id===id);if(c&&c.tag==='semi')return true;}return false;})}]},
 {title:'階段四：永續轉型（2010-2020）',short:'ESG不再是選擇，而是生存條件',
- desc:'⚠️ 觀音三廠被列為<b style="color:var(--red)">土壤及地下水污染管制區</b>⋯⋯<br><br><div style="font-family:monospace;background:#1a2a3a;color:#40c8a8;padding:6px 8px;border-radius:6px;font-size:11px;">🔴 碳稅=污染×3！污染每年侵蝕ESG！\n💧廢水 ☀️綠能 ♻️循環 🏅ZDHC四管齊下！\n⚠️ ZDHC認證需技術≥40 + ESG≥40，限一次申請。</div>',
+ desc:'⚠️ 觀音三廠被列為<b style="color:var(--red)">土壤及地下水污染管制區</b>⋯⋯<br><br><div style="font-family:monospace;background:#1a2a3a;color:#40c8a8;padding:6px 8px;border-radius:6px;font-size:11px;">🔴 碳稅=污染×3！污染每年侵蝕ESG！\n💧廢水 ☀️綠能 ♻️循環三管齊下！\n🏅 等待「Nike ZDHC合規」事件，達成技術≥40＋ESG≥40即可申請認證（限一次）！</div>',
  goals:[{txt:'ESG ≥ 60',ck:g=>g.esg>=60},{txt:'污染 ≤ 40',ck:g=>g.poll<=40},{txt:'完成1筆ESG認證訂單',ck:g=>g.done.some(id=>{for(let s=1;s<=5;s++){const c=(CONTRACTS[s]||[]).find(x=>x.id===id);if(c&&c.tag==='esg')return true;}return false;})}]},
 {title:'階段五：全球創新（2020-2026）',short:'台灣定義材料規格的關鍵角色',
  desc:'🌍 瑞士Perovskia Solar AG採用永光封裝材料奪國際大獎！永光產品行銷100+國家。<br><br><div style="font-family:monospace;background:#1a2a3a;color:#40c8a8;padding:6px 8px;border-radius:6px;font-size:11px;">最終任務：海外擴張、技術登頂、永續標竿。</div>',
@@ -255,7 +258,7 @@ const EVENTS={
 ],
 3:[
  {hl:'🔥 觀音三廠火警！',dt:'2022年觀音三廠火警，異味煙擴散！環保局開罰。',tone:'bad',eff:{rep:-12,esg:-8,funds:-500},fact:'📌 真實事件：2022/03/10觀音三廠火警罰鍰10萬至500萬元。',choices:[{label:'🔧 全面升級消防系統',desc:'導入PSM製程安全管理',fx:{funds:-400,esg:8,rep:3}},{label:'🏥 設立社區健康基金',desc:'賠償受影響居民、免費健檢',fx:{funds:-500,rep:12,esg:3}}]},
- {hl:'👟 Nike要求ZDHC合規',dt:'不符ZDHC零排放標準就不續約！',tone:'warn',eff:{esg:5,rep:3},fact:'📌 永光成為ZDHC基金會成員。',choices:[{label:'🏅 立即申請ZDHC認證',desc:'投資取得認證資格',fx:{funds:-500,esg:12,rep:8}},{label:'🎨 開發新型環保染料',desc:'從源頭減少有害物質',fx:{funds:-300,tech:5,esg:6}}]},
+ {hl:'👟 Nike要求ZDHC合規',dt:'全球最大運動品牌宣告：不符ZDHC零排放化學品標準就終止合約！取得認證是生死關鍵。',tone:'warn',eff:{esg:5,rep:3},id:'nike_zdhc',fact:'📌 永光成為ZDHC基金會成員，Everzol® ED是全球首批通過ZDHC標準的環保反應性染料。',choices:[{label:'🏅 申請ZDHC認證（限一次）',desc:'條件：技術≥40 ＋ ESG≥40｜費用 $1,200｜通過後：ESG+18、污染-3、聲譽+8',certify:true},{label:'🎨 開發新型環保染料',desc:'從源頭減少有害物質，即使條件未達標也可選此路',fx:{funds:-300,tech:5,esg:6}}]},
  {hl:'💧 地下水污染管制',dt:'三廠被列為土壤及地下水污染管制區。',tone:'bad',eff:{rep:-8,esg:-5,funds:-300},fact:'📌 2018年違規使用地下水遭罰15萬元。',choices:[{label:'💧 建設地下水處理站',desc:'抽水處理恢復水質',fx:{funds:-600,esg:10,poll:-5}},{label:'🌱 植栽生態復育',desc:'種植吸污植物修復土壤',fx:{funds:-200,esg:6,rep:5,poll:-3}}]},
  {hl:'💚 ISO 50001能源管理認證',dt:'全台廠區通過！水回收率達92%！',tone:'good',eff:{esg:10,rep:8},fact:'📌 2024年溫室氣體排放70,301噸CO2e。',choices:[{label:'☀️ 加裝屋頂太陽能板',desc:'自發自用降低碳排',fx:{funds:-300,esg:8,poll:-2}},{label:'🔄 推動循環經濟競賽',desc:'鼓勵員工減廢創新',fx:{funds:-100,esg:5,rep:3}}]},
  {hl:'🇪🇺 歐盟CBAM碳邊境調整',dt:'高碳排產品出口歐盟須繳碳關稅！',tone:'warn',eff:{funds:-200},fact:'📌 CBAM迫使全球製造業加速減碳。',choices:[{label:'📊 導入碳盤查系統',desc:'量化各廠碳排數據',fx:{funds:-200,esg:8,tech:3}},{label:'🌿 採購綠電憑證',desc:'用再生能源降低碳排',fx:{funds:-400,esg:10,poll:-2}}]},
@@ -340,7 +343,7 @@ const G={
     else if(this.tutStep===3)UI.hlEl('#hud .stat-box:nth-child(3)','🔬 技術力\n決定可以蓋哪些高階工廠。\n建造研發中心可大幅提升技術力，\n數值越高，解鎖的選項越多！');
     else if(this.tutStep===4)UI.hlEl('#hud .stat-box:nth-child(4)','🌿 ESG\n污染越高，ESG 每年自動下滑。\n建綠色設施才能維持或拉回。\n後期國際客戶強制要求達標！');
     else if(this.tutStep===5)UI.hlEl('#hud .stat-box:nth-child(5)','☣️ 污染\n工廠越多污染越高，超標會被罰款、\n甚至被強制關廠、聲譽大跌。\n投資環保設施才能每年降低！');
-    else if(this.tutStep===6){UI.tab('build',true);UI.hlEl('#tc-build','🏭 建設\n普通工廠賺錢但產生污染。\n綠色卡片（💧☀️♻️🏅）降污染、提升 ESG。\n建議先蓋廢水回收，逐步解鎖！');}
+    else if(this.tutStep===6){UI.tab('build',true);UI.hlEl('#tc-build','🏭 建設\n普通工廠賺錢但產生污染。\n綠色卡片（💧☀️♻️）降污染、提升 ESG。\n建議先蓋廢水回收，逐步解鎖！\n🏅 ZDHC認證需等待特殊事件觸發！');}
     else if(this.tutStep===7){UI.tab('trade',true);UI.hlEl('#tc-trade','🌍 國際貿易\n左邊選供應商購買原料，工廠才能運轉。\n右邊接國際訂單，賺大錢、拓展出口國！');}
     else if(this.tutStep===8){UI.hlEl('#next-btn','⏩ 下一年度\n按下去推進一年。\n收入、污染、ESG 變化都會以\n📊 年度報告呈現，看完再點繼續！');}
     else{this.tutStep=0;UI.clearHL();UI.tab('build',true);const s=STAGES[0];const goals=s.goals.map(g=>'🔹 '+g.txt).join('<br>');UI.showModal(s.title,'<div style="text-align:left;line-height:1.6;">'+s.desc+'<br><br><span style="color:var(--gold)">🏆 本階段目標：</span><br>'+goals+'</div>',()=>UI.closeModal());}
@@ -458,9 +461,23 @@ const G={
     const pool=EVENTS[this.stageIdx];if(!pool||!pool.length)return null;
     if(!this.shownEvents[this.stageIdx])this.shownEvents[this.stageIdx]=new Set();
     const shown=this.shownEvents[this.stageIdx];
-    if(shown.size>=pool.length)shown.clear();/* all seen: reset bag */
-    const unshown=[];for(let i=0;i<pool.length;i++){if(!shown.has(i))unshown.push(i);}
-    const idx=unshown[Math.floor(Math.random()*unshown.length)];
+    /* Build available indices: skip ZDHC event if already certified */
+    const avail=[];
+    for(let i=0;i<pool.length;i++){
+      if(shown.has(i))continue;
+      if(pool[i].id==='nike_zdhc'&&this.c.zdhc>=1)continue;/* certified: never show again */
+      avail.push(i);
+    }
+    /* All unseen events exhausted: reset bag (keep permanent exclusions) */
+    if(avail.length===0){
+      shown.clear();
+      for(let i=0;i<pool.length;i++){
+        if(pool[i].id==='nike_zdhc'&&this.c.zdhc>=1)continue;
+        avail.push(i);
+      }
+      if(avail.length===0)return null;
+    }
+    const idx=avail[Math.floor(Math.random()*avail.length)];
     shown.add(idx);this.lastEvIdx[this.stageIdx]=idx;
     return pool[idx];
   },
@@ -538,7 +555,7 @@ const G={
       year:this.year,funds:this.funds,rep:this.rep,tech:this.tech,esg:this.esg,poll:this.poll,
       countries:this.countries.size,contracts:this.done.length,
       buildings:bldg,purchases:purch,contractList:this.done.join(',')};
-    fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify(data),headers:{'Content-Type':'application/json'}})
+    fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify(data),headers:{'Content-Type':'text/plain;charset=utf-8'}})
       .then(()=>UI.toast('✅ 成績已送出至試算表！','good'))
       .catch(()=>UI.toast('❌ 連線失敗，請確認設定','bad'));
   },
@@ -646,6 +663,7 @@ const UI={
     const pollBox=pollEl.closest('.stat-box');pollBox.className='stat-box'+(G.poll>=50?' danger':G.poll>=30?' warn':'');
     document.getElementById('year-display').innerText=G.year+'年';
     document.getElementById('stage-badge').innerText='第'+STAGE_LABEL[G.stageIdx]+'階段';
+    const zb=document.getElementById('zdhc-badge');if(zb)zb.style.display=G.c.zdhc>=1?'block':'none';
     document.getElementById('story-text').innerText=STAGES[G.stageIdx].short;
     const gl=document.getElementById('goal-list');gl.innerHTML='';
     STAGES[G.stageIdx].goals.forEach(g=>{const met=g.ck(G);const d=document.createElement('div');d.className='goal-item';d.innerHTML='<span class="gc '+(met?'done':'')+'">'+(met?'✅':'⬜')+'</span><span>'+g.txt+'</span>';gl.appendChild(d);});
@@ -659,7 +677,7 @@ const UI={
     document.getElementById('poll-label').innerText='☣️ '+G.poll;
     const fv=document.getElementById('factory-view');fv.className='';if(G.poll>=70)fv.className='very-polluted';else if(G.poll>=40)fv.className='polluted';
     const fg=document.getElementById('factory-grid');fg.innerHTML='';
-    const zones=[{label:'生產',keys:['dye','toner','spec','pharma','elec','global']},{label:'研發',keys:['rd']},{label:'環保',keys:['water','solar','circle','zdhc']}];
+    const zones=[{label:'生產',keys:['dye','toner','spec','pharma','elec','global']},{label:'研發',keys:['rd']},{label:'環保',keys:['water','solar','circle']}];
     zones.forEach(z=>{const items=z.keys.filter(k=>G.c[k]>0);if(!items.length&&z.label!=='生產')return;const zone=document.createElement('div');zone.className='fac-zone';const lbl=document.createElement('span');lbl.className='fac-zone-label';lbl.innerText=z.label;zone.appendChild(lbl);if(!items.length){const emp=document.createElement('span');emp.className='fac-empty';emp.innerText='尚無建設';zone.appendChild(emp);}items.forEach(k=>{const tile=document.createElement('div');tile.className='fac-tile';tile.title=B[k].name;tile.innerHTML='<span class="fe">'+B[k].e+'</span><span class="fc">×'+G.c[k]+'</span>';zone.appendChild(tile);});fg.appendChild(zone);});
     this.renderBuild();
   },
@@ -677,7 +695,29 @@ const UI={
       if(ev.eff)G.applyEff(ev.eff);
       this.showModal(ev.tone==='bad'?'⚠️ 事件':'📰 事件',html,null);
       const foot=document.getElementById('m-foot');foot.innerHTML='';
-      ev.choices.forEach(ch=>{const btn=document.createElement('div');btn.className='ch-btn';btn.innerHTML='<div class="ch-title">'+ch.label+'</div><div class="ch-desc">'+ch.desc+'</div>';btn.onclick=()=>{G.applyEff(ch.fx);this.closeModal();UI.updateAll();UI.renderBuild();};foot.appendChild(btn);});
+      ev.choices.forEach(ch=>{
+        const btn=document.createElement('div');btn.className='ch-btn';
+        btn.innerHTML='<div class="ch-title">'+ch.label+'</div><div class="ch-desc">'+ch.desc+'</div>';
+        if(ch.certify){
+          /* ZDHC certification choice — check conditions first */
+          btn.onclick=()=>{
+            if(G.c.zdhc>=1){UI.toast('🏅 已完成ZDHC認證','warn');this.closeModal();UI.updateAll();return;}
+            if(G.tech<40||G.esg<40){
+              UI.toast('❌ 條件未達標！需技術≥40（目前'+G.tech+'）且ESG≥40（目前'+G.esg+'）','bad',3500);
+              return;/* keep modal open so they can pick the other choice */
+            }
+            if(G.funds<1200){UI.toast('❌ 資金不足 $1,200！','bad');return;}
+            G.c.zdhc=1;G.funds=Math.max(0,G.funds-1200);
+            G.esg=Math.min(100,G.esg+18);G.poll=Math.max(0,G.poll-3);G.rep=Math.min(100,G.rep+8);
+            this.closeModal();
+            UI.toast('🏅 ZDHC零排放化學品認證完成！ESG+18 污染-3 聲譽+8','good',4000);
+            UI.updateAll();UI.renderBuild();
+          };
+        }else{
+          btn.onclick=()=>{G.applyEff(ch.fx);this.closeModal();UI.updateAll();UI.renderBuild();};
+        }
+        foot.appendChild(btn);
+      });
     }else{this.showModal(ev.tone==='bad'?'⚠️ 事件':'📰 事件',html,()=>{this.closeModal();UI.updateAll();});}
   },
   showTurnReport(inc,maint,cTax,pollD,mgrReport,msgs,ev){
@@ -745,10 +785,11 @@ const UI={
     if(G.done.length===0)html+='（無）';
     G.done.forEach(id=>{for(let s=1;s<=5;s++){const ct=(CONTRACTS[s]||[]).find(x=>x.id===id);if(ct){html+=ct.flag+' '+ct.client+'（'+ct.desc+'）<br>';break;}}});
     html+='</div>';
-    /* MATERIAL PURCHASES */
-    html+='<div style="text-align:left;font-size:11px;background:rgba(106,90,205,0.06);padding:6px;border-radius:6px;margin-bottom:6px;"><b>📦 原料採購紀錄：</b><br>';
-    SUP.forEach(s=>{const cnt=G.matBuys[s.id]||0;if(cnt>0)html+=s.flag+' '+s.name+'：'+cnt+'次&emsp;';});
-    if(Object.values(G.matBuys).every(v=>v===0))html+='（無）';
+    /* MATERIAL PURCHASES — show as % proportion */
+    html+='<div style="text-align:left;font-size:11px;background:rgba(106,90,205,0.06);padding:6px;border-radius:6px;margin-bottom:6px;"><b>📦 原料採購比例：</b><br>';
+    const totalBuys=Object.values(G.matBuys).reduce((a,b)=>a+b,0);
+    if(totalBuys===0){html+='（無）';}
+    else{SUP.forEach(s=>{const cnt=G.matBuys[s.id]||0;if(cnt>0){const pct=Math.round(cnt/totalBuys*100);html+=s.flag+' '+s.name+'：<b>'+pct+'%</b>&emsp;';}});}
     html+='</div>';
     /* EDUCATIONAL SUMMARY */
     html+='<div style="text-align:left;font-size:10px;background:rgba(26,107,138,0.06);padding:6px;border-radius:6px;line-height:1.5;"><b>📚 你認識了什麼：</b><br>';
@@ -758,7 +799,7 @@ const UI={
     html+='✅ 1988年上市，行銷100+國家、17全球據點、620家供應商<br>';
     html+='✅ 與工研院合作打破美日光阻壟斷<br>';
     html+='✅ 2022年三廠火警→全面升級消防，水回收率92%、廢棄物回收78%<br>';
-    html+='✅ 加入ZDHC基金會（零排放化學品），ISO 50001能源管理認證<br>';
+    html+=(G.c.zdhc>=1?'🏅 <b style="color:var(--gold);">已完成ZDHC零排放化學品認證！</b>永光正式成為ZDHC基金會認證成員。<br>':'⬜ ZDHC零排放認證（本局未完成）<br>');
     html+='✅ 循環經濟競賽年省5,059萬元，廢棄物轉副產品再利用<br>';
     html+='✅ 鈣鈦礦太陽能封裝材料獲瑞士國際大獎<br>';
     html+='✅ 創辦人陳定川：「追求進步創新，發揚人性光輝」</div>';
@@ -769,35 +810,43 @@ const UI={
   /* SVG TREND CHART */
   buildChart(){
     const h=G.history;if(h.length<2)return '';
-    const W=300,H=120,P=25;
+    const W=300,H=120,P=22;
+    /* Use actual max so values never go out of range */
+    const maxEsg=Math.max(100,...h.map(d=>d.esg));
+    const maxPoll=Math.max(50,...h.map(d=>d.poll));
     const maxRev=Math.max(100,...h.map(d=>d.rev));
-    const toY=(v,max)=>P+((H-2*P)*(1-v/max));
+    const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+    const toY=(v,max)=>clamp(P+((H-2*P)*(1-v/max)),P,H-P);
     const toX=(i)=>P+(W-2*P)*i/(h.length-1);
     let esgPts='',pollPts='',revPts='';
     h.forEach((d,i)=>{
       const x=toX(i);
-      esgPts+=x+','+toY(d.esg,100)+' ';
-      pollPts+=x+','+toY(d.poll,100)+' ';
+      esgPts+=x+','+toY(d.esg,maxEsg)+' ';
+      pollPts+=x+','+toY(d.poll,maxPoll)+' ';
       revPts+=x+','+toY(d.rev,maxRev)+' ';
     });
-    let svg='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;margin:6px 0;background:rgba(0,0,0,0.03);border-radius:8px;">';
+    let svg='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;margin:6px 0;background:rgba(0,0,0,0.03);border-radius:8px;" overflow="hidden">';
+    /* clipPath keeps lines inside the plot area */
+    svg+='<defs><clipPath id="cp"><rect x="'+P+'" y="'+P+'" width="'+(W-2*P)+'" height="'+(H-2*P)+'"/></clipPath></defs>';
     /* Grid lines */
     for(let i=0;i<=4;i++){const y=P+(H-2*P)*i/4;svg+='<line x1="'+P+'" y1="'+y+'" x2="'+(W-P)+'" y2="'+y+'" stroke="#ddd" stroke-width="0.5"/>';}
-    /* Lines */
-    svg+='<polyline points="'+esgPts+'" fill="none" stroke="#2e8b57" stroke-width="2" opacity="0.8"/>';
-    svg+='<polyline points="'+pollPts+'" fill="none" stroke="#c2625a" stroke-width="2" opacity="0.8"/>';
-    svg+='<polyline points="'+revPts+'" fill="none" stroke="#c8922a" stroke-width="2" opacity="0.8" stroke-dasharray="4 2"/>';
+    /* Lines inside clipPath */
+    svg+='<g clip-path="url(#cp)">';
+    svg+='<polyline points="'+esgPts+'" fill="none" stroke="#2e8b57" stroke-width="2" opacity="0.85"/>';
+    svg+='<polyline points="'+pollPts+'" fill="none" stroke="#c2625a" stroke-width="2" opacity="0.85"/>';
+    svg+='<polyline points="'+revPts+'" fill="none" stroke="#c8922a" stroke-width="2" opacity="0.85" stroke-dasharray="4 2"/>';
+    svg+='</g>';
     /* Legend */
-    svg+='<text x="'+P+'" y="12" font-size="9" fill="#2e8b57" font-family="sans-serif">🌿ESG</text>';
-    svg+='<text x="'+(P+60)+'" y="12" font-size="9" fill="#c2625a" font-family="sans-serif">☣️污染</text>';
-    svg+='<text x="'+(P+120)+'" y="12" font-size="9" fill="#c8922a" font-family="sans-serif">💰年收(虛線)</text>';
+    svg+='<text x="'+P+'" y="13" font-size="9" fill="#2e8b57" font-family="sans-serif">🌿ESG</text>';
+    svg+='<text x="'+(P+55)+'" y="13" font-size="9" fill="#c2625a" font-family="sans-serif">☣️污染</text>';
+    svg+='<text x="'+(P+110)+'" y="13" font-size="9" fill="#c8922a" font-family="sans-serif">💰年收(虛線)</text>';
     /* Year labels */
-    if(h.length>0){svg+='<text x="'+P+'" y="'+(H-3)+'" font-size="8" fill="#888" font-family="sans-serif">'+h[0].year+'</text>';svg+='<text x="'+(W-P-20)+'" y="'+(H-3)+'" font-size="8" fill="#888" font-family="sans-serif">'+h[h.length-1].year+'</text>';}
+    if(h.length>0){svg+='<text x="'+P+'" y="'+(H-3)+'" font-size="8" fill="#888" font-family="sans-serif">'+h[0].year+'</text>';svg+='<text x="'+(W-P-22)+'" y="'+(H-3)+'" font-size="8" fill="#888" font-family="sans-serif">'+h[h.length-1].year+'</text>';}
     svg+='</svg>';
     return '<div style="margin:4px 0;"><div style="font-size:10px;font-weight:700;color:var(--teal);margin-bottom:2px;">📊 趨勢圖（ESG vs 污染 vs 年收入）</div>'+svg+'</div>';
   },
 
-  help(type){const h={funds:'【💰 資金】\n每年收入=工廠營收+基礎收入-維護費。\n原料不足時減產，但有最低保障收入。\n第四階段起高污染會額外收碳稅。',rep:'【🏆 聲譽】\n國際客戶信任度，歸零即宣告倒閉。\n污染事故和環保違規會直接扣分。',tech:'【🔬 技術力】\n建造研發中心可大幅提升技術。\n高技術才能解鎖先進工廠與環保認證。',esg:'【🌿 ESG分數】\n投資環保設施（💧☀️♻️🏅）時加分。\n⚠️ 污染越高，ESG每年自動下滑越快！\n必須持續投資才能維持，後期國際訂單強制要求達標。',poll:'【☣️ 污染值】\n工廠每年產生污染，超標會罰款、傷聲譽甚至關廠。\n投資環保設施可每年持續降低污染。\n第四階段碳稅=污染×3，早降早省錢。'};
+  help(type){const h={funds:'【💰 資金】\n每年收入=工廠營收+基礎收入-維護費。\n原料不足時減產，但有最低保障收入。\n第四階段起高污染會額外收碳稅。',rep:'【🏆 聲譽】\n國際客戶信任度，歸零即宣告倒閉。\n污染事故和環保違規會直接扣分。',tech:'【🔬 技術力】\n建造研發中心可大幅提升技術。\n高技術才能解鎖先進工廠與環保認證。',esg:'【🌿 ESG分數】\n投資環保設施（💧☀️♻️）時加分。\n🏅 ZDHC認證透過特殊事件申請，ESG一次+18！\n⚠️ 污染越高，ESG每年自動下滑越快！\n必須持續投資才能維持，後期國際訂單強制要求達標。',poll:'【☣️ 污染值】\n工廠每年產生污染，超標會罰款、傷聲譽甚至關廠。\n投資環保設施可每年持續降低污染。\n第四階段碳稅=污染×3，早降早省錢。'};
     this.showModal('❓ 說明','<div style="white-space:pre-line;font-size:13px;line-height:1.6;">'+((h[type])||'')+'</div>',()=>this.closeModal());},
   stageDetail(){const s=STAGES[G.stageIdx];const goals=s.goals.map(g=>'🔹 '+g.txt).join('<br>');this.showModal(s.title,'<div style="line-height:1.6;">'+s.desc+'<br><br><span style="color:var(--gold)">🏆 目標：</span><br>'+goals+'</div>',()=>this.closeModal());},
   hlEl(sel,text){document.getElementById('tut-ov').style.display='block';const el=document.querySelector(sel);if(el){el.classList.add('hl-target');const bp=el.closest('#bottom-panel')||el.closest('#hud');if(bp)bp.style.zIndex='2001';}document.getElementById('tut-text').innerHTML='<div class="tut-t">遊戲說明</div>'+text.replace(/\n/g,'<br>');document.getElementById('tut-tip').style.display='block';},
