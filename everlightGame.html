@@ -35,8 +35,12 @@ body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dv
 #factory-view.very-polluted{filter:sepia(0.4) brightness(0.75) contrast(1.1);}
 #year-display{position:absolute;top:8px;left:8px;padding:4px 12px;color:var(--txt);font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;z-index:92;pointer-events:none;background:rgba(232,240,248,0.85);border-radius:16px;border:1.5px solid var(--brd);backdrop-filter:blur(8px);letter-spacing:2px;}
 #stage-badge{position:absolute;top:8px;right:8px;padding:3px 10px;color:#fff;font-family:'Noto Serif TC',serif;font-size:11px;font-weight:700;z-index:92;background:var(--teal);border-radius:12px;}
-#factory-grid{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:6px;padding:45px 10px 30px;}
-.ficon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:22px;background:rgba(255,255,255,0.15);border-radius:8px;border:1px solid rgba(255,255,255,0.2);animation:popIn 0.3s ease-out;}
+#factory-grid{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:50px 10px 22px;overflow:hidden;}
+.fac-zone{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.1);border-radius:8px;padding:5px 8px;min-height:36px;flex-wrap:wrap;}
+.fac-zone-label{font-size:9px;color:rgba(255,255,255,0.55);width:26px;flex-shrink:0;text-align:right;padding-right:5px;border-right:1px solid rgba(255,255,255,0.2);margin-right:3px;letter-spacing:0.5px;}
+.fac-tile{display:flex;align-items:center;gap:2px;background:rgba(255,255,255,0.12);border-radius:6px;padding:3px 7px;cursor:default;}
+.fac-tile .fe{font-size:18px;line-height:1;}.fac-tile .fc{font-size:11px;color:rgba(255,255,255,0.95);font-weight:bold;font-family:'Playfair Display',serif;}
+.fac-empty{font-size:10px;color:rgba(255,255,255,0.3);font-style:italic;padding-left:4px;}
 @keyframes popIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
 #data-overlay{position:absolute;bottom:22px;left:6px;background:rgba(232,240,248,0.9);border:1.5px solid var(--brd);padding:4px 6px;width:140px;z-index:95;pointer-events:none;border-radius:8px;backdrop-filter:blur(8px);}
 .drow{font-size:10px;color:var(--muted);margin-bottom:1px;display:flex;justify-content:space-between;align-items:center;white-space:nowrap;}
@@ -73,8 +77,8 @@ body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dv
 #next-btn{position:fixed;bottom:calc(230px + env(safe-area-inset-bottom));right:12px;width:56px;height:56px;background:var(--teal);border:2.5px solid #fff;border-radius:50%;box-shadow:0 3px 12px rgba(0,0,0,0.2);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:150;cursor:pointer;font-size:11px;font-weight:700;text-align:center;line-height:1.1;animation:pulse-btn 2s ease-in-out infinite;font-family:'LXGW WenKai TC',serif;color:#fff;letter-spacing:1px;}
 #next-btn:active{transform:scale(0.95);}
 @keyframes pulse-btn{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
-#toast-c{position:fixed;top:70px;left:50%;transform:translateX(-50%);width:280px;pointer-events:none;z-index:1500;display:flex;flex-direction:column;gap:6px;}
-.toast{background:rgba(232,240,248,0.95);color:var(--txt);border-left:3px solid var(--light);padding:5px 10px;font-family:'LXGW WenKai TC',serif;font-size:12px;border-radius:8px;backdrop-filter:blur(8px);opacity:0;transform:translateY(-10px);animation:tIn 0.3s forwards;transition:all 0.4s ease;}
+#toast-c{position:fixed;top:calc(108px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:260px;pointer-events:none;z-index:1500;display:flex;flex-direction:column;gap:5px;}
+.toast{background:rgba(232,240,248,0.95);color:var(--txt);border-left:3px solid var(--light);padding:5px 10px;font-family:'LXGW WenKai TC',serif;font-size:12px;border-radius:8px;backdrop-filter:blur(8px);opacity:0;transform:translateY(-8px);animation:tIn 0.3s forwards;transition:all 0.4s ease;}
 .toast.good{border-color:var(--green);}.toast.bad{border-color:var(--red);color:var(--red);}.toast.warn{border-color:var(--gold);color:#8a6a10;}
 @keyframes tIn{to{opacity:1;transform:translateY(0);}}
 .toast.hiding{opacity:0;transform:translateX(10px);max-height:0;padding:0;margin:0;border:none;}
@@ -89,7 +93,7 @@ body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dv
 .ch-btn:active{background:rgba(26,107,138,0.15);border-color:var(--teal);}
 .ch-title{font-weight:700;color:var(--teal);margin-bottom:2px;}
 .ch-desc{font-size:11px;color:var(--muted);}
-#name-ov{display:none;position:fixed;inset:0;z-index:6000;background:#0a1628;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+#name-ov{display:none;position:fixed;inset:0;z-index:6000;background:linear-gradient(135deg,#0f3b5e 0%,#1a5276 35%,#1e6090 65%,#1a5276 100%);flex-direction:column;align-items:center;justify-content:center;padding:20px;}
 #tut-ov{position:fixed;inset:0;background:rgba(15,30,50,0.72);z-index:2000;display:none;cursor:pointer;backdrop-filter:blur(3px);}
 #tut-tip{position:fixed;top:30%;left:50%;transform:translateX(-50%);background:rgba(232,240,248,0.97);color:var(--txt);padding:16px 18px;border-radius:14px;font-weight:600;z-index:2002;display:none;box-shadow:0 8px 30px rgba(0,0,0,0.2);text-align:center;width:80%;animation:fTip 2s ease-in-out infinite alternate;cursor:pointer;font-family:'LXGW WenKai TC',serif;line-height:1.6;}
 .tut-t{color:var(--teal);font-size:14px;margin-bottom:6px;border-bottom:1.5px solid var(--brd);padding-bottom:3px;font-family:'Noto Serif TC',serif;font-weight:700;letter-spacing:2px;}
@@ -143,16 +147,18 @@ body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dv
 </div></div></div>
 <div id="name-ov">
   <div style="text-align:center;max-width:340px;width:100%;">
-    <div style="font-family:monospace;color:#40c8a8;font-size:11px;letter-spacing:2px;margin-bottom:20px;opacity:0.6;">CHEM-SIM v3.0 ··· INITIALIZING ···</div>
-    <div style="font-size:26px;font-weight:900;color:#ffffff;font-family:'Noto Serif TC',serif;letter-spacing:3px;margin-bottom:6px;">🧪 觀音的化學力量</div>
-    <div style="font-family:monospace;color:#40c8a8;font-size:12px;letter-spacing:1px;margin-bottom:24px;">EVERLIGHT CHEMICAL SIMULATOR</div>
-    <div id="name-box" style="background:#111827;border:1.5px solid #40c8a8;border-radius:10px;padding:18px 16px;text-align:left;">
-      <div style="font-family:monospace;color:#40c8a8;font-size:11px;margin-bottom:10px;line-height:1.7;">&gt; 化學產業模擬系統<br>&gt; 正在掃描可用決策者⋯⋯<br>&gt; <span style="color:#ffffff;">請輸入您的姓名以接受任命：</span></div>
-      <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:monospace;color:#40c8a8;font-size:14px;">&gt;</span>
-        <input id="p-name" type="text" maxlength="12" placeholder="輸入姓名…" style="flex:1;min-width:0;background:transparent;border:none;border-bottom:1.5px solid #40c8a8;color:#ffffff;font-size:16px;padding:4px 2px;outline:none;font-family:'Noto Serif TC',serif;letter-spacing:2px;" onkeydown="if(event.key==='Enter')G.confirmName()"/>
+    <div style="font-size:44px;margin-bottom:10px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));">🧪</div>
+    <div style="font-size:22px;font-weight:900;color:#ffffff;font-family:'Noto Serif TC',serif;letter-spacing:3px;margin-bottom:5px;text-shadow:0 2px 10px rgba(0,0,0,0.4);">觀音的化學力量</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.65);letter-spacing:2px;margin-bottom:28px;font-family:'LXGW WenKai TC',serif;">永光化學 · 企業策略模擬</div>
+    <div id="name-box" style="background:rgba(232,240,248,0.93);border:2px solid rgba(255,255,255,0.5);border-radius:14px;padding:18px 16px;text-align:left;backdrop-filter:blur(16px);box-shadow:0 8px 32px rgba(0,0,0,0.25);">
+      <div style="font-family:'Noto Serif TC',serif;font-size:13px;color:var(--teal);font-weight:700;margin-bottom:6px;">📋 接受策略長任命</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6;">桃園觀音，1972年。<br>請輸入您的姓名，踏上化工業的征途。</div>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.6);border:1.5px solid var(--brd);border-radius:9px;padding:8px 12px;">
+        <span style="font-size:18px;">👤</span>
+        <input id="p-name" type="text" maxlength="12" placeholder="輸入您的名字…" style="flex:1;min-width:0;background:transparent;border:none;color:var(--txt);font-size:16px;padding:4px 2px;outline:none;font-family:'Noto Serif TC',serif;letter-spacing:2px;" onkeydown="if(event.key==='Enter')G.confirmName()"/>
       </div>
     </div>
-    <button onclick="G.confirmName()" style="margin-top:16px;width:100%;padding:12px;background:transparent;border:1.5px solid #40c8a8;color:#40c8a8;font-size:14px;font-family:'Noto Serif TC',serif;font-weight:700;letter-spacing:3px;cursor:pointer;border-radius:8px;">🧪 接受任命</button>
+    <button onclick="G.confirmName()" style="margin-top:14px;width:100%;padding:13px;background:var(--teal);border:none;color:#fff;font-size:14px;font-family:'Noto Serif TC',serif;font-weight:700;letter-spacing:3px;cursor:pointer;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.25);transition:opacity 0.2s;">🧪 接受任命，啟程 1972</button>
   </div>
 </div>
 <script>
@@ -171,7 +177,11 @@ const B={
   zdhc:{id:'zdhc',name:'ZDHC認證',e:'🏅',cost:1200,rev:0,poll:-3,treq:40,d:'零排放化學品計畫，建設時ESG+18，限一次申請',ot:'esg',boost:18,ereq:40,green:true,max:1}
 };
 const BKEYS=['dye','toner','spec','pharma','elec','global','rd','water','solar','circle','zdhc'];
-const SUP=[{id:'basf',name:'巴斯夫',flag:'🇩🇪',base:120,route:'safe',label:'德國化工龍頭'},{id:'cn',name:'中國',flag:'🇨🇳',base:70,route:'risk',label:'價格低但品質風險'},{id:'tw',name:'台灣',flag:'🇹🇼',base:100,route:'safe',label:'在地穩定供應'}];
+const SUP=[
+  {id:'basf',name:'巴斯夫',flag:'🇩🇪',base:108,route:'safe',label:'德國・穩定供應',swing:0.14},
+  {id:'cn',name:'中國廠商',flag:'🇨🇳',base:90,route:'risk',label:'中國・波動大品質風險',swing:0.30},
+  {id:'tw',name:'台灣本地',flag:'🇹🇼',base:100,route:'safe',label:'台灣・最穩定',swing:0.12}
+];
 const CONTRACTS={
 1:[{id:'jp1',flag:'🇯🇵',client:'日本紡織商',desc:'和服品牌染料訂單',reqs:{dye:2},rwd:{funds:600,rep:5},country:'日本'},
    {id:'us1',flag:'🇺🇸',client:'美國服裝品牌',desc:'Nike代工廠用染料',reqs:{dye:3,tech:10},rwd:{funds:1000,rep:8},country:'美國'}],
@@ -217,7 +227,10 @@ const EVENTS={
  {hl:'🛢️ 第二次石油危機',dt:'伊朗革命導致油價暴漲，化工原料成本飆升！',tone:'bad',eff:{funds:-300},fact:'📌 1979年石油危機讓石化原料企業成本暴增。',choices:[{label:'🔬 研發替代合成路徑',desc:'降低對進口原料依賴',fx:{funds:-200,tech:5}},{label:'💪 咬牙吸收成本',desc:'維持客戶信任不漲價',fx:{funds:-200,rep:5}}]},
  {hl:'🎨 開發Everzol® ED環保染料',dt:'全球首批通過ZDHC標準的反應性染料！',tone:'good',eff:{rep:8,tech:3},fact:'📌 Everzol® ED是環保深色染料里程碑。'},
  {hl:'🏭 觀音一廠擴建完成',dt:'大園一廠產能擴大，年產突破5000噸！',tone:'good',eff:{funds:300}},
- {hl:'💼 加工出口區🇯🇵🇺🇸訂單潮',dt:'日本和美國品牌湧入台灣下單！',tone:'good',eff:{funds:600,rep:5}}
+ {hl:'💼 加工出口區🇯🇵🇺🇸訂單潮',dt:'日本和美國品牌湧入台灣下單！',tone:'good',eff:{funds:600,rep:5}},
+ {hl:'⛽ 第一次石油危機',dt:'1973年中東禁運！石化原料成本暴增，化工廠首當其衝。',tone:'bad',eff:{funds:-250},fact:'📌 1973年石油危機迫使台灣加速節能工藝研發。',choices:[{label:'🔬 研發低耗原料工藝',desc:'降低對進口石化原料的依賴',fx:{tech:5,funds:-100}},{label:'📦 緊急備貨鎖定低成本',desc:'趁漲完前先大量囤積原料',fx:{funds:-200}}]},
+ {hl:'✂️ 台美斷交外銷衝擊',dt:'1978年台美斷交！部分美國染料訂單出現不確定性，業界震動。',tone:'bad',eff:{funds:-200,rep:-4},fact:'📌 台美斷交後台灣積極多元化外銷管道，深耕歐日市場。',choices:[{label:'🌏 轉攻歐洲與日本市場',desc:'降低對美國市場依賴',fx:{rep:6,tech:3}},{label:'🏭 深耕台灣本地需求',desc:'穩住內銷基本盤過渡',fx:{funds:200,rep:2}}]},
+ {hl:'🏗️ 觀音工業區廠商群聚效應',dt:'工業局積極招商！觀音化工廠商互相帶動，形成全球少見的化工聚落。',tone:'good',eff:{rep:5,funds:200},fact:'📌 觀音工業區目前有300多家廠商，形成完整化工供應鏈。'}
 ],
 1:[
  {hl:'📊 永光股票上市！',dt:'1988年台灣證交所掛牌，首家上市染料製造商！',tone:'good',eff:{funds:1500,rep:10},fact:'📌 上市注入資本，促使轉向高科技特用化學品。'},
@@ -225,21 +238,30 @@ const EVENTS={
  {hl:'🚗 全球車用塗料需求暴增',dt:'🇩🇪🇯🇵 Eversorb®獲全球車廠OEM認可！',tone:'good',eff:{funds:500,rep:8},fact:'📌 Eversorb® 81成為車用原廠塗料供應鏈重要成員。',choices:[{label:'🏎️ 深耕歐洲車廠',desc:'與BMW、Benz建立長期合約',fx:{rep:8,funds:200}},{label:'🔬 開發新型光穩定劑',desc:'投入研發更高規格產品',fx:{tech:6,funds:-100}}]},
  {hl:'🖨️ 碳粉事業起飛',dt:'子公司全通科技TTI雷射碳粉量產成功！',tone:'good',eff:{funds:300,tech:3}},
  {hl:'💹 亞洲金融風暴',dt:'1997年金融風暴衝擊亞洲！🇹🇭🇰🇷🇮🇩受創。',tone:'bad',eff:{funds:-400,rep:-5},choices:[{label:'🤝 趁機併購東南亞小廠',desc:'低價收購取得通路',fx:{funds:-300,rep:5}},{label:'💰 守住現金流',desc:'節約開支度過寒冬',fx:{funds:200,rep:-2}}]},
- {hl:'🌿 京都議定書簽署',dt:'全球開始關注碳排放。未來ESG將更重要。',tone:'warn',eff:{esg:3}}
+ {hl:'🌿 京都議定書簽署',dt:'全球開始關注碳排放。未來ESG將更重要。',tone:'warn',eff:{esg:3}},
+ {hl:'🏚️ 921大地震',dt:'1999年9月21日大地震！台灣工業受衝擊，廠區設備部分損壞。',tone:'bad',eff:{funds:-350,rep:-3},fact:'📌 921地震造成台灣北部工業損失慘重，化工設備修復費時。',choices:[{label:'🔧 緊急修復廠房設備',desc:'全力恢復生產能力',fx:{funds:-250,rep:4}},{label:'💚 捐款協助觀音社區重建',desc:'展現企業社會責任',fx:{funds:-200,rep:10,esg:5}}]},
+ {hl:'🌏 台灣拚加入WTO',dt:'1999年台灣積極爭取加入世界貿易組織！化工品標準需符合國際規範。',tone:'warn',eff:{tech:2,rep:3},fact:'📌 台灣於2002年正式加入WTO，化工品出口標準大幅提升。',choices:[{label:'📋 提前符合國際標準',desc:'超前投資取得認證先機',fx:{tech:5,funds:-150,rep:5}},{label:'🏭 先鞏固產能再說',desc:'等標準確定後再調整',fx:{funds:100,rep:2}}]},
+ {hl:'🖥️ 科技景氣爆發',dt:'網路科技黃金時代！電子材料與感光化學品需求持續高速成長。',tone:'good',eff:{funds:300,tech:4,rep:3},fact:'📌 1990年代末台灣科技業高速成長帶動特用化學品需求。'}
 ],
 2:[
  {hl:'🔬 工研院光阻劑技術轉移！',dt:'與工研院材化所合作，開發IC光阻劑！打破🇺🇸🇯🇵壟斷！',tone:'good',eff:{tech:10,rep:10,funds:300},fact:'📌 1997年永光成為台灣首家量產IC光阻劑本土廠商。',choices:[{label:'💎 全力投入半導體光阻',desc:'擴建觀音二廠潔淨室',fx:{funds:-500,tech:8}},{label:'📺 同時開發LCD光阻',desc:'面板產業也需要光阻劑',fx:{tech:5,funds:200}}]},
  {hl:'💡 台積電擴廠潮',dt:'半導體蓬勃發展，光阻需求持續增長。🇹🇼→🌍',tone:'good',eff:{funds:600,rep:5},fact:'📌 先進封裝CoWoS帶動厚膜光阻年增5-6%。',choices:[{label:'🏭 擴大光阻產能',desc:'增設生產線搶市占',fx:{funds:-400,poll:3,rep:5}},{label:'🔬 專注高階技術',desc:'研發ArF光阻搶先進製程',fx:{tech:8,funds:-200}}]},
  {hl:'🏥 醫藥化學品通過GMP',dt:'原料藥API通過🇪🇺🇺🇸國際認證！',tone:'good',eff:{rep:8,tech:5}},
  {hl:'⚡ 全球金融海嘯',dt:'2008年金融危機，🇪🇺🇺🇸訂單大幅下滑。',tone:'bad',eff:{funds:-500,rep:-5},choices:[{label:'🔄 轉攻內需市場',desc:'開發台灣在地客戶',fx:{funds:200,rep:3}},{label:'💡 加碼研發新產品',desc:'危機就是轉機',fx:{tech:8,funds:-300}}]},
- {hl:'🌐 Everanod®鋁陽極染料',dt:'為🇺🇸Apple 🇰🇷Samsung手機殼提供色彩！',tone:'good',eff:{funds:400,rep:5,tech:3},fact:'📌 永光成為全球第三家能量產DSSC專用染料廠商。'}
+ {hl:'🌐 Everanod®鋁陽極染料',dt:'為🇺🇸Apple 🇰🇷Samsung手機殼提供色彩！',tone:'good',eff:{funds:400,rep:5,tech:3},fact:'📌 永光成為全球第三家能量產DSSC專用染料廠商。'},
+ {hl:'😷 SARS疫情衝擊',dt:'2003年SARS！廠區強制防疫，物流中斷，供應鏈出現裂縫。',tone:'bad',eff:{funds:-200,rep:-2},fact:'📌 SARS促使台灣製造業重新審視供應鏈韌性與生物安全。',choices:[{label:'🏭 強化廠內防疫設施',desc:'確保生產不間斷',fx:{funds:-150,esg:3,rep:3}},{label:'📦 緊急備貨應對中斷',desc:'超前囤積兩個月原料',fx:{funds:-250,rep:3}}]},
+ {hl:'🇨🇳 台廠西進潮：人才流失壓力',dt:'大量台商赴中建廠！觀音化工業面臨研發人才流失與成本競爭壓力。',tone:'bad',eff:{funds:-150,rep:-2},choices:[{label:'💰 加薪留住研發人才',desc:'提高薪資福利留住核心人員',fx:{funds:-250,tech:6,rep:4}},{label:'🔬 深化工研院產學合作',desc:'以技術研發合作補足人才缺口',fx:{tech:5,funds:-100,rep:3}}]},
+ {hl:'🌿 台灣環保法規升級',dt:'環保署加嚴化工廢水標準！觀音廠區面臨更嚴格的排放規範。',tone:'warn',eff:{rep:-2,esg:2},fact:'📌 台灣環保法規趨嚴促使業者提前布局廢水處理設施。',choices:[{label:'💧 提前升級廢水處理',desc:'超前法規要求，建立競爭優勢',fx:{funds:-300,esg:8,poll:-3}},{label:'📊 導入環境管理系統',desc:'建立監測數據迎接環保稽查',fx:{funds:-150,esg:5,rep:4}}]}
 ],
 3:[
  {hl:'🔥 觀音三廠火警！',dt:'2022年觀音三廠火警，異味煙擴散！環保局開罰。',tone:'bad',eff:{rep:-12,esg:-8,funds:-500},fact:'📌 真實事件：2022/03/10觀音三廠火警罰鍰10萬至500萬元。',choices:[{label:'🔧 全面升級消防系統',desc:'導入PSM製程安全管理',fx:{funds:-400,esg:8,rep:3}},{label:'🏥 設立社區健康基金',desc:'賠償受影響居民、免費健檢',fx:{funds:-500,rep:12,esg:3}}]},
  {hl:'👟 Nike要求ZDHC合規',dt:'不符ZDHC零排放標準就不續約！',tone:'warn',eff:{esg:5,rep:3},fact:'📌 永光成為ZDHC基金會成員。',choices:[{label:'🏅 立即申請ZDHC認證',desc:'投資取得認證資格',fx:{funds:-500,esg:12,rep:8}},{label:'🎨 開發新型環保染料',desc:'從源頭減少有害物質',fx:{funds:-300,tech:5,esg:6}}]},
  {hl:'💧 地下水污染管制',dt:'三廠被列為土壤及地下水污染管制區。',tone:'bad',eff:{rep:-8,esg:-5,funds:-300},fact:'📌 2018年違規使用地下水遭罰15萬元。',choices:[{label:'💧 建設地下水處理站',desc:'抽水處理恢復水質',fx:{funds:-600,esg:10,poll:-5}},{label:'🌱 植栽生態復育',desc:'種植吸污植物修復土壤',fx:{funds:-200,esg:6,rep:5,poll:-3}}]},
  {hl:'💚 ISO 50001能源管理認證',dt:'全台廠區通過！水回收率達92%！',tone:'good',eff:{esg:10,rep:8},fact:'📌 2024年溫室氣體排放70,301噸CO2e。',choices:[{label:'☀️ 加裝屋頂太陽能板',desc:'自發自用降低碳排',fx:{funds:-300,esg:8,poll:-2}},{label:'🔄 推動循環經濟競賽',desc:'鼓勵員工減廢創新',fx:{funds:-100,esg:5,rep:3}}]},
- {hl:'🇪🇺 歐盟CBAM碳邊境調整',dt:'高碳排產品出口歐盟須繳碳關稅！',tone:'warn',eff:{funds:-200},fact:'📌 CBAM迫使全球製造業加速減碳。',choices:[{label:'📊 導入碳盤查系統',desc:'量化各廠碳排數據',fx:{funds:-200,esg:8,tech:3}},{label:'🌿 採購綠電憑證',desc:'用再生能源降低碳排',fx:{funds:-400,esg:10,poll:-2}}]}
+ {hl:'🇪🇺 歐盟CBAM碳邊境調整',dt:'高碳排產品出口歐盟須繳碳關稅！',tone:'warn',eff:{funds:-200},fact:'📌 CBAM迫使全球製造業加速減碳。',choices:[{label:'📊 導入碳盤查系統',desc:'量化各廠碳排數據',fx:{funds:-200,esg:8,tech:3}},{label:'🌿 採購綠電憑證',desc:'用再生能源降低碳排',fx:{funds:-400,esg:10,poll:-2}}]},
+ {hl:'☢️ 福島核災：能源轉型加速',dt:'2011年日本福島核災！全球重新評估核能，台灣再生能源政策加速推進。',tone:'warn',eff:{esg:4,rep:2},fact:'📌 福島核災加速各國推動再生能源佔比目標。',choices:[{label:'☀️ 超前部署屋頂太陽能',desc:'提早布局搶得先機',fx:{funds:-400,esg:10,poll:-2}},{label:'📊 等待明確政策再行動',desc:'觀察後再做決定',fx:{funds:100}}]},
+ {hl:'🌍 巴黎協定：ESG時代來臨',dt:'2015年195國簽署巴黎協定！淨零碳排成為企業生死攸關議題，ESG從選填變必填。',tone:'warn',eff:{esg:3},fact:'📌 巴黎協定目標：工業界2050年前實現碳中和。',choices:[{label:'🌡️ 公開碳中和承諾',desc:'承諾2040碳中和，大幅提升品牌形象',fx:{rep:10,esg:8}},{label:'📈 漸進式減碳計畫',desc:'分階段降碳，控制成本',fx:{funds:-200,esg:5,rep:4}}]},
+ {hl:'🇺🇸🇨🇳 美中貿易戰爆發',dt:'2018年美中貿易戰開打！供應鏈重組，台灣化工業因「去中化」而獲得轉單利益。',tone:'good',eff:{funds:400,rep:6},fact:'📌 美中貿易戰促使多國企業轉向台灣及東南亞供應商。',choices:[{label:'🏭 擴大台灣在地產能',desc:'快速承接轉單，搶佔市場',fx:{funds:400,poll:3,rep:5}},{label:'🌏 協助客戶分散至東南亞',desc:'拓展越南等新市場',fx:{funds:200,rep:8,tech:3}}]}
 ],
 4:[
  {hl:'🌞 鈣鈦礦太陽能國際突破！',dt:'🇨🇭瑞士Perovskia Solar AG採用永光封裝材料奪冠！',tone:'good',eff:{rep:15,tech:10,funds:800},fact:'📌 永光UV光固化封裝技術實現鈣鈦礦太陽能商用量產。',choices:[{label:'☀️ 成立新能源事業部',desc:'全力搶攻鈣鈦礦市場',fx:{funds:-500,tech:12,rep:8}},{label:'🤝 與瑞士成立合資公司',desc:'技術+通路雙贏',fx:{funds:-300,rep:12,tech:5}}]},
@@ -247,7 +269,9 @@ const EVENTS={
  {hl:'🇻🇳 越南永光成立',dt:'2023年服務南移的🇻🇳🇹🇭🇮🇩紡織產業鏈！',tone:'good',eff:{rep:8,funds:300},fact:'📌 永光在蘇州上海天津廣州設有技術服務中心。',choices:[{label:'🌏 擴大東南亞佈局',desc:'再設越南二廠',fx:{funds:-500,rep:10}},{label:'🇮🇳 進軍印度市場',desc:'瞄準下一個製造大國',fx:{funds:-400,rep:8,tech:3}}]},
  {hl:'💰 台灣碳費正式開徵',dt:'高排碳產業受衝擊。污染越高碳費越重！',tone:'warn',eff:{funds:-200},fact:'📌 永光2024年啟動循環經濟競賽年省5059萬元。',choices:[{label:'🔄 廢棄物資源化',desc:'將廢料轉為副產品銷售',fx:{funds:200,esg:8,poll:-3}},{label:'⚡ 製程電氣化',desc:'以電力取代燃煤鍋爐',fx:{funds:-400,poll:-5,esg:10}}]},
  {hl:'🚗 電動車材料新藍海',dt:'🇩🇪🇯🇵🇨🇳🇺🇸 EV銷量暴增！',tone:'good',eff:{funds:400,tech:5}},
- {hl:'🌏 全球供應鏈重組',dt:'🇹🇼台灣化工成為全球備選核心。100+國、17據點。',tone:'good',eff:{rep:8,funds:500},fact:'📌 永光行銷100+國家、620家供應商。'}
+ {hl:'🌏 全球供應鏈重組',dt:'🇹🇼台灣化工成為全球備選核心。100+國、17據點。',tone:'good',eff:{rep:8,funds:500},fact:'📌 永光行銷100+國家、620家供應商。'},
+ {hl:'😷 COVID-19：供應鏈大斷鏈',dt:'2020年全球疫情爆發！原料短缺、物流斷鏈，但也催生新一波本土化採購需求。',tone:'bad',eff:{funds:-350,rep:-2},fact:'📌 COVID-19造成全球化工供應鏈中斷長達18個月，台灣廠商韌性受考驗。',choices:[{label:'🔒 簽訂長期原料供應合約',desc:'以溢價換取穩定供貨',fx:{funds:-300,rep:5}},{label:'🌿 轉型本地化原料採購',desc:'降低進口依賴，支持台灣本土',fx:{funds:-200,tech:3,rep:5}}]},
+ {hl:'⚡ 俄烏戰爭：能源與原料衝擊',dt:'2022年俄烏戰爭！歐洲能源危機導致石化原料成本飆漲，台廠競爭力意外凸顯。',tone:'warn',eff:{funds:-250},fact:'📌 俄烏戰爭讓歐洲石化品成本暴增，加速各國能源轉型步伐。',choices:[{label:'🇩🇪 暫減歐洲採購改轉亞洲',desc:'轉向亞洲替代供應商降低成本',fx:{funds:200}},{label:'⚡ 加速能源自主計畫',desc:'擴大太陽能並申請綠電憑證',fx:{funds:-350,esg:10,poll:-3}}]}
 ]};
 
 /* ===== GAME STATE ===== */
@@ -255,24 +279,53 @@ const G={
   year:1972,funds:2000,rep:50,tech:10,esg:20,poll:0,
   c:{dye:0,toner:0,spec:0,pharma:0,elec:0,global:0,rd:0,water:0,solar:0,circle:0,zdhc:0},
   materials:300,matCap:500,stageIdx:0,done:[],countries:new Set(),
-  playerName:'玩家',introStep:0,tutStep:0,curEvent:null,lastEvIdx:{},
+  playerName:'玩家',introStep:0,tutStep:0,curEvent:null,lastEvIdx:{},shownEvents:{},
   history:[],matBuys:{basf:0,cn:0,tw:0},buildLog:[],
   matMarket:{basf:1.0,cn:1.0,tw:1.0}, /* international price factor */
+  managerActive:false, /* auto-purchase manager */
 
   init(){this.resetVars();UI.renderBuild();UI.renderTrade();UI.updateAll();this.introStep=0;this.showIntro();},
   resetVars(){this.year=1972;this.funds=2000;this.rep=50;this.tech=10;this.esg=20;this.poll=0;
     this.c={dye:0,toner:0,spec:0,pharma:0,elec:0,global:0,rd:0,water:0,solar:0,circle:0,zdhc:0};
     this.materials=300;this.matCap=500;this.stageIdx=0;this.done=[];this.countries=new Set();
-    this.curEvent=null;this.lastEvIdx={};this.tutStep=0;this.history=[];this.matBuys={basf:0,cn:0,tw:0};this.buildLog=[];
+    this.curEvent=null;this.lastEvIdx={};this.shownEvents={};this.tutStep=0;this.history=[];this.matBuys={basf:0,cn:0,tw:0};this.buildLog=[];
     this.matMarket={basf:1.0,cn:1.0,tw:1.0};
+    this.managerActive=false;
     document.getElementById('factory-grid').innerHTML='';},
   showNameInput(){document.getElementById('name-ov').style.display='flex';setTimeout(()=>{const i=document.getElementById('p-name');if(i)i.focus();},400);},
   confirmName(){const i=document.getElementById('p-name');const n=(i?i.value:'').trim();if(!n){const b=document.getElementById('name-box');if(b){b.style.animation='none';setTimeout(()=>{b.style.animation='nameShake 0.4s ease';},10);}return;}this.playerName=n;document.getElementById('name-ov').style.display='none';this.showIntro();},
   showIntro(){
     const steps=[
-      {title:'📱 2026年・你的房間',text:'<div style="text-align:left;line-height:1.8;font-size:13px;">你拿起手機殼——鮮艷的色彩怎麼做的？<br><br>Nike運動衣、BMW塗料、AI晶片⋯⋯<br><br><div style="background:rgba(26,107,138,0.08);border-left:3px solid var(--teal);padding:6px 10px;border-radius:0 8px 8px 0;">這些顏色和材料，都來自——<br><span style="color:var(--teal);font-weight:900;">桃園觀音。</span></div></div>',btn:'這跟我有什麼關係？→'},
-      {title:'⚗️ 時空裂隙',text:'<div style="text-align:center;line-height:1.8;font-size:13px;"><span style="font-size:24px;">🧪⚡🔬</span><br><br>手機螢幕<span style="color:var(--red)">劇烈閃爍</span>——<br><br><div style="font-family:monospace;background:#1a2a3a;color:#40c8a8;padding:10px;border-radius:8px;font-size:12px;">&gt; 你說「跟你無關」？<br>&gt; 那就讓你親眼看看。<br>&gt; 傳送至⋯⋯ 1972年 桃園觀音</div></div>',btn:'！？'},
-      {title:'🏭 1972年・觀音工業區',text:`<div style="text-align:left;line-height:1.8;font-size:13px;">你睜開眼。空氣中有化學藥劑的氣味。<br><br><span style="color:var(--teal);font-weight:700;">「永光化學工業股份有限公司」</span><br>初始資本：400萬元<br><br><div style="font-family:monospace;background:#1a2a3a;color:#40c8a8;padding:8px;border-radius:8px;font-size:11px;">&gt; ⚠️ 工廠會產生污染！<br>&gt; 賺錢很重要，但別毀了觀音。<br>&gt; 後期必須轉型永續才能生存。</div><br><span style="color:var(--gold);font-weight:700;">${this.playerName}，你是永光化學「策略長」。</span></div>`,btn:'🧪 開始任務'}
+      {title:'📋 入職通知書',text:`<div style="font-family:'Noto Serif TC',serif;font-size:12px;line-height:2;text-align:left;border:1px solid var(--brd);border-radius:8px;padding:12px;background:rgba(255,255,255,0.6);">
+<div style="font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:4px;">EVERLIGHT CHEMICAL INDUSTRY CO., LTD.</div>
+<div style="font-weight:900;font-size:15px;color:var(--teal);margin-bottom:8px;">永光化學工業股份有限公司</div>
+<div style="font-size:11px;color:var(--muted);">發文日期：民國61年3月16日</div>
+<div style="font-size:11px;color:var(--muted);margin-bottom:10px;">地址：桃園縣觀音鄉工業區</div>
+<hr style="border:none;border-top:1px dashed var(--brd);margin:6px 0;"/>
+<b>職位任命：企業策略規劃長</b><br>
+任務：帶領本公司從觀音出發，成為台灣化學工業的領頭羊。<br><br>
+<div style="background:rgba(26,107,138,0.07);padding:8px;border-radius:6px;font-size:11px;">
+目前台灣染料 <b>100% 依賴</b>美日德進口。<br>
+創辦人陳定川：「我們要讓台灣自己做得出來。」
+</div></div>`,btn:'接受任命 →'},
+      {title:'🏭 第一天・觀音工廠',text:`<div style="font-size:13px;line-height:1.8;text-align:left;">
+你踏入桃園觀音工業區。<br>
+海風帶著鹽味，廠房外牆還沒乾透。<br><br>
+<div style="background:rgba(26,107,138,0.07);border-left:3px solid var(--teal);padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:10px;">
+創辦人陳定川走過來：<br>
+<span style="color:var(--teal);font-weight:700;">「我們只有400萬元，一塊地，還有一個夢想。<br>我不要台灣的化學工業永遠靠別人。」</span>
+</div>
+資本：$ 2,000 萬元換算｜地點：桃園觀音632公頃工業區<br>
+<span style="color:var(--red);font-size:11px;">⚠️ 工廠會產生污染，別讓觀音付出代價。</span></div>`,btn:'我明白了 →'},
+      {title:`🎯 ${this.playerName}，你的使命`,text:`<div style="font-size:13px;line-height:2;text-align:left;">
+從 <b>1972年</b> 的一間染料工廠出發——<br>
+走向 <b>2026年</b> 行銷全球100+國家的化工領袖。<br><br>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;">
+<div style="background:rgba(200,146,42,0.08);padding:6px;border-radius:6px;">💰 <b>賺錢</b><br>蓋工廠、接國際訂單</div>
+<div style="background:rgba(194,98,90,0.08);padding:6px;border-radius:6px;">☣️ <b>管污染</b><br>超標罰款甚至關廠</div>
+<div style="background:rgba(46,139,87,0.08);padding:6px;border-radius:6px;">🌿 <b>顧ESG</b><br>後期客戶強制要求</div>
+<div style="background:rgba(26,107,138,0.08);padding:6px;border-radius:6px;">🌍 <b>走出台灣</b><br>讓世界看見觀音</div>
+</div></div>`,btn:'🧪 啟程 1972'}
     ];
     const s=steps[this.introStep];
     UI.showModal(s.title,s.text,()=>{UI.closeModal();this.introStep++;if(this.introStep===2){this.showNameInput();return;}if(this.introStep<steps.length){setTimeout(()=>this.showIntro(),200);}else{this.startTut();}});
@@ -282,12 +335,14 @@ const G={
   tutClick(){if(this.tutStep>0){this.tutStep++;this.updateTut();}},
   updateTut(){
     UI.clearHL();
-    if(this.tutStep===1)UI.hlEl('#hud .stat-box:nth-child(1)','💰 資金\n建工廠賺錢，但要付維護費。\n沒錢就什麼都做不了！');
-    else if(this.tutStep===2)UI.hlEl('#hud .stat-box:nth-child(5)','☣️ 污染\n工廠越多，污染越高。\n超標會被罰款、甚至被迫關廠。\n建環保設施才能降下來。');
-    else if(this.tutStep===3)UI.hlEl('#hud .stat-box:nth-child(4)','🌿 ESG\n污染高的話，ESG 每年自動下滑。\n建綠色設施可以拉回來。\n後期客戶不達標就不下單！');
-    else if(this.tutStep===4){UI.tab('build',true);UI.hlEl('#tc-build','🏭 建設\n普通工廠賺錢但污染。\n綠色卡片（💧☀️♻️🏅）降污染、提升 ESG。\n先買廢水回收，之後解鎖更強的！');}
-    else if(this.tutStep===5){UI.tab('trade',true);UI.hlEl('#tc-trade','🌍 國際貿易\n左邊買原料讓工廠運轉。\n右邊接國際訂單，賺大錢！');}
-    else if(this.tutStep===6){UI.hlEl('#next-btn','⏩ 下一年度\n按下去推進一年。\n收入、污染、事件一起結算。\n準備好了就按！');}
+    if(this.tutStep===1)UI.hlEl('#hud .stat-box:nth-child(1)','💰 資金\n建工廠賺錢，但每年要付維護費。\n沒錢就什麼都做不了！');
+    else if(this.tutStep===2)UI.hlEl('#hud .stat-box:nth-child(2)','🏆 聲譽\n國際客戶信任度，代表品牌地位。\n污染事故與違規都會直接扣分。\n⚠️ 歸零即宣告倒閉！');
+    else if(this.tutStep===3)UI.hlEl('#hud .stat-box:nth-child(3)','🔬 技術力\n決定可以蓋哪些高階工廠。\n建造研發中心可大幅提升技術力，\n數值越高，解鎖的選項越多！');
+    else if(this.tutStep===4)UI.hlEl('#hud .stat-box:nth-child(4)','🌿 ESG\n污染越高，ESG 每年自動下滑。\n建綠色設施才能維持或拉回。\n後期國際客戶強制要求達標！');
+    else if(this.tutStep===5)UI.hlEl('#hud .stat-box:nth-child(5)','☣️ 污染\n工廠越多污染越高，超標會被罰款、\n甚至被強制關廠、聲譽大跌。\n投資環保設施才能每年降低！');
+    else if(this.tutStep===6){UI.tab('build',true);UI.hlEl('#tc-build','🏭 建設\n普通工廠賺錢但產生污染。\n綠色卡片（💧☀️♻️🏅）降污染、提升 ESG。\n建議先蓋廢水回收，逐步解鎖！');}
+    else if(this.tutStep===7){UI.tab('trade',true);UI.hlEl('#tc-trade','🌍 國際貿易\n左邊選供應商購買原料，工廠才能運轉。\n右邊接國際訂單，賺大錢、拓展出口國！');}
+    else if(this.tutStep===8){UI.hlEl('#next-btn','⏩ 下一年度\n按下去推進一年。\n收入、污染、ESG 變化都會以\n📊 年度報告呈現，看完再點繼續！');}
     else{this.tutStep=0;UI.clearHL();UI.tab('build',true);const s=STAGES[0];const goals=s.goals.map(g=>'🔹 '+g.txt).join('<br>');UI.showModal(s.title,'<div style="text-align:left;line-height:1.6;">'+s.desc+'<br><br><span style="color:var(--gold)">🏆 本階段目標：</span><br>'+goals+'</div>',()=>UI.closeModal());}
   },
   calcRev(){let r=0;BKEYS.forEach(k=>{if(B[k].rev>0&&this.c[k]>0)r+=B[k].rev*this.c[k];});return r;},
@@ -305,8 +360,7 @@ const G={
     else if(b.ot==='esg'){this.esg=Math.min(100,this.esg+b.boost);const note=b.max?'（認證完成，限一次）':'（本次安裝加成）';UI.toast(b.e+' '+b.name+'建成！ESG+'+b.boost+note,'good');}
     else{UI.toast('建設'+b.name+' -$'+b.cost,'good');}
     if(b.rev>0)this.matCap+=100;
-    this.placeIcon(key);UI.renderBuild();UI.renderTrade();UI.updateAll();},
-  placeIcon(k){const el=document.createElement('div');el.className='ficon';el.innerText=B[k].e;el.title=B[k].name;document.getElementById('factory-grid').appendChild(el);},
+    UI.renderBuild();UI.renderTrade();UI.updateAll();},
 
   buyMat(sid){if(this.tutStep!==0)return;const s=SUP.find(x=>x.id===sid);
     const mkt=this.matMarket[sid]||1.0;
@@ -337,22 +391,29 @@ const G={
   nextTurn(){
     if(this.tutStep!==0)return;
     this.year++;
+    const msgs=[];/* collect turn events for the story report modal */
     /* 1. Pollution */
     const pollD=this.calcPollPerTurn();
     this.poll=Math.max(0,this.poll+pollD);
     /* 1b. ESG DECAY — pollution pressure erodes ESG score each year */
     const esgDecay=Math.floor(this.poll/20);
-    if(esgDecay>0){this.esg=Math.max(0,this.esg-esgDecay);if(esgDecay>=2)UI.toast('☣️ 高污染侵蝕ESG -'+esgDecay,'warn');}
-    /* 1c. Market price fluctuation — global raw material volatility */
-    const mkeys=Object.keys(this.matMarket);
-    mkeys.forEach(k=>{
-      let drift=(Math.random()-0.5)*0.18;
-      if(k==='cn'&&this.stageIdx>=3)drift+=(Math.random()-0.4)*0.12;/* geopolitical risk */
-      if(k==='basf'&&this.stageIdx>=2)drift+=0.02;/* EU carbon pricing pushes BASF higher */
-      this.matMarket[k]=Math.max(0.55,Math.min(2.0,this.matMarket[k]+drift));
+    if(esgDecay>0){this.esg=Math.max(0,this.esg-esgDecay);if(esgDecay>=2)msgs.push({type:'warn',text:'☣️ 高污染侵蝕 ESG -'+esgDecay});}
+    /* 1c. Market price fluctuation — per-supplier swing rates */
+    SUP.forEach(s=>{
+      let drift=(Math.random()-0.5)*s.swing;
+      if(s.id==='cn'&&this.stageIdx>=3)drift+=(Math.random()-0.4)*0.15;/* geopolitical risk late game */
+      if(s.id==='basf'&&this.stageIdx>=2)drift+=0.015;/* EU carbon pricing trend */
+      this.matMarket[s.id]=Math.max(0.55,Math.min(2.2,this.matMarket[s.id]+drift));
     });
+    /* 1d. Manager auto-buy */
+    let mgrReport=null;
+    if(this.managerActive){
+      const buyResult=this.managerBuy();
+      const advice=this.managerAdvice();
+      mgrReport='<b>採購：</b>'+buyResult+'<br><b>💡 建議：</b>'+advice;
+    }
     /* 2. Costs */
-    const maint=this.totalFac()*30;
+    const maint=this.totalFac()*30+(this.managerActive?60:0);
     this.funds-=maint;
     let cTax=0;
     if(this.stageIdx>=3){cTax=this.poll*3;this.funds-=cTax;}
@@ -361,7 +422,7 @@ const G={
     if(need>0&&this.materials<need){
       const ratio=need>0?this.materials/need:0;
       rev=Math.max(MIN_INC,Math.floor(rev*Math.max(0.3,ratio)));/* FIX#1: at least 30% revenue or MIN_INC */
-      this.materials=0;UI.toast('⚠️ 原料不足，工廠減產！','warn');this.rep=Math.max(0,this.rep-2);
+      this.materials=0;msgs.push({type:'warn',text:'⚠️ 原料不足，工廠減產！聲譽 -2'});this.rep=Math.max(0,this.rep-2);
     }else{this.materials=Math.max(0,this.materials-need);}
     /* 4. Income: revenue + base + minimum guarantee */
     const totalInc=rev+BASE_INC[this.stageIdx];
@@ -369,8 +430,8 @@ const G={
     if(this.funds<0)this.funds=0;
     /* 5. Record history for chart */
     this.history.push({year:this.year,esg:this.esg,poll:this.poll,rev:totalInc,funds:this.funds});
-    /* 6. Pollution consequences */
-    this.pollConsequences();
+    /* 6. Pollution consequences — collect into msgs */
+    this.pollConsequences(msgs);
     /* 7. Random event */
     const ev=this.rollEvent();
     /* 8. Rep check */
@@ -381,21 +442,133 @@ const G={
       if(this.stageIdx<STAGES.length-1){const ci=this.stageIdx;this.stageIdx++;UI.updateAll();UI.showStageComplete(ci,STAGES[this.stageIdx]);return;}
       else{UI.showVictory();return;}
     }
-    if(ev){UI.showEvent(ev);}else{UI.showTurnReport(totalInc,maint,cTax,pollD);}
+    /* Always show turn report first; if event exists it is shown after closing */
+    UI.showTurnReport(totalInc,maint,cTax,pollD,mgrReport,msgs,ev);
     UI.renderBuild();UI.renderTrade();UI.updateAll();
   },
 
-  pollConsequences(){
-    if(this.poll>=30&&this.poll<50&&Math.random()<0.35){const f=100+Math.floor(Math.random()*150);this.funds=Math.max(0,this.funds-f);UI.toast('⚠️ 環保警告罰款 -$'+f,'warn');}
-    if(this.poll>=50&&this.poll<70){this.rep=Math.max(0,this.rep-3);if(Math.random()<0.4){const f=300+Math.floor(Math.random()*200);this.funds=Math.max(0,this.funds-f);UI.toast('💧 水污染罰款 -$'+f+'，聲譽-3','bad');}}
-    if(this.poll>=70){this.rep=Math.max(0,this.rep-8);this.funds=Math.max(0,this.funds-500);UI.toast('☣️ 嚴重污染！罰$500 聲譽-8','bad');
-      if(Math.random()<0.3){const facs=BKEYS.filter(k=>B[k].rev>0&&this.c[k]>0);if(facs.length){const f=facs[Math.floor(Math.random()*facs.length)];this.c[f]--;UI.toast('⛔ '+B[f].name+'被強制關閉！','bad');}}}
-    if(this.poll>=90){this.rep=Math.max(0,this.rep-10);UI.toast('⛔ 政府介入調查！聲譽-10','bad');}
+  pollConsequences(msgs){
+    if(this.poll>=30&&this.poll<50&&Math.random()<0.35){const f=100+Math.floor(Math.random()*150);this.funds=Math.max(0,this.funds-f);msgs.push({type:'warn',text:'⚠️ 環保警告罰款 -$'+f});}
+    if(this.poll>=50&&this.poll<70){this.rep=Math.max(0,this.rep-3);if(Math.random()<0.4){const f=300+Math.floor(Math.random()*200);this.funds=Math.max(0,this.funds-f);msgs.push({type:'bad',text:'💧 水污染罰款 -$'+f+'，聲譽 -3'});}}
+    if(this.poll>=70){this.rep=Math.max(0,this.rep-8);this.funds=Math.max(0,this.funds-500);msgs.push({type:'bad',text:'☣️ 嚴重污染！罰款 $500，聲譽 -8'});
+      if(Math.random()<0.3){const facs=BKEYS.filter(k=>B[k].rev>0&&this.c[k]>0);if(facs.length){const f=facs[Math.floor(Math.random()*facs.length)];this.c[f]--;msgs.push({type:'bad',text:'⛔ '+B[f].name+' 被強制關閉！'});}}}
+    if(this.poll>=90){this.rep=Math.max(0,this.rep-10);msgs.push({type:'bad',text:'⛔ 政府介入調查！聲譽 -10'});}
   },
-  rollEvent(){const pool=EVENTS[this.stageIdx];if(!pool||!pool.length)return null;let idx;do{idx=Math.floor(Math.random()*pool.length);}while(pool.length>1&&idx===this.lastEvIdx[this.stageIdx]);this.lastEvIdx[this.stageIdx]=idx;return pool[idx];},
+  rollEvent(){
+    const pool=EVENTS[this.stageIdx];if(!pool||!pool.length)return null;
+    if(!this.shownEvents[this.stageIdx])this.shownEvents[this.stageIdx]=new Set();
+    const shown=this.shownEvents[this.stageIdx];
+    if(shown.size>=pool.length)shown.clear();/* all seen: reset bag */
+    const unshown=[];for(let i=0;i<pool.length;i++){if(!shown.has(i))unshown.push(i);}
+    const idx=unshown[Math.floor(Math.random()*unshown.length)];
+    shown.add(idx);this.lastEvIdx[this.stageIdx]=idx;
+    return pool[idx];
+  },
   applyEff(eff){if(!eff)return;if(eff.funds)this.funds+=eff.funds;if(eff.rep)this.rep+=eff.rep;if(eff.tech)this.tech+=eff.tech;if(eff.esg)this.esg+=eff.esg;if(eff.poll)this.poll=Math.max(0,this.poll+eff.poll);this.rep=Math.max(0,Math.min(100,this.rep));this.esg=Math.max(0,Math.min(100,this.esg));if(this.funds<0)this.funds=0;},
-  restart(){this.resetVars();UI.renderBuild();UI.renderTrade();UI.updateAll();UI.closeModal();setTimeout(()=>UI.showModal('🔄 時間重置','<div style="font-family:monospace;background:#1a2a3a;color:#40c8a8;padding:8px;border-radius:8px;font-size:11px;text-align:left;">&gt; 時間線已重置。<br>&gt; 再次傳送至1972年⋯⋯</div>',()=>{UI.closeModal();G.startTut();}),300);},
-  captureScreen(){const el=document.querySelector('.mdlg-in');if(!el)return;html2canvas(el,{backgroundColor:'#e8f0f8',scale:2}).then(c=>{const a=document.createElement('a');a.download='永光化學_'+this.playerName+'.png';a.href=c.toDataURL('image/png');a.click();});}
+  restart(){this.resetVars();UI.renderBuild();UI.renderTrade();UI.updateAll();UI.closeModal();setTimeout(()=>UI.showModal('🔄 重新開始','<div style="font-size:13px;text-align:center;padding:8px 0;">準備回到1972年，再次出發！</div>',()=>{UI.closeModal();G.startTut();}),300);},
+  captureScreen(){const el=document.querySelector('.mdlg-in');if(!el)return;html2canvas(el,{backgroundColor:'#e8f0f8',scale:2}).then(c=>{const a=document.createElement('a');a.download='永光化學_'+this.playerName+'.png';a.href=c.toDataURL('image/png');a.click();});},
+
+  /* ===== MANAGER AUTO-BUY ===== */
+  managerBuy(){
+    const need=this.calcMatNeed()*2;
+    if(this.materials>=Math.min(this.matCap*0.8,need))return'倉庫充足，本年未採購';
+    const batches=Math.min(3,Math.floor((this.matCap-this.materials)/50));
+    if(batches===0)return'倉庫已滿，跳過';
+    const priced=SUP.map(s=>({...s,ep:Math.floor(s.base*(this.matMarket[s.id]||1))})).sort((a,b)=>a.ep-b.ep);
+    const bought=[];
+    for(let i=0;i<batches&&this.materials<this.matCap;i++){
+      /* 60% cheapest, 40% random diversification */
+      const pick=Math.random()<0.60?priced[0]:priced[Math.floor(Math.random()*priced.length)];
+      const price=Math.floor(pick.base*(this.matMarket[pick.id]||1)*(0.88+Math.random()*0.24));
+      if(this.funds<price)break;
+      if(pick.route==='risk'&&Math.random()<0.2){
+        this.funds-=price;this.materials=Math.min(this.matCap,this.materials+25);
+        this.matBuys[pick.id]=(this.matBuys[pick.id]||0)+1;
+        bought.push(pick.flag+'$'+price+'⚠️');
+      }else{
+        this.funds-=price;this.materials=Math.min(this.matCap,this.materials+50);
+        this.matBuys[pick.id]=(this.matBuys[pick.id]||0)+1;
+        bought.push(pick.flag+'$'+price);
+      }
+    }
+    return bought.length?'採購：'+bought.join(' ・ '):'資金不足，未採購';
+  },
+
+  /* ===== MANAGER ADVICE ===== */
+  managerAdvice(){
+    const tips=[];
+    /* Pollution — most urgent */
+    if(this.poll>=70)tips.push('⛔ 污染嚴重！面臨強制關廠風險，立即投資環保設施並考慮減少高污染工廠。');
+    else if(this.poll>=50)tips.push('⚠️ 污染偏高，碳稅壓力沉重。優先建廢水回收或循環經濟設施。');
+    else if(this.poll>=30)tips.push('📊 污染進入黃色警戒，趁早投資綠色設施可省下未來罰款。');
+    /* ESG deficit by stage */
+    if(this.esg<30&&this.stageIdx>=2)tips.push('🌿 ESG不足30！第三階段後多數訂單有ESG門檻，請盡速建設環保設施。');
+    else if(this.esg<50&&this.stageIdx>=3)tips.push('🌿 ESG低於50，Nike與歐盟REACH認證訂單將無法承接。');
+    /* Material shortage */
+    const need=this.calcMatNeed();
+    if(need>0&&this.materials<need)tips.push('📦 原料嚴重不足，工廠正在減產！已嘗試補貨，請確認資金是否足夠購買原料。');
+    else if(need>0&&this.materials<need*1.5)tips.push('📦 原料庫存偏低，本年已自動補貨，建議維持2倍需求的安全庫存。');
+    /* Fund alert */
+    if(this.funds<300)tips.push('💸 資金危急！暫緩新建設，優先讓工廠維持運轉。');
+    else if(this.funds<800&&this.totalFac()<3)tips.push('💰 資金偏緊，建議先接1～2筆國際訂單補充收入，再擴建工廠。');
+    /* R&D missing */
+    if(this.c.rd===0&&this.funds>=1200)tips.push('🔬 尚無研發中心！投資研發中心技術+12，可解鎖更多進階建設。');
+    /* Stage specific */
+    if(this.stageIdx===0&&this.c.dye<3)tips.push('🎨 第一階段目標需3座染料廠，優先蓋染料工廠。');
+    else if(this.stageIdx===1&&this.c.spec<2)tips.push('🛡️ 特化工廠是Eversorb®車廠大訂單的門票，建議加緊建設。');
+    else if(this.stageIdx===2&&this.c.elec<2)tips.push('💎 電子材料廠是進入半導體供應鏈的關鍵，建議盡快升級！');
+    else if(this.stageIdx===3&&this.c.zdhc===0&&this.tech>=40&&this.esg>=40)tips.push('🏅 技術與ESG均已達標！立即申請ZDHC認證，ESG一次+18！');
+    else if(this.stageIdx===4&&this.c.global<2)tips.push('🌐 最終階段需2座海外據點，建議盡快擴大全球佈局。');
+    /* Market insight */
+    const cnMkt=this.matMarket['cn']||1.0;const basfMkt=this.matMarket['basf']||1.0;
+    if(cnMkt>1.4)tips.push('🇨🇳 中國原料大漲（+'+Math.round((cnMkt-1)*100)+'%），建議改採台灣或巴斯夫原料。');
+    else if(basfMkt<0.85)tips.push('🇩🇪 巴斯夫原料處於低價（-'+Math.round((1-basfMkt)*100)+'%），現在是補貨好時機！');
+    /* Fallback */
+    if(tips.length===0)tips.push('✅ 公司目前運作良好！繼續執行現有策略，穩紮穩打邁向下一階段。');
+    return tips[0];
+  },
+
+  /* ===== GOOGLE SHEETS ===== */
+  saveToSheets(){
+    const url=localStorage.getItem('everlight_sheets_url')||'https://script.google.com/macros/s/AKfycbzPiIQOSrJSDcCJeYDIYUX5vjDJXD0oKbW0Tv3YYStw3ULkhy4akj3GoEYXwqTPphsA/exec';
+    if(!url){this.showSheetsSetup();return;}
+    const bldg=BKEYS.filter(k=>this.c[k]>0).map(k=>B[k].name+'×'+this.c[k]).join(' ');
+    const purch=SUP.map(s=>s.flag+(this.matBuys[s.id]||0)+'次').join(' ');
+    const data={company:'永光化學',player:this.playerName,date:new Date().toLocaleDateString('zh-TW'),
+      year:this.year,funds:this.funds,rep:this.rep,tech:this.tech,esg:this.esg,poll:this.poll,
+      countries:this.countries.size,contracts:this.done.length,
+      buildings:bldg,purchases:purch,contractList:this.done.join(',')};
+    fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify(data),headers:{'Content-Type':'application/json'}})
+      .then(()=>UI.toast('✅ 成績已送出至試算表！','good'))
+      .catch(()=>UI.toast('❌ 連線失敗，請確認設定','bad'));
+  },
+  showSheetsSetup(){
+    const code=`function doPost(e){
+  const d=JSON.parse(e.postData.contents);
+  const sh=SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  if(sh.getLastRow()===0)
+    sh.appendRow(['公司','玩家','日期','年份','資金','聲譽','技術','ESG','污染','出口國','訂單數','建設','採購','訂單清單']);
+  sh.appendRow([d.company,d.player,d.date,d.year,d.funds,d.rep,d.tech,d.esg,d.poll,
+    d.countries,d.contracts,d.buildings,d.purchases,d.contractList]);
+  return ContentService.createTextOutput('OK');
+}`;
+    const html=`<div style="font-size:12px;line-height:1.8;text-align:left;">
+<b>📋 三步驟設定 Google 試算表</b><br><br>
+<b>①</b> 開啟 Google 試算表 → 點選「擴充功能」→「Apps Script」<br>
+<b>②</b> 貼上以下程式碼：<br>
+<textarea id="gs-code" style="width:100%;height:72px;font-size:9px;font-family:monospace;resize:none;border:1px solid var(--brd);border-radius:4px;padding:4px;">${code}</textarea>
+<button onclick="navigator.clipboard.writeText(document.getElementById('gs-code').value);UI.toast('已複製程式碼','good')" style="font-size:10px;padding:2px 8px;cursor:pointer;border:1px solid var(--brd);border-radius:4px;margin-bottom:8px;">📋 複製</button><br>
+<b>③</b> 儲存 → 「部署」→「新增部署」→ 類型選「網路應用程式」→ 存取設為「任何人」→ 部署並複製 URL 貼入下方：<br>
+<input id="gs-url" placeholder="https://script.google.com/macros/s/.../exec" style="width:100%;margin-top:6px;padding:5px;font-size:10px;border:1px solid var(--brd);border-radius:4px;"/>
+</div>`;
+    UI.showModal('📊 設定 Google 試算表',html,null);
+    const foot=document.getElementById('m-foot');foot.innerHTML='';
+    const btn=document.createElement('button');btn.className='mbtn';btn.innerText='💾 儲存網址並送出';
+    btn.onclick=()=>{const u=(document.getElementById('gs-url')||{}).value||'';if(u){localStorage.setItem('everlight_sheets_url',u);UI.closeModal();this.saveToSheets();}else{UI.toast('請輸入網址','warn');}};
+    foot.appendChild(btn);
+    const skip=document.createElement('button');skip.className='mbtn';skip.style.marginTop='6px';skip.style.opacity='0.7';skip.innerText='稍後設定';
+    skip.onclick=()=>UI.closeModal();foot.appendChild(skip);
+  }
 };
 
 /* ===== UI ===== */
@@ -423,6 +596,32 @@ const UI={
   },
   renderTrade(){
     const dk=document.getElementById('trade-deck');dk.innerHTML='';
+    /* Manager toggle chip */
+    const mg=document.createElement('div');
+    mg.style.cssText='flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 6px;border-radius:8px;border:1.5px solid '+(G.managerActive?'var(--teal)':'var(--brd)')+';background:'+(G.managerActive?'rgba(26,107,138,0.1)':'rgba(255,255,255,0.3)')+';cursor:pointer;min-width:56px;';
+    mg.innerHTML='<span style="font-size:16px;">🤵</span><span style="font-size:8px;font-weight:700;color:'+(G.managerActive?'var(--teal)':'var(--muted)')+';">'+(G.managerActive?'經理運作中':'聘用經理</span><span style="font-size:7px;color:var(--muted);">$60/年')+'</span>';
+    mg.onclick=()=>{
+      if(G.tutStep!==0)return;
+      if(G.managerActive){
+        /* Confirm dismissal */
+        UI.showModal('🤵 解雇採購經理','<div style="font-size:13px;line-height:1.8;text-align:left;">確定要解雇採購經理？<br><br>解雇後將<b>停止自動採購</b>，每年節省 <b style="color:var(--green);">$60</b>，但需手動購買原料且不再提供建議。</div>',null);
+        const foot=document.getElementById('m-foot');foot.innerHTML='';
+        const yes=document.createElement('button');yes.className='mbtn red';yes.innerText='✅ 確定解雇';
+        yes.onclick=()=>{G.managerActive=false;UI.closeModal();UI.toast('🤵 採購經理已離職','warn');UI.renderTrade();};foot.appendChild(yes);
+        const no=document.createElement('button');no.className='mbtn';no.style.marginTop='6px';no.innerText='❌ 取消，繼續任用';
+        no.onclick=()=>UI.closeModal();foot.appendChild(no);
+      }else{
+        /* Hire modal with explanation */
+        const html='<div style="font-size:13px;line-height:1.8;text-align:left;"><div style="background:rgba(26,107,138,0.07);border-radius:8px;padding:10px;margin-bottom:10px;"><b>🤵 採購經理職能說明：</b><br><br>✅ <b>自動採購原料</b>：每年依市場行情自動補貨，優先選擇最優惠供應商（60%選最低價，40%分散風險）。<br><br>✅ <b>即時營運建議</b>：每年年度報告提供一條針對當前局勢的策略建議，助你做出更好決策。</div>💰 年薪：<b style="color:var(--gold);">$60/年</b>（每年維護費中扣除）<br><br>確定要聘用採購經理嗎？</div>';
+        UI.showModal('🤵 聘用採購經理',html,null);
+        const foot=document.getElementById('m-foot');foot.innerHTML='';
+        const yes=document.createElement('button');yes.className='mbtn gold';yes.innerText='✅ 是，立即聘用';
+        yes.onclick=()=>{G.managerActive=true;UI.closeModal();UI.toast('🤵 採購經理上任！每年自動採購並提供建議（$60/年）','good');UI.renderTrade();};foot.appendChild(yes);
+        const no=document.createElement('button');no.className='mbtn';no.style.marginTop='6px';no.innerText='❌ 否，自己處理';
+        no.onclick=()=>UI.closeModal();foot.appendChild(no);
+      }
+    };
+    dk.appendChild(mg);
     const sm=document.createElement('div');sm.className='sep-label';sm.innerText='原料';dk.appendChild(sm);
     SUP.forEach(s=>{const card=document.createElement('div');card.className='tcard';card.onclick=()=>G.buyMat(s.id);
       const mkt=G.matMarket[s.id]||1.0;const estPrice=Math.floor(s.base*mkt);
@@ -460,10 +659,11 @@ const UI={
     document.getElementById('poll-label').innerText='☣️ '+G.poll;
     const fv=document.getElementById('factory-view');fv.className='';if(G.poll>=70)fv.className='very-polluted';else if(G.poll>=40)fv.className='polluted';
     const fg=document.getElementById('factory-grid');fg.innerHTML='';
-    BKEYS.forEach(k=>{for(let i=0;i<G.c[k];i++){const el=document.createElement('div');el.className='ficon';el.innerText=B[k].e;el.title=B[k].name;fg.appendChild(el);}});
+    const zones=[{label:'生產',keys:['dye','toner','spec','pharma','elec','global']},{label:'研發',keys:['rd']},{label:'環保',keys:['water','solar','circle','zdhc']}];
+    zones.forEach(z=>{const items=z.keys.filter(k=>G.c[k]>0);if(!items.length&&z.label!=='生產')return;const zone=document.createElement('div');zone.className='fac-zone';const lbl=document.createElement('span');lbl.className='fac-zone-label';lbl.innerText=z.label;zone.appendChild(lbl);if(!items.length){const emp=document.createElement('span');emp.className='fac-empty';emp.innerText='尚無建設';zone.appendChild(emp);}items.forEach(k=>{const tile=document.createElement('div');tile.className='fac-tile';tile.title=B[k].name;tile.innerHTML='<span class="fe">'+B[k].e+'</span><span class="fc">×'+G.c[k]+'</span>';zone.appendChild(tile);});fg.appendChild(zone);});
     this.renderBuild();
   },
-  toast(msg,type='good'){const c=document.getElementById('toast-c');const t=document.createElement('div');t.className='toast '+type;t.innerText=msg;c.appendChild(t);setTimeout(()=>{t.classList.add('hiding');setTimeout(()=>t.remove(),500);},2500);},
+  toast(msg,type='good',dur=1500){const c=document.getElementById('toast-c');const t=document.createElement('div');t.className='toast '+type;t.innerText=msg;c.appendChild(t);setTimeout(()=>{t.classList.add('hiding');setTimeout(()=>t.remove(),500);},dur);},
   showModal(title,html,onClose){document.getElementById('m-title').innerHTML=title;document.getElementById('m-body').innerHTML='<div style="font-size:13px;line-height:1.6;color:var(--txt);text-align:left;">'+html+'</div>';
     document.getElementById('modal-ov').style.display='flex';const foot=document.getElementById('m-foot');foot.innerHTML='';const btn=document.createElement('button');btn.id='m-btn';btn.className='mbtn';btn.innerText='確 定';btn.onclick=onClose||(()=>this.closeModal());foot.appendChild(btn);},
   closeModal(){document.getElementById('modal-ov').style.display='none';},
@@ -480,11 +680,39 @@ const UI={
       ev.choices.forEach(ch=>{const btn=document.createElement('div');btn.className='ch-btn';btn.innerHTML='<div class="ch-title">'+ch.label+'</div><div class="ch-desc">'+ch.desc+'</div>';btn.onclick=()=>{G.applyEff(ch.fx);this.closeModal();UI.updateAll();UI.renderBuild();};foot.appendChild(btn);});
     }else{this.showModal(ev.tone==='bad'?'⚠️ 事件':'📰 事件',html,()=>{this.closeModal();UI.updateAll();});}
   },
-  showTurnReport(inc,maint,cTax,pollD){
-    let html='<b>'+G.year+'年度報告</b><br>年收入：$'+inc+' ｜ 維護費：-$'+maint+'<br>';
-    if(cTax>0)html+='碳稅：-$'+cTax+' (污染'+G.poll+'×3)<br>';
-    html+='污染變化：'+(pollD>=0?'+':'')+pollD+'<br>原料庫存：'+G.materials+' ｜ 技術：'+G.tech+'<br>聲譽：'+G.rep+' ｜ ESG：'+G.esg;
-    this.showModal('📊 年度報告',html,()=>this.closeModal());
+  showTurnReport(inc,maint,cTax,pollD,mgrReport,msgs,ev){
+    let html='<div style="font-size:13px;">';
+    /* — 收支一覽 grid — */
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;">';
+    html+='<div style="background:rgba(200,146,42,0.1);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">年收入</div><div style="font-size:18px;color:var(--gold);font-weight:bold;font-family:\'Playfair Display\',serif;">+$'+inc+'</div></div>';
+    html+='<div style="background:rgba(194,98,90,0.08);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">維護費</div><div style="font-size:18px;color:var(--red);font-weight:bold;font-family:\'Playfair Display\',serif;">−$'+maint+'</div></div>';
+    if(cTax>0)html+='<div style="background:rgba(194,98,90,0.06);padding:8px;border-radius:8px;text-align:center;grid-column:1/-1;"><div style="font-size:10px;color:var(--muted);">碳稅（☣️'+G.poll+'×3）</div><div style="font-size:16px;color:var(--red);font-weight:bold;">−$'+cTax+'</div></div>';
+    html+='<div style="background:rgba(106,90,205,0.07);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">污染變化</div><div style="font-size:18px;font-weight:bold;color:'+(pollD>0?'var(--red)':'var(--green)')+'">'+(pollD>0?'+':'')+pollD+'</div></div>';
+    html+='<div style="background:rgba(46,139,87,0.07);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">ESG ／ 技術</div><div style="font-size:16px;font-weight:bold;color:var(--green);">🌿'+G.esg+' 🔬'+G.tech+'</div></div>';
+    html+='</div>';
+    /* — 本年警示 — */
+    if(msgs&&msgs.length){
+      html+='<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px;">';
+      msgs.forEach(m=>{
+        const clr=m.type==='bad'?'var(--red)':m.type==='warn'?'#8a6010':'var(--teal)';
+        const bg=m.type==='bad'?'rgba(194,98,90,0.08)':m.type==='warn'?'rgba(212,160,74,0.09)':'rgba(26,107,138,0.06)';
+        const bd=m.type==='bad'?'var(--red)':m.type==='warn'?'#d4a04a':'var(--teal)';
+        html+='<div style="padding:6px 10px;border-radius:7px;font-size:12px;background:'+bg+';color:'+clr+';border-left:3px solid '+bd+';line-height:1.5;">'+m.text+'</div>';
+      });
+      html+='</div>';
+    }
+    /* — 採購經理報告 — */
+    if(mgrReport)html+='<div style="padding:8px 10px;background:rgba(26,107,138,0.07);border-radius:8px;font-size:11px;line-height:1.8;border-left:3px solid var(--teal);margin-bottom:6px;">🤵 <b>採購經理</b><br>'+mgrReport+'</div>';
+    /* — 目前狀態 — */
+    html+='<div style="font-size:11px;color:var(--muted);text-align:right;">📦 原料庫存 '+G.materials+' ｜ 🏆 聲譽 '+G.rep+'</div>';
+    html+='</div>';
+    if(ev){
+      /* Show turn report then chain to event when closed */
+      this.showModal(G.year+'年 📊 年度報告',html,()=>{this.closeModal();setTimeout(()=>this.showEvent(ev),120);});
+      const btn=document.getElementById('m-btn');btn.innerText='📰 查看本年事件 →';btn.className='mbtn gold';
+    }else{
+      this.showModal(G.year+'年 📊 年度報告',html,()=>this.closeModal());
+    }
   },
   showStageComplete(ci,next){
     const voices=['','💬「紡織黃金年代結束了⋯化學的力量無窮。」','💬「染料只是開始。觀音二廠潔淨室是台灣半導體夢的起點。」','💬「技術再強也不能毒死觀音。永續是存亡之戰。」','💬「瑞士太陽能板用的是觀音做的材料。觀音正在定義全球新能源。」'];
@@ -535,7 +763,7 @@ const UI={
     html+='✅ 鈣鈦礦太陽能封裝材料獲瑞士國際大獎<br>';
     html+='✅ 創辦人陳定川：「追求進步創新，發揚人性光輝」</div>';
     this.showModal('🏆 任務完成',html,null);
-    document.getElementById('m-foot').innerHTML='<button class="mbtn gold" onclick="G.captureScreen()">📸 截圖留念</button><button class="mbtn" onclick="G.restart()" style="margin-top:8px;">🔄 再玩一次</button>';
+    document.getElementById('m-foot').innerHTML='<button class="mbtn" style="background:rgba(46,139,87,0.12);color:var(--green);border-color:var(--green);" onclick="G.saveToSheets()">📊 儲存至 Google 試算表</button><button class="mbtn gold" onclick="G.captureScreen()" style="margin-top:6px;">📸 截圖留念</button><button class="mbtn" onclick="G.restart()" style="margin-top:6px;">🔄 再玩一次</button>';
   },
 
   /* SVG TREND CHART */
