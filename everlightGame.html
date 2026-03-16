@@ -227,11 +227,11 @@ const EVENTS={
 0:[
  {hl:'🏗️ 十大建設帶動紡織出口',dt:'蔣經國推動十大建設，加工出口區訂單爆滿！🇯🇵🇺🇸',tone:'good',eff:{funds:500},fact:'📌 1972年台灣紡織出口占GDP 35%。觀音工業區成為北台灣最大化工聚落。'},
  {hl:'📈 經濟奇蹟：出口創新高',dt:'台灣經濟年成長超過10%！全球品牌湧入下單。',tone:'good',eff:{funds:400,rep:3},choices:[{label:'📦 擴大產能接單',desc:'增加班次全力生產',fx:{funds:300,poll:3}},{label:'🔍 精選優質客戶',desc:'只接高端品牌訂單',fx:{rep:5,funds:100}}]},
- {hl:'🛢️ 第二次石油危機',dt:'伊朗革命導致油價暴漲，化工原料成本飆升！',tone:'bad',eff:{funds:-300},fact:'📌 1979年石油危機讓石化原料企業成本暴增。',choices:[{label:'🔬 研發替代合成路徑',desc:'降低對進口原料依賴',fx:{funds:-200,tech:5}},{label:'💪 咬牙吸收成本',desc:'維持客戶信任不漲價',fx:{funds:-200,rep:5}}]},
+ {hl:'🛢️ 第二次石油危機',dt:'伊朗革命導致油價暴漲，化工原料成本飆升！',tone:'bad',eff:{funds:-300,mkt:{basf:0.28,cn:0.22}},fact:'📌 1979年石油危機讓石化原料企業成本暴增。',choices:[{label:'🔬 研發替代合成路徑',desc:'降低對進口原料依賴',fx:{funds:-200,tech:5,mkt:{basf:-0.12,cn:-0.08}}},{label:'💪 咬牙吸收成本',desc:'維持客戶信任不漲價，市場仍承壓',fx:{funds:-200,rep:5}}]},
  {hl:'🎨 開發Everzol® ED環保染料',dt:'全球首批通過ZDHC標準的反應性染料！',tone:'good',eff:{rep:8,tech:3},fact:'📌 Everzol® ED是環保深色染料里程碑。'},
  {hl:'🏭 觀音一廠擴建完成',dt:'大園一廠產能擴大，年產突破5000噸！',tone:'good',eff:{funds:300}},
  {hl:'💼 加工出口區🇯🇵🇺🇸訂單潮',dt:'日本和美國品牌湧入台灣下單！',tone:'good',eff:{funds:600,rep:5}},
- {hl:'⛽ 第一次石油危機',dt:'1973年中東禁運！石化原料成本暴增，化工廠首當其衝。',tone:'bad',eff:{funds:-250},fact:'📌 1973年石油危機迫使台灣加速節能工藝研發。',choices:[{label:'🔬 研發低耗原料工藝',desc:'降低對進口石化原料的依賴',fx:{tech:5,funds:-100}},{label:'📦 緊急備貨鎖定低成本',desc:'趁漲完前先大量囤積原料',fx:{funds:-200}}]},
+ {hl:'⛽ 第一次石油危機',dt:'1973年中東禁運！石化原料成本暴增，化工廠首當其衝。',tone:'bad',eff:{funds:-250,mkt:{basf:0.30,cn:0.25}},fact:'📌 1973年石油危機迫使台灣加速節能工藝研發。',choices:[{label:'🔬 研發低耗原料工藝',desc:'降低對進口石化原料的依賴，逐步軟化漲勢',fx:{tech:5,funds:-100,mkt:{basf:-0.10,cn:-0.08}}},{label:'📦 緊急備貨鎖定低成本',desc:'趁漲完前先大量囤積原料，但帶動價格進一步攀高',fx:{funds:-200,mkt:{cn:0.15,basf:0.12}}}]},
  {hl:'✂️ 台美斷交外銷衝擊',dt:'1978年台美斷交！部分美國染料訂單出現不確定性，業界震動。',tone:'bad',eff:{funds:-200,rep:-4},fact:'📌 台美斷交後台灣積極多元化外銷管道，深耕歐日市場。',choices:[{label:'🌏 轉攻歐洲與日本市場',desc:'降低對美國市場依賴',fx:{rep:6,tech:3}},{label:'🏭 深耕台灣本地需求',desc:'穩住內銷基本盤過渡',fx:{funds:200,rep:2}}]},
  {hl:'🏗️ 觀音工業區廠商群聚效應',dt:'工業局積極招商！觀音化工廠商互相帶動，形成全球少見的化工聚落。',tone:'good',eff:{rep:5,funds:200},fact:'📌 觀音工業區目前有300多家廠商，形成完整化工供應鏈。'}
 ],
@@ -252,7 +252,7 @@ const EVENTS={
  {hl:'🏥 醫藥化學品通過GMP',dt:'原料藥API通過🇪🇺🇺🇸國際認證！',tone:'good',eff:{rep:8,tech:5}},
  {hl:'⚡ 全球金融海嘯',dt:'2008年金融危機，🇪🇺🇺🇸訂單大幅下滑。',tone:'bad',eff:{funds:-500,rep:-5},choices:[{label:'🔄 轉攻內需市場',desc:'開發台灣在地客戶',fx:{funds:200,rep:3}},{label:'💡 加碼研發新產品',desc:'危機就是轉機',fx:{tech:8,funds:-300}}]},
  {hl:'🌐 Everanod®鋁陽極染料',dt:'為🇺🇸Apple 🇰🇷Samsung手機殼提供色彩！',tone:'good',eff:{funds:400,rep:5,tech:3},fact:'📌 永光成為全球第三家能量產DSSC專用染料廠商。'},
- {hl:'😷 SARS疫情衝擊',dt:'2003年SARS！廠區強制防疫，物流中斷，供應鏈出現裂縫。',tone:'bad',eff:{funds:-200,rep:-2},fact:'📌 SARS促使台灣製造業重新審視供應鏈韌性與生物安全。',choices:[{label:'🏭 強化廠內防疫設施',desc:'確保生產不間斷',fx:{funds:-150,esg:3,rep:3}},{label:'📦 緊急備貨應對中斷',desc:'超前囤積兩個月原料',fx:{funds:-250,rep:3}}]},
+ {hl:'😷 SARS疫情衝擊',dt:'2003年SARS！廠區強制防疫，物流中斷，供應鏈出現裂縫。',tone:'bad',eff:{funds:-200,rep:-2},fact:'📌 SARS促使台灣製造業重新審視供應鏈韌性與生物安全。',choices:[{label:'🏭 強化廠內防疫設施',desc:'確保生產不間斷，ESG與聲譽雙升',fx:{funds:-150,esg:3,rep:3}},{label:'📦 緊急備貨應對中斷',desc:'超前囤積兩個月原料，恐慌性搶購推升原料行情',fx:{funds:-250,rep:3,mkt:{cn:0.25,basf:0.15}}}]},
  {hl:'🇨🇳 台廠西進潮：人才流失壓力',dt:'大量台商赴中建廠！觀音化工業面臨研發人才流失與成本競爭壓力。',tone:'bad',eff:{funds:-150,rep:-2},choices:[{label:'💰 加薪留住研發人才',desc:'提高薪資福利留住核心人員',fx:{funds:-250,tech:6,rep:4}},{label:'🔬 深化工研院產學合作',desc:'以技術研發合作補足人才缺口',fx:{tech:5,funds:-100,rep:3}}]},
  {hl:'🌿 台灣環保法規升級',dt:'環保署加嚴化工廢水標準！觀音廠區面臨更嚴格的排放規範。',tone:'warn',eff:{rep:-2,esg:2},fact:'📌 台灣環保法規趨嚴促使業者提前布局廢水處理設施。',choices:[{label:'💧 提前升級廢水處理',desc:'超前法規要求，建立競爭優勢',fx:{funds:-300,esg:8,poll:-3}},{label:'📊 導入環境管理系統',desc:'建立監測數據迎接環保稽查',fx:{funds:-150,esg:5,rep:4}}]}
 ],
@@ -264,7 +264,7 @@ const EVENTS={
  {hl:'🇪🇺 歐盟CBAM碳邊境調整',dt:'高碳排產品出口歐盟須繳碳關稅！',tone:'warn',eff:{funds:-200},fact:'📌 CBAM迫使全球製造業加速減碳。',choices:[{label:'📊 導入碳盤查系統',desc:'量化各廠碳排數據',fx:{funds:-200,esg:8,tech:3}},{label:'🌿 採購綠電憑證',desc:'用再生能源降低碳排',fx:{funds:-400,esg:10,poll:-2}}]},
  {hl:'☢️ 福島核災：能源轉型加速',dt:'2011年日本福島核災！全球重新評估核能，台灣再生能源政策加速推進。',tone:'warn',eff:{esg:4,rep:2},fact:'📌 福島核災加速各國推動再生能源佔比目標。',choices:[{label:'☀️ 超前部署屋頂太陽能',desc:'提早布局搶得先機',fx:{funds:-400,esg:10,poll:-2}},{label:'📊 等待明確政策再行動',desc:'觀察後再做決定',fx:{funds:100}}]},
  {hl:'🌍 巴黎協定：ESG時代來臨',dt:'2015年195國簽署巴黎協定！淨零碳排成為企業生死攸關議題，ESG從選填變必填。',tone:'warn',eff:{esg:3},fact:'📌 巴黎協定目標：工業界2050年前實現碳中和。',choices:[{label:'🌡️ 公開碳中和承諾',desc:'承諾2040碳中和，大幅提升品牌形象',fx:{rep:10,esg:8}},{label:'📈 漸進式減碳計畫',desc:'分階段降碳，控制成本',fx:{funds:-200,esg:5,rep:4}}]},
- {hl:'🇺🇸🇨🇳 美中貿易戰爆發',dt:'2018年美中貿易戰開打！供應鏈重組，台灣化工業因「去中化」而獲得轉單利益。',tone:'good',eff:{funds:400,rep:6},fact:'📌 美中貿易戰促使多國企業轉向台灣及東南亞供應商。',choices:[{label:'🏭 擴大台灣在地產能',desc:'快速承接轉單，搶佔市場',fx:{funds:400,poll:3,rep:5}},{label:'🌏 協助客戶分散至東南亞',desc:'拓展越南等新市場',fx:{funds:200,rep:8,tech:3}}]}
+ {hl:'🇺🇸🇨🇳 美中貿易戰爆發',dt:'2018年美中貿易戰開打！供應鏈重組，台灣化工業因「去中化」而獲得轉單利益。',tone:'good',eff:{funds:400,rep:6},fact:'📌 美中貿易戰促使多國企業轉向台灣及東南亞供應商。',choices:[{label:'🏭 擴大台灣在地產能',desc:'快速承接轉單，台灣本土供應競爭力大增',fx:{funds:400,poll:3,rep:5,mkt:{tw:-0.18,cn:0.15}}},{label:'🌏 協助客戶分散至東南亞',desc:'拓展越南等新市場，降低中國依賴',fx:{funds:200,rep:8,tech:3,mkt:{cn:0.12}}}]}
 ],
 4:[
  {hl:'🌞 鈣鈦礦太陽能國際突破！',dt:'🇨🇭瑞士Perovskia Solar AG採用永光封裝材料奪冠！',tone:'good',eff:{rep:15,tech:10,funds:800},fact:'📌 永光UV光固化封裝技術實現鈣鈦礦太陽能商用量產。',choices:[{label:'☀️ 成立新能源事業部',desc:'全力搶攻鈣鈦礦市場',fx:{funds:-500,tech:12,rep:8}},{label:'🤝 與瑞士成立合資公司',desc:'技術+通路雙贏',fx:{funds:-300,rep:12,tech:5}}]},
@@ -273,8 +273,8 @@ const EVENTS={
  {hl:'💰 台灣碳費正式開徵',dt:'高排碳產業受衝擊。污染越高碳費越重！',tone:'warn',eff:{funds:-200},fact:'📌 永光2024年啟動循環經濟競賽年省5059萬元。',choices:[{label:'🔄 廢棄物資源化',desc:'將廢料轉為副產品銷售',fx:{funds:200,esg:8,poll:-3}},{label:'⚡ 製程電氣化',desc:'以電力取代燃煤鍋爐',fx:{funds:-400,poll:-5,esg:10}}]},
  {hl:'🚗 電動車材料新藍海',dt:'🇩🇪🇯🇵🇨🇳🇺🇸 EV銷量暴增！',tone:'good',eff:{funds:400,tech:5}},
  {hl:'🌏 全球供應鏈重組',dt:'🇹🇼台灣化工成為全球備選核心。100+國、17據點。',tone:'good',eff:{rep:8,funds:500},fact:'📌 永光行銷100+國家、620家供應商。'},
- {hl:'😷 COVID-19：供應鏈大斷鏈',dt:'2020年全球疫情爆發！原料短缺、物流斷鏈，但也催生新一波本土化採購需求。',tone:'bad',eff:{funds:-350,rep:-2},fact:'📌 COVID-19造成全球化工供應鏈中斷長達18個月，台灣廠商韌性受考驗。',choices:[{label:'🔒 簽訂長期原料供應合約',desc:'以溢價換取穩定供貨',fx:{funds:-300,rep:5}},{label:'🌿 轉型本地化原料採購',desc:'降低進口依賴，支持台灣本土',fx:{funds:-200,tech:3,rep:5}}]},
- {hl:'⚡ 俄烏戰爭：能源與原料衝擊',dt:'2022年俄烏戰爭！歐洲能源危機導致石化原料成本飆漲，台廠競爭力意外凸顯。',tone:'warn',eff:{funds:-250},fact:'📌 俄烏戰爭讓歐洲石化品成本暴增，加速各國能源轉型步伐。',choices:[{label:'🇩🇪 暫減歐洲採購改轉亞洲',desc:'轉向亞洲替代供應商降低成本',fx:{funds:200}},{label:'⚡ 加速能源自主計畫',desc:'擴大太陽能並申請綠電憑證',fx:{funds:-350,esg:10,poll:-3}}]}
+ {hl:'😷 COVID-19：供應鏈大斷鏈',dt:'2020年全球疫情爆發！原料短缺、物流斷鏈，但也催生新一波本土化採購需求。',tone:'bad',eff:{funds:-350,rep:-2},fact:'📌 COVID-19造成全球化工供應鏈中斷長達18個月，台灣廠商韌性受考驗。',choices:[{label:'🔒 簽訂長期原料供應合約',desc:'以溢價鎖定巴斯夫穩定供貨，避免短缺風險',fx:{funds:-300,rep:5,mkt:{basf:-0.15}}},{label:'🌿 轉型本地化原料採購',desc:'降低進口依賴，台灣本土供應商需求激增',fx:{funds:-200,tech:3,rep:5,mkt:{tw:-0.20,cn:0.12}}}]},
+ {hl:'⚡ 俄烏戰爭：能源與原料衝擊',dt:'2022年俄烏戰爭！歐洲能源危機導致石化原料成本飆漲，台廠競爭力意外凸顯。',tone:'warn',eff:{funds:-250,mkt:{basf:0.28}},fact:'📌 俄烏戰爭讓歐洲石化品成本暴增，加速各國能源轉型步伐。',choices:[{label:'🇩🇪 暫減歐洲採購改轉亞洲',desc:'轉向亞洲替代供應商，台灣本土更具競爭優勢',fx:{funds:200,mkt:{tw:-0.15,cn:-0.08}}},{label:'⚡ 加速能源自主計畫',desc:'擴大太陽能並申請綠電憑證，降低對外部能源的依賴',fx:{funds:-350,esg:10,poll:-3}}]}
 ]};
 
 /* ===== GAME STATE ===== */
@@ -481,7 +481,7 @@ const G={
     shown.add(idx);this.lastEvIdx[this.stageIdx]=idx;
     return pool[idx];
   },
-  applyEff(eff){if(!eff)return;if(eff.funds)this.funds+=eff.funds;if(eff.rep)this.rep+=eff.rep;if(eff.tech)this.tech+=eff.tech;if(eff.esg)this.esg+=eff.esg;if(eff.poll)this.poll=Math.max(0,this.poll+eff.poll);this.rep=Math.max(0,Math.min(100,this.rep));this.esg=Math.max(0,Math.min(100,this.esg));if(this.funds<0)this.funds=0;},
+  applyEff(eff){if(!eff)return;if(eff.funds)this.funds+=eff.funds;if(eff.rep)this.rep+=eff.rep;if(eff.tech)this.tech+=eff.tech;if(eff.esg)this.esg+=eff.esg;if(eff.poll)this.poll=Math.max(0,this.poll+eff.poll);if(eff.mkt)Object.entries(eff.mkt).forEach(([sid,d])=>{this.matMarket[sid]=Math.max(0.55,Math.min(2.2,(this.matMarket[sid]||1)+d));});this.rep=Math.max(0,Math.min(100,this.rep));this.esg=Math.max(0,Math.min(100,this.esg));if(this.funds<0)this.funds=0;},
   restart(){this.resetVars();UI.renderBuild();UI.renderTrade();UI.updateAll();UI.closeModal();setTimeout(()=>UI.showModal('🔄 重新開始','<div style="font-size:13px;text-align:center;padding:8px 0;">準備回到1972年，再次出發！</div>',()=>{UI.closeModal();G.startTut();}),300);},
   captureScreen(){const el=document.querySelector('.mdlg-in');if(!el)return;html2canvas(el,{backgroundColor:'#e8f0f8',scale:2}).then(c=>{const a=document.createElement('a');a.download='永光化學_'+this.playerName+'.png';a.href=c.toDataURL('image/png');a.click();});},
 
@@ -722,7 +722,21 @@ const UI={
             UI.updateAll();UI.renderBuild();
           };
         }else{
-          btn.onclick=()=>{G.applyEff(ch.fx);this.closeModal();UI.updateAll();UI.renderBuild();};
+          btn.onclick=()=>{
+            G.applyEff(ch.fx);
+            /* 建立結果通知 */
+            const fx=ch.fx||{};const et=[];
+            if(fx.funds)et.push('💰'+(fx.funds>0?'+':'')+fx.funds);
+            if(fx.rep)et.push('🏆'+(fx.rep>0?'+':'')+fx.rep);
+            if(fx.tech)et.push('🔬'+(fx.tech>0?'+':'')+fx.tech);
+            if(fx.esg)et.push('🌿'+(fx.esg>0?'+':'')+fx.esg);
+            if(fx.poll)et.push('☣️'+(fx.poll>0?'+':'')+fx.poll);
+            if(fx.mkt)Object.entries(fx.mkt).forEach(([sid,d])=>{const s=SUP.find(x=>x.id===sid);if(s)et.push(s.flag+s.name+'原料'+(d>0?'↑漲':'↓跌'));});
+            this.closeModal();
+            const hasNeg=et.some(t=>/(💰|🏆|🔬|🌿)-|☣️\+/.test(t));
+            UI.toast('▸ 決策結果：'+(et.length?et.join(' ｜ '):'選擇已生效'),hasNeg?'warn':'good',3500);
+            UI.updateAll();UI.renderBuild();
+          };
         }
         foot.appendChild(btn);
       });
