@@ -548,26 +548,34 @@ const G={
   /* ===== GOOGLE SHEETS ===== */
   saveToSheets(){
     const url=localStorage.getItem('everlight_sheets_url')||'https://script.google.com/macros/s/AKfycbzPiIQOSrJSDcCJeYDIYUX5vjDJXD0oKbW0Tv3YYStw3ULkhy4akj3GoEYXwqTPphsA/exec';
-    if(!url){this.showSheetsSetup();return;}
     const bldg=BKEYS.filter(k=>this.c[k]>0).map(k=>B[k].name+'×'+this.c[k]).join(' ');
-    const purch=SUP.map(s=>s.flag+(this.matBuys[s.id]||0)+'次').join(' ');
-    const data={company:'永光化學',player:this.playerName,date:new Date().toLocaleDateString('zh-TW'),
+    const totalBuys=Object.values(this.matBuys).reduce((a,b)=>a+b,0);
+    const purch=totalBuys===0?'無':SUP.filter(s=>(this.matBuys[s.id]||0)>0).map(s=>s.name+':'+Math.round((this.matBuys[s.id]||0)/totalBuys*100)+'%').join(' ');
+    /* 使用隱藏 iframe + form 提交，完全繞過 CORS 及 GAS redirect 問題 */
+    const ifrId='gs-ifr-'+Date.now();
+    const ifr=document.createElement('iframe');ifr.name=ifrId;ifr.style.display='none';document.body.appendChild(ifr);
+    const frm=document.createElement('form');frm.method='POST';frm.action=url;frm.target=ifrId;frm.style.display='none';
+    const fields={company:'永光化學',player:this.playerName,date:new Date().toLocaleDateString('zh-TW'),
       year:this.year,funds:this.funds,rep:this.rep,tech:this.tech,esg:this.esg,poll:this.poll,
-      countries:this.countries.size,contracts:this.done.length,
+      countries:this.countries.size,contracts:this.done.length,zdhc:this.c.zdhc>=1?'已認證':'未認證',
       buildings:bldg,purchases:purch,contractList:this.done.join(',')};
-    fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify(data),headers:{'Content-Type':'text/plain;charset=utf-8'}})
-      .then(()=>UI.toast('✅ 成績已送出至試算表！','good'))
-      .catch(()=>UI.toast('❌ 連線失敗，請確認設定','bad'));
+    Object.entries(fields).forEach(([k,v])=>{const inp=document.createElement('input');inp.type='hidden';inp.name=k;inp.value=v;frm.appendChild(inp);});
+    document.body.appendChild(frm);frm.submit();
+    setTimeout(()=>{if(frm.parentNode)frm.parentNode.removeChild(frm);if(ifr.parentNode)ifr.parentNode.removeChild(ifr);},5000);
   },
   showSheetsSetup(){
     const code=`function doPost(e){
-  const d=JSON.parse(e.postData.contents);
-  const sh=SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  if(sh.getLastRow()===0)
-    sh.appendRow(['公司','玩家','日期','年份','資金','聲譽','技術','ESG','污染','出口國','訂單數','建設','採購','訂單清單']);
-  sh.appendRow([d.company,d.player,d.date,d.year,d.funds,d.rep,d.tech,d.esg,d.poll,
-    d.countries,d.contracts,d.buildings,d.purchases,d.contractList]);
-  return ContentService.createTextOutput('OK');
+  try{
+    var d=e.parameter;
+    var sh=SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    if(sh.getLastRow()===0)
+      sh.appendRow(['公司','玩家','日期','年份','資金','聲譽','技術','ESG','污染','出口國','訂單數','ZDHC','建設','採購比例','訂單清單']);
+    sh.appendRow([d.company,d.player,d.date,d.year,d.funds,d.rep,d.tech,d.esg,d.poll,
+      d.countries,d.contracts,d.zdhc||'',d.buildings,d.purchases,d.contractList]);
+    return ContentService.createTextOutput('OK').setMimeType(ContentService.MimeType.TEXT);
+  }catch(err){
+    return ContentService.createTextOutput('ERROR:'+err).setMimeType(ContentService.MimeType.TEXT);
+  }
 }`;
     const html=`<div style="font-size:12px;line-height:1.8;text-align:left;">
 <b>📋 三步驟設定 Google 試算表</b><br><br>
@@ -803,8 +811,9 @@ const UI={
     html+='✅ 循環經濟競賽年省5,059萬元，廢棄物轉副產品再利用<br>';
     html+='✅ 鈣鈦礦太陽能封裝材料獲瑞士國際大獎<br>';
     html+='✅ 創辦人陳定川：「追求進步創新，發揚人性光輝」</div>';
+    this.saveToSheets();/* 自動儲存成績至 Google 試算表 */
     this.showModal('🏆 任務完成',html,null);
-    document.getElementById('m-foot').innerHTML='<button class="mbtn" style="background:rgba(46,139,87,0.12);color:var(--green);border-color:var(--green);" onclick="G.saveToSheets()">📊 儲存至 Google 試算表</button><button class="mbtn gold" onclick="G.captureScreen()" style="margin-top:6px;">📸 截圖留念</button><button class="mbtn" onclick="G.restart()" style="margin-top:6px;">🔄 再玩一次</button>';
+    document.getElementById('m-foot').innerHTML='<button class="mbtn gold" onclick="G.captureScreen()">📸 截圖留念</button><button class="mbtn" onclick="G.restart()" style="margin-top:6px;">🔄 再玩一次</button>';
   },
 
   /* SVG TREND CHART */
