@@ -825,7 +825,7 @@ const UI={
     html+='✅ 循環經濟競賽年省5,059萬元，廢棄物轉副產品再利用<br>';
     html+='✅ 鈣鈦礦太陽能封裝材料獲瑞士國際大獎<br>';
     html+='✅ 創辦人陳定川：「追求進步創新，發揚人性光輝」</div>';
-    this.saveToSheets();/* 自動儲存成績至 Google 試算表 */
+    G.saveToSheets();/* 自動儲存成績至 Google 試算表 */
     this.showModal('🏆 任務完成',html,null);
     document.getElementById('m-foot').innerHTML='<button class="mbtn gold" onclick="G.captureScreen()">📸 截圖留念</button><button class="mbtn" onclick="G.restart()" style="margin-top:6px;">🔄 再玩一次</button>';
   },
