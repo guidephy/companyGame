@@ -483,7 +483,24 @@ const G={
   },
   applyEff(eff){if(!eff)return;if(eff.funds)this.funds+=eff.funds;if(eff.rep)this.rep+=eff.rep;if(eff.tech)this.tech+=eff.tech;if(eff.esg)this.esg+=eff.esg;if(eff.poll)this.poll=Math.max(0,this.poll+eff.poll);if(eff.mkt)Object.entries(eff.mkt).forEach(([sid,d])=>{this.matMarket[sid]=Math.max(0.55,Math.min(2.2,(this.matMarket[sid]||1)+d));});this.rep=Math.max(0,Math.min(100,this.rep));this.esg=Math.max(0,Math.min(100,this.esg));if(this.funds<0)this.funds=0;},
   restart(){this.resetVars();UI.renderBuild();UI.renderTrade();UI.updateAll();UI.closeModal();setTimeout(()=>UI.showModal('🔄 重新開始','<div style="font-size:13px;text-align:center;padding:8px 0;">準備回到1972年，再次出發！</div>',()=>{UI.closeModal();G.startTut();}),300);},
-  captureScreen(){const el=document.querySelector('.mdlg-in');if(!el)return;html2canvas(el,{backgroundColor:'#e8f0f8',scale:2}).then(c=>{const a=document.createElement('a');a.download='永光化學_'+this.playerName+'.png';a.href=c.toDataURL('image/png');a.click();});},
+  captureScreen(){
+    const el=document.querySelector('.mdlg-in');if(!el)return;
+    /* 暫時展開全高，確保圖表等頂部內容完整入鏡 */
+    el.scrollTop=0;
+    const prev={overflow:el.style.overflow,maxHeight:el.style.maxHeight,height:el.style.height};
+    el.style.overflow='visible';el.style.maxHeight='none';el.style.height='auto';
+    /* 等 DOM 更新後再截圖 */
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      html2canvas(el,{backgroundColor:'#e8f0f8',scale:2,logging:false,
+        width:el.scrollWidth,height:el.scrollHeight}).then(c=>{
+        /* 還原樣式 */
+        Object.assign(el.style,prev);
+        const a=document.createElement('a');
+        a.download='永光化學_'+this.playerName+'.png';
+        a.href=c.toDataURL('image/png');a.click();
+      }).catch(()=>Object.assign(el.style,prev));
+    }));
+  },
 
   /* ===== MANAGER AUTO-BUY ===== */
   managerBuy(){
