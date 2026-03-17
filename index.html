@@ -109,7 +109,6 @@ header {
   align-items: center;
 }
 
-/* 移除白底，讓校徽自然懸浮 */
 .school-logo {
   width: 110px;
   height: auto;
@@ -164,18 +163,17 @@ header p {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 30px;
 }
 
 .card {
   position: relative;
-  background: rgba(255, 255, 255, 0.75); /* 高質感磨砂玻璃 */
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
   padding: 30px 25px;
-  text-decoration: none;
   color: inherit;
   display: flex;
   flex-direction: column;
@@ -184,7 +182,6 @@ header p {
   box-shadow: 0 10px 30px rgba(13, 39, 76, 0.06);
 }
 
-/* 卡片懸浮：上浮與深層發光 */
 .card:hover {
   transform: translateY(-8px);
   background: rgba(255, 255, 255, 0.95);
@@ -215,7 +212,6 @@ header p {
   stroke-dashoffset: 0;
 }
 
-/* 各產業專屬光流色彩 */
 .card[data-type="chemical"] .card-svg-border rect { stroke: var(--glow-chem); filter: drop-shadow(0 0 6px rgba(142,68,173,0.5)); }
 .card[data-type="energy"] .card-svg-border rect { stroke: var(--glow-energy); filter: drop-shadow(0 0 6px rgba(212,172,13,0.5)); }
 .card[data-type="textile"] .card-svg-border rect { stroke: var(--glow-textile); filter: drop-shadow(0 0 6px rgba(39,174,96,0.5)); }
@@ -231,7 +227,6 @@ header p {
   height: 100%;
 }
 
-/* 幾何旋轉底圖與 Emoji */
 .icon-container {
   position: relative;
   width: 65px;
@@ -252,14 +247,9 @@ header p {
   opacity: 0.15;
   transition: opacity 0.3s, transform 0.3s;
 }
-.card:hover .icon-bg { 
-  opacity: 0.4; 
-  animation-duration: 6s; 
-}
-
+.card:hover .icon-bg { opacity: 0.4; animation-duration: 6s; }
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
-/* 圖騰顏色調適 */
 .card[data-type="chemical"] .icon-bg svg { stroke: var(--glow-chem); }
 .card[data-type="energy"] .icon-bg svg { stroke: var(--glow-energy); }
 .card[data-type="textile"] .icon-bg svg { stroke: var(--glow-textile); }
@@ -274,7 +264,6 @@ header p {
 }
 .card:hover .card-icon { transform: scale(1.2) rotate(-5deg); }
 
-/* 卡片文字 */
 .card-title {
   font-family: 'Noto Serif TC', serif;
   font-size: 24px;
@@ -290,7 +279,6 @@ header p {
   margin-bottom: 16px;
   letter-spacing: 1.5px;
 }
-
 .card[data-type="chemical"] .card-subtitle { color: var(--glow-chem); }
 .card[data-type="energy"] .card-subtitle { color: var(--glow-energy); }
 .card[data-type="textile"] .card-subtitle { color: var(--glow-textile); }
@@ -301,48 +289,85 @@ header p {
   font-size: 14px;
   color: var(--text-muted);
   line-height: 1.7;
-  flex: 1;
 }
 
-/* 底部標籤與進入按鈕 */
+/* ================= 新增：雙行動按鈕面板 ================= */
 .card-footer {
-  margin-top: 25px;
-  padding-top: 15px;
+  margin-top: auto; /* 將 Footer 推至最底，確保所有卡片按鈕完美對齊 */
+  padding-top: 20px;
   border-top: 1px dashed rgba(13, 39, 76, 0.15);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.tags {
+.card-tags {
+  display: flex;
+}
+
+.tag {
   font-size: 11px;
   font-weight: 600;
   color: var(--school-navy);
-  background: rgba(27, 79, 147, 0.08);
+  background: rgba(27, 79, 147, 0.06);
   padding: 5px 10px;
   border-radius: 6px;
   letter-spacing: 0.5px;
 }
 
-.play-btn {
+.card-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 0;
+  border-radius: 12px;
   font-family: 'Noto Serif TC', serif;
   font-size: 13px;
   font-weight: 700;
-  color: var(--school-navy);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(27, 79, 147, 0.05);
-  padding: 6px 14px;
-  border-radius: 20px;
-  transition: all 0.2s;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.card[data-type="chemical"]:hover .play-btn { background: var(--glow-chem); color: #fff; box-shadow: 0 4px 10px rgba(142,68,173,0.3); transform: translateX(4px);}
-.card[data-type="energy"]:hover .play-btn { background: var(--glow-energy); color: #fff; box-shadow: 0 4px 10px rgba(212,172,13,0.3); transform: translateX(4px);}
-.card[data-type="textile"]:hover .play-btn { background: var(--glow-textile); color: #fff; box-shadow: 0 4px 10px rgba(39,174,96,0.3); transform: translateX(4px);}
-.card[data-type="petro"]:hover .play-btn { background: var(--glow-petro); color: #fff; box-shadow: 0 4px 10px rgba(192,57,43,0.3); transform: translateX(4px);}
-.card[data-type="electronics"]:hover .play-btn { background: var(--glow-elec); color: #fff; box-shadow: 0 4px 10px rgba(41,128,185,0.3); transform: translateX(4px);}
+/* 專題文件按鈕 (Secondary) */
+.doc-btn {
+  background: #ffffff;
+  color: var(--school-navy);
+  border: 1px solid rgba(13, 39, 76, 0.15);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+.doc-btn:hover {
+  background: #f0f4f8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(13, 39, 76, 0.08);
+  border-color: rgba(13, 39, 76, 0.3);
+}
+
+/* 模擬啟動按鈕 (Primary - 動態上色) */
+.play-btn {
+  border: 1px solid transparent;
+}
+.card[data-type="chemical"] .play-btn { background: rgba(142,68,173,0.08); color: var(--glow-chem); }
+.card[data-type="energy"] .play-btn { background: rgba(212,172,13,0.08); color: var(--glow-energy); }
+.card[data-type="textile"] .play-btn { background: rgba(39,174,96,0.08); color: var(--glow-textile); }
+.card[data-type="petro"] .play-btn { background: rgba(192,57,43,0.08); color: var(--glow-petro); }
+.card[data-type="electronics"] .play-btn { background: rgba(41,128,185,0.08); color: var(--glow-elec); }
+
+/* 卡片 Hover 時，啟動按鈕瞬間充能發光 */
+.card[data-type="chemical"]:hover .play-btn { background: var(--glow-chem); color: #fff; box-shadow: 0 6px 15px rgba(142,68,173,0.35); }
+.card[data-type="energy"]:hover .play-btn { background: var(--glow-energy); color: #fff; box-shadow: 0 6px 15px rgba(212,172,13,0.35); }
+.card[data-type="textile"]:hover .play-btn { background: var(--glow-textile); color: #fff; box-shadow: 0 6px 15px rgba(39,174,96,0.35); }
+.card[data-type="petro"]:hover .play-btn { background: var(--glow-petro); color: #fff; box-shadow: 0 6px 15px rgba(192,57,43,0.35); }
+.card[data-type="electronics"]:hover .play-btn { background: var(--glow-elec); color: #fff; box-shadow: 0 6px 15px rgba(41,128,185,0.35); }
+
+.play-btn:hover { transform: translateY(-2px) scale(1.02); }
 
 /* ================= 頁尾 ================= */
 footer {
@@ -358,7 +383,6 @@ footer {
   margin-top: auto;
 }
 
-/* 響應式調整 */
 @media (max-width: 768px) {
   header h1 { font-size: 30px; }
   header h2 { font-size: 16px; }
@@ -369,14 +393,12 @@ footer {
 </head>
 <body>
 
-<!-- 沉浸式明亮動態背景 -->
+<!-- 沉浸式動態背景 -->
 <div id="ambient-bg">
-  <!-- 校徽配色的極光暈染 -->
   <div class="aurora-blob blob-1"></div>
   <div class="aurora-blob blob-2"></div>
   <div class="aurora-blob blob-3"></div>
   
-  <!-- 高科技感的深藍色 SVG 連線網 -->
   <svg class="svg-network" width="100%" height="100%">
     <line class="network-line" x1="10%" y1="20%" x2="30%" y2="50%" />
     <line class="network-line" x1="30%" y1="50%" x2="70%" y2="40%" />
@@ -384,7 +406,6 @@ footer {
     <line class="network-line" x1="30%" y1="50%" x2="20%" y2="80%" />
     <line class="network-line" x1="20%" y1="80%" x2="50%" y2="90%" />
     <line class="network-line" x1="50%" y1="90%" x2="85%" y2="80%" />
-    
     <circle class="network-node" cx="10%" cy="20%" style="animation-delay: 0s" />
     <circle class="network-node" cx="30%" cy="50%" style="animation-delay: 1s" />
     <circle class="network-node" cx="70%" cy="40%" style="animation-delay: 2s" />
@@ -393,7 +414,6 @@ footer {
     <circle class="network-node" cx="50%" cy="90%" style="animation-delay: 2.5s" />
   </svg>
 
-  <!-- 底部清新的海洋與藻礁波浪 SVG -->
   <div class="wave-container">
     <svg class="wave-1" viewBox="0 0 1200 120" preserveAspectRatio="none">
       <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118,137.9,114,204,96.88,245.4,85.81,283.6,70.51,321.39,56.44Z"></path>
@@ -408,9 +428,7 @@ footer {
 </div>
 
 <header>
-  <!-- 直接懸浮的校徽 -->
   <img src="桃園市立觀音高級中等學校校徽.png" alt="桃園市立觀音高級中等學校校徽" class="school-logo" onerror="this.style.display='none'">
-  
   <h1>觀音產業 × 國際鏈結</h1>
   <h2>永續企業戰略模擬</h2>
   <p>在地出發，鏈結全球。探索台灣隱形冠軍如何以綠色科技翻轉國際供應鏈。<br>請選擇一家在地企業，啟動您的專屬戰略模擬。</p>
@@ -420,7 +438,7 @@ footer {
   <div class="grid">
     
     <!-- 永光化學 -->
-    <a href="everlightGame.html" class="card" data-type="chemical">
+    <div class="card" data-type="chemical">
       <svg class="card-svg-border"><rect width="100%" height="100%"></rect></svg>
       <div class="card-content">
         <div class="icon-container">
@@ -432,15 +450,23 @@ footer {
         <div class="card-title">永光化學</div>
         <div class="card-subtitle">觀音的化學力量</div>
         <div class="card-desc">從傳統染料到半導體光阻劑，體驗化學工業的垂直整合，在 ZDHC 零污染與高科技之間尋求平衡。</div>
+        
         <div class="card-footer">
-          <span class="tags">特用化學 / 電子材料</span>
-          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <div class="card-tags"><span class="tag">特用化學 / 電子材料</span></div>
+          <div class="card-actions">
+            <a href="https://drive.google.com/file/d/14k_WAKkCWs8C2l-wqUdOFKZ2gZTHBfGP/view?usp=drive_link" target="_blank" class="btn doc-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> 專題文獻
+            </a>
+            <a href="everlightGame.html" class="btn play-btn">
+              啟動模擬 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
       </div>
-    </a>
+    </div>
 
     <!-- 美琪瑪 -->
-    <a href="mechemaGame.html" class="card" data-type="energy">
+    <div class="card" data-type="energy">
       <svg class="card-svg-border"><rect width="100%" height="100%"></rect></svg>
       <div class="card-content">
         <div class="icon-container">
@@ -452,15 +478,23 @@ footer {
         <div class="card-title">美琪瑪國際</div>
         <div class="card-subtitle">觀音的能源樞紐</div>
         <div class="card-desc">掌控全球電動車的心臟！從進口鈷鎳礦到精煉正極材料，並發展廢觸媒回收技術克服重金屬危機。</div>
+        
         <div class="card-footer">
-          <span class="tags">電池材料 / 循環經濟</span>
-          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <div class="card-tags"><span class="tag">電池材料 / 循環經濟</span></div>
+          <div class="card-actions">
+            <a href="https://drive.google.com/file/d/1NxNs5qiOUdCozV2OGWAJiHOuX6m1ozux/view?usp=drive_link" target="_blank" class="btn doc-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> 專題文獻
+            </a>
+            <a href="mechemaGame.html" class="btn play-btn">
+              啟動模擬 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
       </div>
-    </a>
+    </div>
 
     <!-- 遠東新世紀 -->
-    <a href="farEasternGame.html" class="card" data-type="textile">
+    <div class="card" data-type="textile">
       <svg class="card-svg-border"><rect width="100%" height="100%"></rect></svg>
       <div class="card-content">
         <div class="icon-container">
@@ -472,15 +506,23 @@ footer {
         <div class="card-title">遠東新世紀</div>
         <div class="card-subtitle">觀音的循環奇蹟</div>
         <div class="card-desc">將廢寶特瓶化為神奇的 rPET 再生酯粒。串聯 Nike 與可口可樂，打造全球最龐大的綠色循環供應鏈。</div>
+        
         <div class="card-footer">
-          <span class="tags">聚酯化纖 / 閉環回收</span>
-          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <div class="card-tags"><span class="tag">聚酯化纖 / 閉環回收</span></div>
+          <div class="card-actions">
+            <a href="https://drive.google.com/file/d/1lI5kxiBnYBYTkGLAXrZyov-PQZ5XYPlw/view?usp=drive_link" target="_blank" class="btn doc-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> 專題文獻
+            </a>
+            <a href="farEasternGame.html" class="btn play-btn">
+              啟動模擬 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
       </div>
-    </a>
+    </div>
 
     <!-- 和美紡織 -->
-    <a href="homeiGame.html" class="card" data-type="textile">
+    <div class="card" data-type="textile">
       <svg class="card-svg-border"><rect width="100%" height="100%"></rect></svg>
       <div class="card-content">
         <div class="icon-container">
@@ -492,15 +534,23 @@ footer {
         <div class="card-title">和美紡織</div>
         <div class="card-subtitle">觀音的綠色水脈</div>
         <div class="card-desc">面對水資源大旱與快時尚毒衣物風暴，引進超臨界無水染技術，挑戰國際最嚴格的零排放認證。</div>
+        
         <div class="card-footer">
-          <span class="tags">環保染整 / 無水科技</span>
-          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <div class="card-tags"><span class="tag">環保染整 / 無水科技</span></div>
+          <div class="card-actions">
+            <a href="https://drive.google.com/file/d/1LDKerVe2ZzvTs--rQuhWFt1afJz_8j-c/view?usp=drive_link" target="_blank" class="btn doc-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> 專題文獻
+            </a>
+            <a href="homeiGame.html" class="btn play-btn">
+              啟動模擬 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
       </div>
-    </a>
+    </div>
 
     <!-- 亞東石化 -->
-    <a href="orientalGame.html" class="card" data-type="petro">
+    <div class="card" data-type="petro">
       <svg class="card-svg-border"><rect width="100%" height="100%"></rect></svg>
       <div class="card-content">
         <div class="icon-container">
@@ -512,15 +562,23 @@ footer {
         <div class="card-title">亞東石化</div>
         <div class="card-subtitle">觀音的純化樞紐</div>
         <div class="card-desc">石化業的減碳煉金術。度過空污黑煙危機，投資 CCU 廢氣碳捕捉技術，將二氧化碳轉化為衣服原料。</div>
+        
         <div class="card-footer">
-          <span class="tags">PTA / 碳捕捉(CCU)</span>
-          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <div class="card-tags"><span class="tag">PTA / 碳捕捉(CCU)</span></div>
+          <div class="card-actions">
+            <a href="https://drive.google.com/file/d/1BNylZGsmAW75Hq6-spqt2pWF41090C_O/view?usp=drive_link" target="_blank" class="btn doc-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> 專題文獻
+            </a>
+            <a href="orientalGame.html" class="btn play-btn">
+              啟動模擬 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
       </div>
-    </a>
+    </div>
 
     <!-- 昇貿科技 -->
-    <a href="shenmaoGame.html" class="card" data-type="electronics">
+    <div class="card" data-type="electronics">
       <svg class="card-svg-border"><rect width="100%" height="100%"></rect></svg>
       <div class="card-content">
         <div class="icon-container">
@@ -532,15 +590,23 @@ footer {
         <div class="card-title">昇貿科技</div>
         <div class="card-subtitle">觀音的電脈樞紐</div>
         <div class="card-desc">AI 伺服器與 Apple 的隱形黏著劑。推動低溫銲料減碳，並拒絕血汗礦產，保護大潭藻礁海岸生態。</div>
+        
         <div class="card-footer">
-          <span class="tags">微電子銲料 / 衝突礦產</span>
-          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <div class="card-tags"><span class="tag">微電子銲料 / 衝突礦產</span></div>
+          <div class="card-actions">
+            <a href="https://drive.google.com/file/d/11jmdNkk6_j8sua06agHaOlb2-NIm0963/view?usp=sharing" target="_blank" class="btn doc-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> 專題文獻
+            </a>
+            <a href="shenmaoGame.html" class="btn play-btn">
+              啟動模擬 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
       </div>
-    </a>
+    </div>
 
     <!-- 聚紡 -->
-    <a href="gfunGame.html" class="card" data-type="textile">
+    <div class="card" data-type="textile">
       <svg class="card-svg-border"><rect width="100%" height="100%"></rect></svg>
       <div class="card-content">
         <div class="icon-container">
@@ -552,15 +618,23 @@ footer {
         <div class="card-title">聚紡 GFun</div>
         <div class="card-subtitle">觀音的機能奇蹟</div>
         <div class="card-desc">把咖啡渣與廢棄鏡片變成戶外防風衣！挺過空污申報危機，用智慧染整贏回全球頂級品牌的信任。</div>
+        
         <div class="card-footer">
-          <span class="tags">機能塗佈 / 跨界升級</span>
-          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <div class="card-tags"><span class="tag">機能塗佈 / 跨界升級</span></div>
+          <div class="card-actions">
+            <a href="https://drive.google.com/file/d/1avLgfHQ3VanxmUOxHtMncWsmmTp-DSQW/view?usp=sharing" target="_blank" class="btn doc-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> 專題文獻
+            </a>
+            <a href="gfunGame.html" class="btn play-btn">
+              啟動模擬 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
       </div>
-    </a>
+    </div>
 
     <!-- 台灣太陽油墨 -->
-    <a href="taiyoGame.html" class="card" data-type="electronics">
+    <div class="card" data-type="electronics">
       <svg class="card-svg-border"><rect width="100%" height="100%"></rect></svg>
       <div class="card-content">
         <div class="icon-container">
@@ -572,12 +646,20 @@ footer {
         <div class="card-title">台灣太陽油墨</div>
         <div class="card-subtitle">矽島的綠色防護盾</div>
         <div class="card-desc">守護電路板的經典綠色！從傳統網印邁向零廢液的「噴墨防焊」革命，成為車用與 5G 電子的堅實後盾。</div>
+        
         <div class="card-footer">
-          <span class="tags">防焊油墨 / 零廢液製程</span>
-          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <div class="card-tags"><span class="tag">防焊油墨 / 零廢液製程</span></div>
+          <div class="card-actions">
+            <a href="https://drive.google.com/file/d/1KOObE_hiOsYDROPp-eEcYYJZi0wKPDEl/view?usp=sharing" target="_blank" class="btn doc-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> 專題文獻
+            </a>
+            <a href="taiyoGame.html" class="btn play-btn">
+              啟動模擬 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
       </div>
-    </a>
+    </div>
 
   </div>
 </div>
