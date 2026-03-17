@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>⚡ 昇貿科技 — 觀音的電脈樞紐</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=LXGW+WenKai+TC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+:root{--bg:rgba(240,244,248,0.93);--bgs:#f0f4f8;--brd:#b0c4de;--teal:#21618c;--gold:#b9770e;--red:#cb4335;--green:#229954;--purple:#7d3c98;--txt:#1b2631;--muted:#5d6d7e;--light:#aeb6bf;}
+*{margin:0;padding:0;box-sizing:border-box;touch-action:manipulation;user-select:none;}
+body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dvh;overflow:hidden;color:var(--txt);display:flex;flex-direction:column;background:#152230;}
+#chem-bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:linear-gradient(135deg,#152230 0%,#213a52 30%,#28536b 60%,#152230 100%);}
+.particle{position:absolute;width:4px;height:4px;background:rgba(185,119,14,0.5);border-radius:50%;animation:twinkle 4s ease-in-out infinite;pointer-events:none;}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(0.3);}50%{opacity:1;transform:scale(1.5);}}
+#hud{flex:0 0 auto;background:var(--bg);border-bottom:2px solid var(--brd);padding:4px;padding-top:max(4px,env(safe-area-inset-top));display:grid;grid-template-columns:repeat(5,1fr);gap:2px;z-index:100;position:relative;backdrop-filter:blur(12px);}
+.stat-box{text-align:center;border:1.5px solid var(--brd);background:rgba(255,255,255,0.7);padding:2px 1px;border-radius:6px;cursor:pointer;transition:background 0.2s;position:relative;}
+.stat-box:active{background:rgba(230,238,245,0.8);}
+.stat-box.warn{background:rgba(185,119,14,0.15);border-color:var(--gold);}
+.stat-box.danger{background:rgba(203,67,53,0.12);border-color:var(--red);}
+.stat-label{font-size:9px;color:var(--muted);display:block;letter-spacing:0.5px;}
+.stat-val{font-family:'Playfair Display',serif;font-size:15px;color:var(--txt);font-weight:bold;line-height:1;}
+.stat-val.gold{color:#935116;}.stat-val.teal{color:var(--teal);}.stat-val.green{color:#196f3d;}.stat-val.red{color:#a93226;}.stat-val.purple{color:var(--purple);}
+#info-bar{display:flex;width:100%;background:rgba(240,244,248,0.92);border-bottom:1.5px solid var(--brd);font-size:11px;line-height:1.3;z-index:90;flex-shrink:0;backdrop-filter:blur(8px);}
+#info-bar-story{flex:1;padding:3px 6px;border-right:1px solid var(--brd);color:var(--txt);}
+#info-bar-goals{flex:1;padding:3px 6px;}
+#info-bar-story .bar-title{font-size:11px;color:var(--teal);font-weight:700;margin-bottom:1px;font-family:'Noto Serif TC',serif;}
+#info-bar-goals .bar-title{font-size:11px;color:var(--gold);font-weight:700;margin-bottom:1px;font-family:'Noto Serif TC',serif;}
+.goal-item{display:flex;align-items:center;gap:3px;font-size:10px;color:var(--txt);}
+.goal-item .gc{font-size:11px;}.goal-item .gc.done{color:var(--green);font-weight:bold;}
+#game-stage{flex:1;position:relative;display:flex;justify-content:center;align-items:center;overflow:hidden;width:100%;z-index:1;}
+#factory-view{position:relative;width:100%;height:100%;transition:filter 0.5s;}
+#factory-view.polluted{filter:sepia(0.3) hue-rotate(-10deg) brightness(0.9);}
+#factory-view.very-polluted{filter:sepia(0.5) hue-rotate(-20deg) brightness(0.75) contrast(1.15);}
+#year-display{position:absolute;top:8px;left:8px;padding:4px 12px;color:var(--txt);font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;z-index:92;pointer-events:none;background:rgba(255,255,255,0.85);border-radius:16px;border:1.5px solid var(--brd);backdrop-filter:blur(8px);letter-spacing:2px;}
+#stage-badge{position:absolute;top:8px;right:8px;padding:3px 10px;color:#fff;font-family:'Noto Serif TC',serif;font-size:11px;font-weight:700;z-index:92;background:var(--teal);border-radius:12px;}
+#cbam-badge{display:none;position:absolute;top:36px;right:8px;padding:2px 10px;background:linear-gradient(135deg,var(--green),#145a32);color:#fff;font-size:10px;font-weight:700;border-radius:10px;letter-spacing:1px;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:92;}
+#factory-grid{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:50px 10px 22px;overflow:hidden;}
+.fac-zone{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.12);border-radius:8px;padding:5px 8px;min-height:36px;flex-wrap:wrap;}
+.fac-zone-label{font-size:9px;color:rgba(255,255,255,0.7);width:26px;flex-shrink:0;text-align:right;padding-right:5px;border-right:1px solid rgba(255,255,255,0.3);margin-right:3px;letter-spacing:0.5px;}
+.fac-tile{display:flex;align-items:center;gap:2px;background:rgba(255,255,255,0.25);border-radius:6px;padding:3px 7px;cursor:default;border:1px solid rgba(255,255,255,0.2);box-shadow:0 2px 4px rgba(0,0,0,0.1);}
+.fac-tile .fe{font-size:18px;line-height:1;}.fac-tile .fc{font-size:11px;color:var(--teal);font-weight:bold;font-family:'Playfair Display',serif;}
+.fac-empty{font-size:10px;color:rgba(255,255,255,0.5);font-style:italic;padding-left:4px;}
+@keyframes popIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+#data-overlay{position:absolute;bottom:22px;left:6px;background:rgba(255,255,255,0.9);border:1.5px solid var(--brd);padding:4px 6px;width:140px;z-index:95;pointer-events:none;border-radius:8px;backdrop-filter:blur(8px);}
+.drow{font-size:10px;color:var(--muted);margin-bottom:1px;display:flex;justify-content:space-between;align-items:center;white-space:nowrap;}
+.dval{color:var(--txt);font-weight:bold;font-family:'Playfair Display',serif;font-size:12px;}
+.dval.bad{color:var(--red);}
+.dsep{border-top:1px dashed var(--brd);margin:2px 0;}
+#poll-bar{position:absolute;bottom:0;left:0;right:0;height:16px;background:rgba(0,0,0,0.25);z-index:96;display:flex;align-items:center;padding:0 4px;}
+#poll-fill{height:10px;border-radius:5px;transition:width 0.4s,background 0.4s;min-width:2px;}
+#poll-label{position:absolute;right:6px;font-size:9px;color:#fff;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,0.5);}
+#bottom-panel{flex:0 0 auto;background:var(--bg);border-top:2px solid var(--brd);height:220px;padding:3px 5px;padding-bottom:calc(3px + env(safe-area-inset-bottom));display:flex;flex-direction:column;z-index:100;position:relative;backdrop-filter:blur(12px);}
+.tabs{display:flex;gap:6px;margin-bottom:0;flex-shrink:0;align-items:flex-end;border-bottom:1.5px solid var(--teal);}
+.tab-b{flex:1;background:rgba(255,255,255,0.5);border:1.5px solid var(--brd);border-bottom:1.5px solid var(--teal);color:var(--muted);padding:5px;font-weight:700;font-size:12px;cursor:pointer;text-align:center;transition:all 0.25s;border-top-left-radius:8px;border-top-right-radius:8px;z-index:1;font-family:'LXGW WenKai TC',serif;letter-spacing:1px;}
+.tab-b.active{background:rgba(33,97,140,0.1);border-color:var(--teal);border-bottom:1.5px solid var(--bg);color:var(--teal);margin-bottom:-1.5px;z-index:10;padding-bottom:7px;}
+.tab-c{display:none;flex:1;overflow:hidden;flex-direction:column;margin-top:0;padding-top:3px;}
+.tab-c.active{display:flex;}
+.deck{display:flex;gap:3px;flex:1;width:100%;padding-top:3px;min-height:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding-bottom:6px;}
+.deck::-webkit-scrollbar { height: 6px; }
+.deck::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 4px; }
+.deck::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+.bcard{flex:0 0 78px;min-width:68px;position:relative;background:linear-gradient(180deg,rgba(255,255,255,0.9) 0%,rgba(240,244,248,0.95) 100%);border:1.5px solid var(--brd);padding:2px 2px 3px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0;border-radius:8px;transition:all 0.2s;overflow:visible;box-shadow:0 2px 4px rgba(0,0,0,0.05);}
+.bcard:active{transform:scale(0.97);}.bcard.disabled{opacity:0.4;filter:grayscale(0.85);}
+.bcard.green-card{border-color:var(--green);background:linear-gradient(180deg,rgba(230,250,235,0.9) 0%,rgba(210,240,220,0.95) 100%);}
+.bcard .badge{position:absolute;top:-4px;right:-4px;background:var(--teal);color:#fff;border:1.5px solid #fff;border-radius:8px;font-family:'Playfair Display',serif;font-size:12px;font-weight:bold;padding:0 5px;z-index:10;}
+.bcard .emoji{font-size:18px;margin-top:1px;}.bcard .name{font-size:10px;text-align:center;white-space:nowrap;color:var(--txt);font-weight:700;font-family:'Noto Serif TC',serif;}
+.bcard .divider{width:60%;height:1px;background:var(--brd);margin:1px 0;}
+.bcard .info{font-size:9px;color:var(--muted);text-align:center;line-height:1.2;}
+.bcard .cost{font-family:'Playfair Display',serif;color:var(--gold);font-size:12px;font-weight:bold;margin-top:auto;}
+.bcard .poll-cost{font-size:9px;color:var(--red);font-weight:700;}
+.lock-ov{position:absolute;inset:0;background:rgba(240,244,248,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);font-size:10px;font-weight:bold;z-index:5;text-align:center;border-radius:8px;}
+.tcard{flex:0 0 88px;min-width:78px;position:relative;background:linear-gradient(180deg,rgba(255,255,255,0.9) 0%,rgba(240,244,248,0.95) 100%);border:1.5px solid var(--brd);padding:4px;display:flex;flex-direction:column;align-items:center;gap:1px;border-radius:8px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 4px rgba(0,0,0,0.05);}
+.tcard:active{transform:scale(0.97);background:rgba(33,97,140,0.08);}
+.tcard.done{opacity:0.4;border-color:var(--green);}
+.tcard .flag{font-size:22px;}.tcard .cname{font-size:10px;font-weight:700;color:var(--txt);text-align:center;}
+.tcard .creq{font-size:8px;color:var(--muted);text-align:center;line-height:1.2;}
+.tcard .crwd{font-size:10px;color:var(--gold);font-weight:700;margin-top:auto;}
+.sep-label{flex:0 0 auto;writing-mode:vertical-rl;font-size:10px;color:var(--teal);font-weight:700;padding:4px 2px;display:flex;align-items:center;border-right:1.5px dashed var(--brd);margin-right:3px;}
+#next-btn{position:fixed;bottom:calc(230px + env(safe-area-inset-bottom));right:12px;width:56px;height:56px;background:var(--teal);border:2.5px solid #fff;border-radius:50%;box-shadow:0 3px 12px rgba(0,0,0,0.25);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:150;cursor:pointer;font-size:11px;font-weight:700;text-align:center;line-height:1.1;animation:pulse-btn 2s ease-in-out infinite;font-family:'LXGW WenKai TC',serif;color:#fff;letter-spacing:1px;}
+#next-btn:active{transform:scale(0.95);}
+@keyframes pulse-btn{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+#toast-c{position:fixed;top:calc(108px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:260px;pointer-events:none;z-index:1500;display:flex;flex-direction:column;gap:5px;}
+.toast{background:rgba(255,255,255,0.95);color:var(--txt);border-left:3px solid var(--teal);padding:5px 10px;font-family:'LXGW WenKai TC',serif;font-size:12px;border-radius:8px;backdrop-filter:blur(8px);opacity:0;transform:translateY(-8px);animation:tIn 0.3s forwards;transition:all 0.4s ease;box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+.toast.good{border-color:var(--green);}.toast.bad{border-color:var(--red);color:var(--red);}.toast.warn{border-color:var(--gold);color:#935116;}
+@keyframes tIn{to{opacity:1;transform:translateY(0);}}
+.toast.hiding{opacity:0;transform:translateX(10px);max-height:0;padding:0;margin:0;border:none;}
+#modal-ov{position:fixed;inset:0;background:rgba(21,34,48,0.75);z-index:3000;display:none;justify-content:center;align-items:center;padding:15px;backdrop-filter:blur(5px);}
+.mdlg{background:linear-gradient(135deg,var(--teal),#28536b);border:2px solid rgba(255,255,255,0.3);padding:3px;width:95%;max-width:380px;max-height:88vh;box-shadow:0 15px 45px rgba(0,0,0,0.4);display:flex;flex-direction:column;border-radius:14px;}
+.mdlg-in{background:var(--bgs);border:1px solid var(--brd);padding:16px;text-align:center;overflow-y:auto;border-radius:12px;}
+.mbtn{margin-top:12px;background:rgba(33,97,140,0.1);color:var(--txt);border:1.5px solid var(--brd);padding:10px 18px;cursor:pointer;font-size:14px;width:100%;font-family:'Noto Serif TC',serif;font-weight:700;border-radius:10px;transition:all 0.2s;letter-spacing:2px;}
+.mbtn:active{transform:scale(0.97);background:rgba(33,97,140,0.2);}
+.mbtn.gold{background:rgba(185,119,14,0.15);color:var(--gold);border-color:var(--gold);}
+.mbtn.red{background:rgba(203,67,53,0.1);color:var(--red);border-color:var(--red);}
+.ch-btn{background:rgba(33,97,140,0.05);border:1.5px solid var(--brd);padding:8px 10px;cursor:pointer;font-size:12px;text-align:left;font-family:'LXGW WenKai TC',serif;border-radius:8px;transition:all 0.2s;color:var(--txt);line-height:1.4;margin-top:6px;}
+.ch-btn:active{background:rgba(33,97,140,0.15);border-color:var(--teal);}
+.ch-title{font-weight:700;color:var(--teal);margin-bottom:2px;}
+.ch-desc{font-size:11px;color:var(--muted);}
+#name-ov{display:none;position:fixed;inset:0;z-index:6000;background:linear-gradient(135deg,#152230 0%,#213a52 35%,#28536b 65%,#152230 100%);flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+#tut-ov{position:fixed;inset:0;background:rgba(21,34,48,0.8);z-index:2000;display:none;cursor:pointer;backdrop-filter:blur(3px);}
+#tut-tip{position:fixed;top:30%;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.97);color:var(--txt);padding:16px 18px;border-radius:14px;font-weight:600;z-index:2002;display:none;box-shadow:0 8px 30px rgba(0,0,0,0.25);text-align:center;width:80%;animation:fTip 2s ease-in-out infinite alternate;cursor:pointer;font-family:'LXGW WenKai TC',serif;line-height:1.6;}
+.tut-t{color:var(--teal);font-size:14px;margin-bottom:6px;border-bottom:1.5px solid var(--brd);padding-bottom:3px;font-family:'Noto Serif TC',serif;font-weight:700;letter-spacing:2px;}
+@keyframes fTip{from{transform:translate(-50%,0);}to{transform:translate(-50%,-8px);}}
+.tut-next{font-size:10px;color:var(--light);margin-top:6px;}
+.hl-target{z-index:2001!important;position:relative!important;box-shadow:0 0 0 4px #d4ac0d,0 0 0 8px rgba(212,172,13,0.4),0 0 30px rgba(212,172,13,0.5)!important;}
+#next-btn.hl-target{position:fixed!important;}
+@keyframes nameShake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
+</style>
+</head>
+<body>
+<div id="chem-bg"><div class="particle" style="top:15%;left:10%;animation-delay:0s;"></div><div class="particle" style="top:30%;left:30%;animation-delay:0.8s;"></div><div class="particle" style="top:50%;left:55%;animation-delay:1.5s;"></div><div class="particle" style="top:40%;left:75%;animation-delay:0.3s;"></div><div class="particle" style="top:65%;left:85%;animation-delay:2s;"></div><div class="particle" style="top:25%;left:50%;animation-delay:1.2s;"></div></div>
+<div id="toast-c"></div>
+<div id="tut-ov" onclick="G.tutClick()"></div>
+<div id="tut-tip" onclick="G.tutClick()"><div id="tut-text"></div><div class="tut-next">▼ 點擊繼續</div></div>
+<div id="hud">
+  <div class="stat-box" onclick="UI.help('funds')"><span class="stat-label">💰 資金</span><span class="stat-val gold" id="h-funds">1,500</span></div>
+  <div class="stat-box" onclick="UI.help('rep')"><span class="stat-label">🏆 聲譽</span><span class="stat-val teal" id="h-rep">50</span></div>
+  <div class="stat-box" onclick="UI.help('tech')"><span class="stat-label">🔬 技術</span><span class="stat-val" id="h-tech">5</span></div>
+  <div class="stat-box" onclick="UI.help('esg')"><span class="stat-label">🌿 ESG</span><span class="stat-val green" id="h-esg">20</span></div>
+  <div class="stat-box" onclick="UI.help('poll')"><span class="stat-label">☣️ 污染</span><span class="stat-val purple" id="h-poll">0</span></div>
+</div>
+<div id="info-bar">
+  <div id="info-bar-story" onclick="UI.stageDetail()" style="cursor:pointer;"><div class="bar-title">📋 營運簡報</div><div id="story-text" style="font-size:10px;">...</div></div>
+  <div id="info-bar-goals"><div class="bar-title">🏆 階段目標</div><div id="goal-list"></div></div>
+</div>
+<div id="game-stage"><div id="factory-view">
+  <div id="year-display">1973年</div><div id="stage-badge">第一階段</div>
+  <div id="cbam-badge">🏅 RMI/CBAM 認證</div>
+  <div id="factory-grid"></div>
+  <div id="data-overlay">
+    <div class="drow"><span>年營收</span><span class="dval" id="s-rev">$0</span></div>
+    <div class="drow"><span>廠房數</span><span class="dval" id="s-fac">0</span></div>
+    <div class="dsep"></div>
+    <div class="drow"><span>金屬礦存</span><span class="dval" id="s-mat">0</span></div>
+    <div class="drow"><span>水/碳污染</span><span class="dval" id="s-polly">+0</span></div>
+    <div class="drow"><span>品牌客戶</span><span class="dval" id="s-exp">0家</span></div>
+  </div>
+  <div id="poll-bar"><div id="poll-fill" style="width:0;background:var(--green);"></div><span id="poll-label">☣️ 0</span></div>
+</div></div>
+<div id="next-btn" onclick="G.nextTurn()">下一<br>年度</div>
+<div id="bottom-panel">
+  <div class="tabs">
+    <button class="tab-b active" id="tb-build" onclick="UI.tab('build')">🏭 觀音廠區建設</button>
+    <button class="tab-b" id="tb-trade" onclick="UI.tab('trade')">🌍 採購與代工接單</button>
+  </div>
+  <div id="tc-build" class="tab-c active"><div id="build-deck" class="deck"></div></div>
+  <div id="tc-trade" class="tab-c"><div id="trade-deck" class="deck"></div></div>
+</div>
+<div id="modal-ov"><div class="mdlg"><div class="mdlg-in">
+  <div id="m-title" style="font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;color:var(--teal);margin-bottom:8px;"></div>
+  <div id="m-body"></div>
+  <div id="m-foot"><button class="mbtn" id="m-btn" onclick="UI.closeModal()">確 定</button></div>
+</div></div></div>
+<div id="name-ov">
+  <div style="text-align:center;max-width:340px;width:100%;">
+    <div style="font-size:44px;margin-bottom:10px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));">⚡</div>
+    <div style="font-size:22px;font-weight:900;color:#ffffff;font-family:'Noto Serif TC',serif;letter-spacing:3px;margin-bottom:5px;text-shadow:0 2px 10px rgba(0,0,0,0.4);">觀音的電脈樞紐</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.65);letter-spacing:2px;margin-bottom:28px;font-family:'LXGW WenKai TC',serif;">昇貿科技 · 電子焊接材料與永續模擬</div>
+    <div id="name-box" style="background:rgba(240,244,248,0.95);border:2px solid rgba(255,255,255,0.6);border-radius:14px;padding:18px 16px;text-align:left;backdrop-filter:blur(16px);box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+      <div style="font-family:'Noto Serif TC',serif;font-size:13px;color:var(--teal);font-weight:700;margin-bottom:6px;">📋 董事長室任命</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6;">1973年，桃園觀音大潭北路。<br>從傳統焊錫起步，你將帶領昇貿科技跨入半導體封裝，成為串聯全球電子產品的隱形心臟。</div>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.7);border:1.5px solid var(--brd);border-radius:9px;padding:8px 12px;">
+        <span style="font-size:18px;">👤</span>
+        <input id="p-name" type="text" maxlength="12" placeholder="輸入您的名字…" style="flex:1;min-width:0;background:transparent;border:none;color:var(--txt);font-size:16px;padding:4px 2px;outline:none;font-family:'Noto Serif TC',serif;letter-spacing:2px;" onkeydown="if(event.key==='Enter')G.confirmName()"/>
+      </div>
+    </div>
+    <button onclick="G.confirmName()" style="margin-top:14px;width:100%;padding:13px;background:var(--teal);border:none;color:#fff;font-size:14px;font-family:'Noto Serif TC',serif;font-weight:700;letter-spacing:3px;cursor:pointer;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.25);transition:opacity 0.2s;">🏭 接受任命，啟程 1973</button>
+  </div>
+</div>
+<script>
+/* ===== BUILDINGS: Tailored for Shenmao ===== */
+const B={
+  wire:{id:'wire',name:'傳統焊錫廠',e:'🗜️',cost:300,rev:250,poll:3,treq:0,d:'基礎錫條與錫絲生產。精煉過程會產生重金屬廢水與碳排。'},
+  paste:{id:'paste',name:'高階錫膏廠',e:'🧪',cost:800,rev:600,poll:4,treq:20,d:'將微米級錫粉與化學助焊劑混合，用於手機/筆電主機板SMT製程。'},
+  bga:{id:'bga',name:'BGA錫球產線',e:'🔮',cost:1500,rev:900,poll:3,treq:45,d:'極高精密製程，切入半導體高階封裝與 AI 伺服器核心。'},
+  global:{id:'global',name:'海外生產基地',e:'🌏',cost:1200,rev:500,poll:1,treq:25,d:'前進中國、東南亞、歐洲，落實「在地生產」貼近客戶。'},
+  rd:{id:'rd',name:'微電子研究所',e:'🔬',cost:1000,rev:0,poll:0,treq:0,d:'設立於觀音廠區的研發中樞。建設時一次性技術+15',ot:'tech',boost:15},
+  lts:{id:'lts',name:'低溫銲料產線',e:'❄️',cost:1200,rev:400,poll:-2,treq:35,d:'LTS 技術能降低客戶產線 25% 碳排。建設時技術+5，ESG+10',ot:'hybrid',boostT:5,boostE:10,green:true},
+  water:{id:'water',name:'藻礁水質防護站',e:'💧',cost:700,rev:0,poll:-4,treq:10,d:'高等級廢水處理，防護大潭藻礁生態免受重金屬污染。ESG+15',ot:'esg',boost:15,green:true},
+  solar:{id:'solar',name:'廠區太陽能',e:'☀️',cost:600,rev:0,poll:-2,treq:25,d:'綠電供應，減少精煉製程碳排。建設時ESG+8',ot:'esg',boost:8,green:true},
+  iso:{id:'iso',name:'RMI與碳足跡認證',e:'🏅',cost:1500,rev:0,poll:-1,treq:60,d:'無衝突礦產證明與 ISO 碳盤查，應對 CBAM。ESG+20，限一次',ot:'esg',boost:20,ereq:75,maxPoll:20,stageReq:4,green:true,max:1} // 嚴格條件並鎖在第五階段
+};
+const BKEYS=['wire','paste','bga','global','rd','lts','water','solar','iso'];
+
+/* SUPPLIERS: Shenmao Supply Chain */
+const SUP=[
+  {id:'indo',name:'印尼/大馬礦商',flag:'🇮🇩',base:110,route:'safe',label:'精錫 (東南亞最大礦區)',swing:0.15},
+  {id:'cn',name:'中國雲南錫業',flag:'🇨🇳',base:90,route:'risk',label:'精錫 (價格低，地緣風險高)',swing:0.35},
+  {id:'latam',name:'中南美金屬礦',flag:'🇵🇪',base:130,route:'safe',label:'銀銅合金 (無鉛/SAC製程必備)',swing:0.10}
+];
+
+/* CONTRACTS: Tailored to Shenmao's global clients */
+const CONTRACTS={
+1:[{id:'tw_ems',flag:'🇹🇼',client:'台灣主機板代工',desc:'基礎錫條/錫絲供應',reqs:{wire:2},rwd:{funds:600,rep:5},country:'台灣'},
+   {id:'asia_pc',flag:'🌏',client:'亞洲PC代工廠',desc:'筆電與桌機組裝用錫膏',reqs:{wire:2,tech:10},rwd:{funds:800,rep:8},country:'亞洲'}],
+2:[{id:'foxconn',flag:'🇨🇳',client:'鴻海(富士康)',desc:'iPhone 組裝級高階錫膏',reqs:{paste:1,global:1,tech:25},rwd:{funds:1500,rep:12},country:'中國',tag:'phone'},
+   {id:'dell_hp',flag:'🇺🇸',client:'Dell / HP',desc:'美系筆電大廠無鉛製程',reqs:{paste:2,tech:30},rwd:{funds:2000,rep:15},country:'美國',tag:'pc'}],
+3:[{id:'bosch',flag:'🇩🇪',client:'Bosch / Continental',desc:'車用電子高可靠度銲料',reqs:{paste:2,global:1,tech:45,esg:40},rwd:{funds:2800,rep:18},country:'德國',tag:'auto'},
+   {id:'tesla',flag:'🇺🇸',client:'電動車控制模組',desc:'耐極端溫度車用錫膏',reqs:{paste:2,tech:50,esg:50},rwd:{funds:2500,rep:15},country:'美國',tag:'auto'}],
+4:[{id:'apple_lts',flag:'🍏',client:'Apple (綠色製程)',desc:'低溫銲料 (LTS) 節能減碳專案',reqs:{lts:1,tech:60,esg:65,maxPoll:40},rwd:{funds:3500,rep:22},country:'美國',tag:'esg'},
+   {id:'server',flag:'🖥️',client:'高階伺服器主板',desc:'雲端資料中心伺服器用料',reqs:{paste:3,tech:55},rwd:{funds:3000,rep:18},country:'全球',tag:'server'}],
+5:[{id:'ai_bga',flag:'🧠',client:'AI 晶片先進封裝',desc:'全球前三大 BGA 錫球供應',reqs:{bga:1,tech:75,esg:70},rwd:{funds:4500,rep:25},country:'台灣',tag:'semi'},
+   {id:'cbam_eu',flag:'🇪🇺',client:'歐盟零碳排標準',desc:'符合 CBAM 碳關稅與 RMI 認證',reqs:{iso:1,esg:80,maxPoll:20},rwd:{funds:5000,rep:30},country:'歐盟',tag:'cbam'}]
+};
+
+/* STAGES: Shenmao's Transformation */
+const STAGES=[
+{title:'階段一：焊錫起家（1973-2004）',short:'在觀音建立台灣最大的焊錫廠',
+ desc:'🏭 1973年，你在<b style="color:var(--teal)">桃園觀音</b>創立昇貿科技。台灣電子業正要起飛，你的錫條將成為連結電路板的血管。<br><br><div style="font-family:monospace;background:#213a52;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">⚠️ 冶煉金屬會產生廢水與碳排。注意污染值！</div>',
+ goals:[{txt:'傳統焊錫廠 ≥ 2',ck:g=>g.c.wire>=2},{txt:'技術力 ≥ 15',ck:g=>g.tech>=15},{txt:'完成1筆基礎訂單',ck:g=>g.done.some(id=>['tw_ems','asia_pc'].includes(id))}]},
+{title:'階段二：無鉛化與全球擴張（2005-2015）',short:'股票上市，佈局微電子材料研究所',
+ desc:'📈 2005年股票上市！隨著全球環保法規（RoHS）要求無鉛製程，你必須在觀音設立「微電子材料研究所」開發高階錫膏。<br><br><div style="font-family:monospace;background:#213a52;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">💡 設立「海外生產基地」能幫助你拿下美系筆電與中國組裝廠大單。<br>💨 產能增加，請務必投資「藻礁水質防護站」防範廢水污染！</div>',
+ goals:[{txt:'高階錫膏廠 ≥ 1',ck:g=>g.c.paste>=1},{txt:'海外生產基地 ≥ 1',ck:g=>g.c.global>=1},{txt:'技術力 ≥ 35',ck:g=>g.tech>=35}]},
+{title:'階段三：高階車用與低溫革命（2016-2022）',short:'打入歐洲車用電子與蘋果供應鏈',
+ desc:'🚗 傳統筆電市場飽和，你轉向德國車用電子（ECU）尋求高毛利。同時，Apple 希望你開發「低溫銲料(LTS)」來減少代工廠的碳排放！<br><br><div style="font-family:monospace;background:#213a52;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">❄️ 建造低溫銲料產線可大幅提升技術與 ESG！<br>⚠️ <span style="color:var(--red)">警告：大潭藻礁環保抗議升溫，污染過高將面臨巨大危機！</span></div>',
+ goals:[{txt:'低溫銲料產線 ≥ 1',ck:g=>g.c.lts>=1},{txt:'ESG ≥ 55',ck:g=>g.esg>=55},{txt:'接下 Apple 綠色製程 或 車用電子訂單',ck:g=>g.done.some(id=>['apple_lts','bosch','tesla'].includes(id))}]},
+{title:'階段四：AI 封裝與衝突礦產（2023-2025）',short:'併購大瑞，進軍 BGA 錫球',
+ desc:'🔮 為了打入 AI 伺服器與高階半導體封裝，你併購了大瑞科技，取得全球 3% 的 BGA 錫球市佔率。<br><br><div style="font-family:monospace;background:#213a52;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">🤖 建設 BGA 錫球產線。國際社會對「衝突礦產」審查趨嚴，準備迎接歐洲與全球的最嚴格考驗。</div>',
+ goals:[{txt:'BGA錫球產線 ≥ 1',ck:g=>g.c.bga>=1},{txt:'ESG ≥ 70 且 污染 ≤ 25',ck:g=>g.esg>=70&&g.poll<=25},{txt:'技術力 ≥ 70',ck:g=>g.tech>=70}]},
+{title:'階段五：零碳排與全球標竿（2026-2030）',short:'歐盟 CBAM 與 RMI 終極挑戰',
+ desc:'⚖️ 歐盟 <b style="color:var(--teal)">CBAM (碳邊境調整機制)</b> 全面啟動！所有錫材料必須證明無使用非洲血汗礦產（RMI），且碳排符合國際標準。<br><br><div style="font-family:monospace;background:#213a52;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">最終任務：取得 RMI 與碳足跡認證 (ISO)，以極高的 ESG 與極低污染，拿下歐盟零碳訂單。</div>',
+ goals:[{txt:'取得 RMI與碳足跡認證 (ISO)',ck:g=>g.c.iso>=1},{txt:'完成 歐盟 CBAM 零碳排標準訂單',ck:g=>g.done.includes('cbam_eu')},{txt:'ESG ≥ 85 且 污染 ≤ 15',ck:g=>g.esg>=85&&g.poll<=15}]}
+];
+const STAGE_LABEL=['一','二','三','四','五'];
+const BASE_INC=[150,300,500,700,900];
+const MIN_INC=100;
+
+/* ===== EVENTS: Shenmao Specific ===== */
+const EVENTS={
+0:[
+ {hl:'🖥️ 台灣 PC 代工起飛',dt:'1980年代，台灣成為全球主機板製造王國！',tone:'good',eff:{funds:400,rep:5},fact:'📌 筆電組裝帶動了龐大的焊錫需求，昇貿穩居國內龍頭。'},
+ {hl:'🛢️ 國際錫價大幅波動',dt:'倫敦金屬交易所（LME）錫價狂飆，原料成本上升！',tone:'bad',eff:{funds:-200,mkt:{indo:0.25,cn:0.30}},choices:[{label:'🤝 尋找印尼長期供應商',desc:'鎖定價格但需付訂金',fx:{funds:-300,rep:5,mkt:{indo:-0.15}}},{label:'📉 反映成本調漲報價',desc:'代工廠不滿，聲譽下降',fx:{funds:150,rep:-5}}]},
+ {hl:'🏭 觀音大潭擴建廠房',dt:'產能不敷使用，投資升級自動化擠壓機！',tone:'good',eff:{tech:5,funds:-100,rep:5}}
+],
+1:[
+ {hl:'🚫 歐盟 RoHS 環保指令',dt:'2006年起全面禁用含鉛焊錫！無鉛製程（SAC合金）成為必備。',tone:'warn',eff:{funds:-200,tech:-5},fact:'📌 昇貿設立微電子材料研究所，全力開發 SAC（錫銀銅）無鉛焊料。',choices:[{label:'🔬 大舉投資無鉛配方研發',desc:'進口中南美銀銅，開發新配方',fx:{funds:-400,tech:15,rep:8,mkt:{latam:0.1}}},{label:'🏭 購買國外專利授權',desc:'快速合規但毛利下降',fx:{funds:-300,rep:5}}]},
+ {hl:'🇨🇳 中國世界工廠效應',dt:'台商電子代工廠全面西進昆山、深圳。',tone:'good',eff:{funds:500,rep:5},choices:[{label:'✈️ 設立蘇州/東莞基地',desc:'跟隨客戶腳步在地供貨',fx:{funds:-500,rep:10,tech:5}},{label:'🏭 固守台灣出口',desc:'物流成本偏高',fx:{funds:200,rep:-3}}]},
+ {hl:'🌊 觀音工業區廢水查緝',dt:'環保局突擊檢查重金屬廢水排放！',tone:'bad',eff:{},choices:[{label:'💧 升級高階水處理系統',desc:'確保合規，保護海洋',fx:{funds:-300,poll:-4,esg:8}},{label:'📉 繳交罰款低調處理',desc:'遭開罰並影響聲譽',fx:{funds:-200,rep:-5,esg:-5}}]}
+],
+2:[
+ {hl:'🚨 大潭藻礁保育抗爭！',dt:'【重大危機】觀音海岸的柴山多杯孔珊瑚生態引發全國關注！工業區廢水成為眾矢之的。',tone:'bad',eff:{rep:-15,esg:-20},fact:'📌 雖然爭議核心是三接工程，但整個觀音工業區的排污都受到嚴厲檢視。',id:'algal_reef',choices:[
+   {label:'承諾零排放，巨資防護生態',desc:'認養海岸並升級廢水系統！(資金-800, 污染-5, ESG+15, 聲譽+5)',fx:{funds:-800,poll:-5,esg:15,rep:5}},
+   {label:'撇清責任，稱符合最低法規',desc:'引發環團抗議，商譽受損！(資金-100, 聲譽-20, ESG-15)',fx:{funds:-100,rep:-20,esg:-15}}
+ ]},
+ {hl:'❄️ Apple 供應鏈低溫革命',dt:'蘋果推動代工廠減碳，要求使用 140°C 低溫銲料（LTS）取代 240°C 傳統銲料！',tone:'good',eff:{tech:10,esg:15,rep:10},fact:'📌 LTS技術可降低 SMT 產線 25% 的碳排放，是昇貿的獨家競爭優勢。'},
+ {hl:'🚗 跨入德國車用電子市場',dt:'Bosch / Continental 要求產品能在極端高低溫下保證不裂錫！',tone:'warn',eff:{tech:5},choices:[{label:'🔬 開發高可靠度合金',desc:'投入研發特種微量元素添加技術',fx:{funds:-400,tech:12,rep:8}},{label:'🏭 維持一般消費級品質',desc:'放棄高毛利車用市場',fx:{rep:-5}}]}
+],
+3:[
+ {hl:'🔮 併購大瑞科技，切入 BGA',dt:'補足半導體封裝最後一塊拼圖，取得全球 3% 錫球市佔率！',tone:'good',eff:{rep:15,tech:15,funds:-300},fact:'📌 錫球（Solder Sphere）是 AI 伺服器與高階晶片封裝不可或缺的材料。'},
+ {hl:'🌍 衝突礦產（血汗礦）風暴',dt:'國際NGO指控電子業使用剛果童工礦產。品牌廠要求 100% 溯源！',tone:'bad',eff:{rep:-10,esg:-10},fact:'📌 昇貿必須遵循 RMI（責任礦產倡議），確保印尼或南美礦源合法。',choices:[{label:'📋 導入區塊鏈 RMI 溯源',desc:'嚴格篩選供應商，拒絕衝突礦產',fx:{funds:-400,esg:15,rep:10,mkt:{cn:0.1}}},{label:'📉 僅做書面切結',desc:'遭到國際客戶質疑',fx:{rep:-10,esg:-5}}]},
+ {hl:'😷 供應鏈去中化 (China Plus One)',dt:'地緣政治緊張，組裝廠大舉遷往越南、泰國、墨西哥！',tone:'warn',eff:{funds:200},choices:[{label:'🌏 加速東南亞與美洲建廠',desc:'跟隨客戶全球佈局',fx:{funds:-600,rep:12,tech:5}},{label:'🇹🇼 將產能集中回台灣觀音',desc:'穩固研發，但運輸成本增',fx:{funds:-200,tech:8,rep:5}}]}
+],
+4:[
+ {hl:'🤖 AI 伺服器爆發性成長',dt:'輝達 (NVIDIA) 帶動 AI 伺服器狂潮，高階高頻銲料需求翻倍！',tone:'good',eff:{tech:15,funds:800,rep:10},fact:'📌 昇貿的高階錫膏與 BGA 錫球成為 AI 供應鏈重要的一環。'},
+ {id:'cbam_eu', hl:'🇪🇺 歐盟 CBAM 碳關稅逼近',dt:'歐洲品牌要求所有電子材料必須附上「碳足跡與無衝突礦產證明」！',tone:'warn',eff:{funds:-400,rep:-5},choices:[{label:'🏅 申請 RMI與碳足跡認證',desc:'條件：技術≥60、ESG≥75、污染≤20｜費用 $1,500',certify:true},{label:'放棄歐洲高階市場',desc:'轉攻低端市場，利潤大減',fx:{funds:-600,rep:-15}}]},
+ {hl:'⚡ 大潭電廠與綠電採購',dt:'客戶要求 2030 前供應鏈需使用一定比例綠電！',tone:'good',eff:{esg:10,rep:10,tech:5},fact:'📌 昇貿在觀音廠區加裝太陽能並導入 ISO 50001 能源管理。'}
+]};
+
+/* ===== GAME STATE ===== */
+const G={
+  year:1973,funds:1500,rep:50,tech:10,esg:20,poll:0,
+  c:{wire:0,paste:0,bga:0,global:0,rd:0,lts:0,water:0,solar:0,iso:0},
+  materials:300,matCap:600,stageIdx:0,done:[],countries:new Set(),
+  playerName:'策略長',introStep:0,tutStep:0,curEvent:null,lastEvIdx:{},shownEvents:{},
+  history:[],matBuys:{indo:0,cn:0,latam:0},buildLog:[],
+  matMarket:{indo:1.0,cn:1.0,latam:1.0},
+  managerActive:false,
+
+  init(){this.resetVars();UI.renderBuild();UI.renderTrade();UI.updateAll();this.introStep=0;this.showIntro();},
+  resetVars(){this.year=1973;this.funds=1500;this.rep=50;this.tech=10;this.esg=20;this.poll=0;
+    this.c={wire:0,paste:0,bga:0,global:0,rd:0,lts:0,water:0,solar:0,iso:0};
+    this.materials=300;this.matCap=600;this.stageIdx=0;this.done=[];this.countries=new Set();
+    this.curEvent=null;this.lastEvIdx={};this.shownEvents={};this.tutStep=0;this.history=[];this.matBuys={indo:0,cn:0,latam:0};this.buildLog=[];
+    this.matMarket={indo:1.0,cn:1.0,latam:1.0};
+    this.managerActive=false;
+    document.getElementById('factory-grid').innerHTML='';},
+
+  showNameInput(){document.getElementById('name-ov').style.display='flex';setTimeout(()=>{const i=document.getElementById('p-name');if(i)i.focus();},400);},
+  confirmName(){const i=document.getElementById('p-name');const n=(i?i.value:'').trim();if(!n){const b=document.getElementById('name-box');if(b){b.style.animation='none';setTimeout(()=>{b.style.animation='nameShake 0.4s ease';},10);}return;}this.playerName=n;document.getElementById('name-ov').style.display='none';this.showIntro();},
+  showIntro(){
+    const steps=[
+      {title:'📋 總部任命通知',text:`<div style="font-family:'Noto Serif TC',serif;font-size:12px;line-height:2;text-align:left;border:1px solid var(--brd);border-radius:8px;padding:12px;background:rgba(255,255,255,0.8);">
+<div style="font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:4px;">SHENMAO TECHNOLOGY INC.</div>
+<div style="font-weight:900;font-size:15px;color:var(--teal);margin-bottom:8px;">昇貿科技股份有限公司</div>
+<div style="font-size:11px;color:var(--muted);">全球總部：桃園市觀音區大潭北路665號</div>
+<hr style="border:none;border-top:1px dashed var(--brd);margin:6px 0;"/>
+<b>職位任命：全球營運與永續長</b><br>
+你將帶領昇貿，從傳統的焊錫材料，升級為連結全球高階電子產品（AI伺服器、電動車）的關鍵微電子材料商。<br><br>
+<div style="background:rgba(33,97,140,0.07);padding:8px;border-radius:6px;font-size:11px;border-left:3px solid var(--teal);">
+「我們生產的不是冷冰冰的金屬，而是讓全球電子產品能穩定跳動的微型血脈。」
+</div></div>`,btn:'接受任命 →'},
+      {title:'🏭 觀音：電脈的起點',text:`<div style="font-size:13px;line-height:1.8;text-align:left;">
+你踏入觀音大潭的廠區。<br>
+高溫熔爐正將從印尼進口的純錫錠精煉、氣霧化，製成微米級的錫粉。這裡鄰近桃園機場與台北港，是我們運籌全球的絕佳基地。<br><br>
+<div style="background:rgba(33,97,140,0.07);border-left:3px solid var(--teal);padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:10px;">
+研發所長提醒你：<br>
+<span style="color:var(--teal);font-weight:700;">「冶煉與化學助焊劑會產生廢水。我們緊鄰珍貴的『大潭藻礁』，如果我們為了產能污染了海洋，國際品牌會立刻抽單！」</span>
+</div>
+資本：$ 1,500 萬模擬幣<br>
+<span style="color:var(--red);font-size:11px;">⚠️ 擴展產能的同時，請務必防護水質與控制碳排 (ESG)！</span></div>`,btn:'我準備好了 →'},
+      {title:`🎯 ${this.playerName}，你的核心使命`,text:`<div style="font-size:13px;line-height:2;text-align:left;">
+從 <b>1973年</b> 的傳統錫條工廠 ——<br>
+轉型為 <b>2030年</b> Apple 與 Nvidia 依賴的綠色微電子樞紐。<br><br>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;">
+<div style="background:rgba(185,119,14,0.1);padding:6px;border-radius:6px;">💰 <b>技術升級</b><br>研發低溫銲料與錫球</div>
+<div style="background:rgba(203,67,53,0.1);padding:6px;border-radius:6px;">☣️ <b>生態拉鋸</b><br>防護大潭藻礁免受污染</div>
+<div style="background:rgba(34,153,84,0.1);padding:6px;border-radius:6px;">♻️ <b>衝突礦產</b><br>確保原料無血汗 RMI 認證</div>
+<div style="background:rgba(33,97,140,0.1);padding:6px;border-radius:6px;">🌍 <b>全球佈局</b><br>跟隨電子代工廠前進世界</div>
+</div></div>`,btn:'⚡ 啟程 1973'}
+    ];
+    const s=steps[this.introStep];
+    UI.showModal(s.title,s.text,()=>{UI.closeModal();this.introStep++;if(this.introStep===2){this.showNameInput();return;}if(this.introStep<steps.length){setTimeout(()=>this.showIntro(),200);}else{this.startTut();}});
+    document.getElementById('m-btn').innerText=s.btn;
+  },
+  startTut(){this.tutStep=1;this.updateTut();},
+  tutClick(){if(this.tutStep>0){this.tutStep++;this.updateTut();}},
+  updateTut(){
+    UI.clearHL();
+    if(this.tutStep===1)UI.hlEl('#hud .stat-box:nth-child(1)','💰 資金\n建設廠房與進口錫礦都需要資金。\n每年需支付工廠維護費！');
+    else if(this.tutStep===2)UI.hlEl('#hud .stat-box:nth-child(2)','🏆 聲譽\n國際品牌（Apple、Dell）對你的信任度。\n⚠️ 爆發藻礁污染或血汗礦產事件會大幅扣除聲譽，歸零即破產！');
+    else if(this.tutStep===3)UI.hlEl('#hud .stat-box:nth-child(3)','🔬 技術力\n從「傳統焊錫」跨足「低溫銲料」與「BGA錫球」的關鍵。\n請適時建造【微電子研究所】。');
+    else if(this.tutStep===4)UI.hlEl('#hud .stat-box:nth-child(4)','🌿 ESG\n企業永續指標（包含生態保護與礦產合規）。\n後期歐盟 CBAM 強制要求極高 ESG 才能接單！\n⚠️ 高污染會每年自動腐蝕你的 ESG 分數。');
+    else if(this.tutStep===5)UI.hlEl('#hud .stat-box:nth-child(5)','☣️ 污染 (廢水/碳排)\n冶煉與化學調配會產生污染。\n累積過高會引發「藻礁危機」與重罰！\n強烈建議投資【藻礁水質防護站】。');
+    else if(this.tutStep===6){UI.tab('build',true);UI.hlEl('#tc-build','🏭 廠區建設\n向右滑動可看到更多設施！\n從【傳統焊錫廠】開始賺錢。\n解鎖【高階錫膏廠】與【低溫銲料產線】是邁向高科技的關鍵！\n記得建設水防護與綠能來防範生態危機。');}
+    else if(this.tutStep===7){UI.tab('trade',true);UI.hlEl('#tc-trade','🌍 採購與接單\n左邊：進口印尼/中國錫礦，或中南美銀銅合金。\n⭐ 不同的礦源有不同的價格與地緣風險！\n右邊：接下歐美科技大廠的國際訂單。');}
+    else if(this.tutStep===8){UI.hlEl('#next-btn','⏩ 下一年度\n推進時間。\n隨時注意國際錫價波動與歷史真實環保事件（特別是大潭藻礁爭議）！');}
+    else{this.tutStep=0;UI.clearHL();UI.tab('build',true);const s=STAGES[0];const goals=s.goals.map(g=>'🔹 '+g.txt).join('<br>');UI.showModal(s.title,'<div style="text-align:left;line-height:1.6;">'+s.desc+'<br><br><span style="color:var(--gold)">🏆 本階段目標：</span><br>'+goals+'</div>',()=>UI.closeModal());}
+  },
+  calcRev(){let r=0;BKEYS.forEach(k=>{if(B[k].rev>0&&this.c[k]>0)r+=B[k].rev*this.c[k];});return r;},
+  calcMatNeed(){let n=0;BKEYS.forEach(k=>{if(B[k].rev>0&&this.c[k]>0)n+=10*this.c[k];});return n;},
+  calcPollPerTurn(){let p=0;BKEYS.forEach(k=>{p+=B[k].poll*this.c[k];});return p;},
+  totalFac(){return Object.values(this.c).reduce((a,b)=>a+b,0);},
+
+  selectCard(key){if(this.tutStep!==0)return;const b=B[key];
+    if(b.stageReq!==undefined && G.stageIdx<b.stageReq){UI.toast(`🔒 需達第${STAGE_LABEL[b.stageReq]}階段解鎖`,'bad');return;}
+    if(b.treq>G.tech){UI.toast('🔒 技術力不足(需≥'+b.treq+')','bad');return;}
+    if(b.ereq&&b.ereq>G.esg){UI.toast('🔒 ESG不足(需≥'+b.ereq+')','bad');return;}
+    if(b.maxPoll!==undefined&&G.poll>b.maxPoll){UI.toast('🔒 污染過高(需≤'+b.maxPoll+')','bad');return;}
+    if(b.max&&this.c[key]>=b.max){UI.toast('🏅 '+b.name+'已達上限','warn');return;}
+    if(this.funds<b.cost){UI.toast('💸 資金不足','bad');return;}
+    
+    this.funds-=b.cost;this.c[key]++;this.buildLog.push({id:key,year:this.year});
+    
+    if(b.ot==='tech'){this.tech+=b.boost;UI.toast('🔬 '+b.name+'建成！技術+'+b.boost,'good');}
+    else if(b.ot==='esg'){this.esg=Math.min(100,this.esg+b.boost);const note=b.max?'（認證完成）':'';UI.toast(b.e+' '+b.name+'建成！ESG+'+b.boost+note,'good');}
+    else if(b.ot==='hybrid'){this.tech+=b.boostT; this.esg=Math.min(100,this.esg+b.boostE); UI.toast(b.e+' '+b.name+'上線！技術+'+b.boostT+' ESG+'+b.boostE,'good');}
+    else{UI.toast('建設'+b.name+' -$'+b.cost,'good');}
+    
+    if(b.rev>0)this.matCap+=150;
+    UI.renderBuild();UI.renderTrade();UI.updateAll();},
+
+  buyMat(sid){if(this.tutStep!==0)return;const s=SUP.find(x=>x.id===sid);
+    const mkt=this.matMarket[sid]||1.0;
+    const price=Math.floor(s.base*mkt*(0.88+Math.random()*0.24));
+    if(this.funds<price){UI.toast('💸 資金不足（市價$'+price+'）','bad');return;}
+    if(this.materials>=this.matCap){UI.toast('📦 倉庫已滿','bad');return;}
+    
+    this.matBuys[sid]=(this.matBuys[sid]||0)+1;
+    if(s.route==='risk'&&Math.random()<0.25){UI.toast('⚠️ '+s.flag+' 供應不穩！原料僅+25','warn');this.funds-=price;this.materials=Math.min(this.matCap,this.materials+25);UI.renderTrade();UI.updateAll();return;}
+    
+    this.funds-=price;this.materials=Math.min(this.matCap,this.materials+50);
+    UI.toast(s.flag+' 原料+50 -$'+price,'good');UI.renderTrade();UI.updateAll();},
+
+  tryContract(cid){if(this.tutStep!==0)return;if(this.done.includes(cid)){UI.toast('已完成此訂單','warn');return;}
+    let ct=null;for(let s=1;s<=5;s++){ct=(CONTRACTS[s]||[]).find(x=>x.id===cid);if(ct)break;}if(!ct)return;
+    const r=ct.reqs;let ok=true;let miss=[];
+    if(r.wire&&this.c.wire<r.wire){ok=false;miss.push('傳統焊錫≥'+r.wire);}
+    if(r.paste&&this.c.paste<r.paste){ok=false;miss.push('高階錫膏≥'+r.paste);}
+    if(r.bga&&this.c.bga<r.bga){ok=false;miss.push('BGA錫球≥'+r.bga);}
+    if(r.global&&this.c.global<r.global){ok=false;miss.push('海外基地≥'+r.global);}
+    if(r.lts&&this.c.lts<r.lts){ok=false;miss.push('低溫銲料≥'+r.lts);}
+    if(r.iso&&this.c.iso<r.iso){ok=false;miss.push('RMI與碳足跡認證≥'+r.iso);}
+    if(r.tech&&this.tech<r.tech){ok=false;miss.push('技術≥'+r.tech);}
+    if(r.esg&&this.esg<r.esg){ok=false;miss.push('ESG≥'+r.esg);}
+    if(r.maxPoll!==undefined&&this.poll>r.maxPoll){ok=false;miss.push('污染≤'+r.maxPoll);}
+    if(!ok){UI.toast('❌ 未達標：'+miss.join('、'),'bad');return;}
+    this.done.push(cid);this.funds+=ct.rwd.funds;this.rep=Math.min(100,this.rep+ct.rwd.rep);
+    this.countries.add(ct.country);
+    UI.toast(ct.flag+' '+ct.client+' 出貨成功！+$'+ct.rwd.funds,'good');
+    UI.renderTrade();UI.updateAll();},
+
+  nextTurn(){
+    if(this.tutStep!==0)return;
+    this.year+=2; 
+    const msgs=[];
+    const pollD=this.calcPollPerTurn();
+    this.poll=Math.max(0,this.poll+pollD);
+    const esgDecay=Math.floor(this.poll/15); 
+    if(esgDecay>0){this.esg=Math.max(0,this.esg-esgDecay);if(esgDecay>=2)msgs.push({type:'warn',text:'☣️ 重金屬/碳排累積，侵蝕 ESG -'+esgDecay});}
+    
+    SUP.forEach(s=>{
+      let drift=(Math.random()-0.5)*s.swing;
+      if(s.id==='cn')drift+=(Math.random()-0.3)*0.15;
+      this.matMarket[s.id]=Math.max(0.6,Math.min(2.5,this.matMarket[s.id]+drift));
+    });
+    
+    let mgrReport=null;
+    if(this.managerActive){
+      const buyResult=this.managerBuy();
+      const advice=this.managerAdvice();
+      mgrReport='<b>採購：</b>'+buyResult+'<br><b>💡 建議：</b>'+advice;
+    }
+    
+    const maint=this.totalFac()*40+(this.managerActive?60:0);
+    this.funds-=maint;
+    let cTax=0;
+    if(this.stageIdx>=3){cTax=this.poll*4;this.funds-=cTax;}
+    
+    const need=this.calcMatNeed();let rev=this.calcRev();
+    if(need>0&&this.materials<need){
+      const ratio=need>0?this.materials/need:0;
+      rev=Math.max(MIN_INC,Math.floor(rev*Math.max(0.3,ratio)));
+      this.materials=0;msgs.push({type:'warn',text:'⚠️ 錫礦原料不足！產線降載，聲譽 -2'});this.rep=Math.max(0,this.rep-2);
+    }else{
+      this.materials=Math.max(0,this.materials-need);
+    }
+    
+    const totalInc=rev+BASE_INC[this.stageIdx];
+    this.funds+=totalInc;
+    if(this.funds<0)this.funds=0;
+    this.history.push({year:this.year,esg:this.esg,poll:this.poll,rev:totalInc,funds:this.funds});
+    
+    this.pollConsequences(msgs);
+    let ev=this.rollEvent();
+    
+    // Force Algal Reef crisis trigger around year 2017 if not seen
+    if(this.year >= 2017 && !this.shownEvents[2]?.has(0)) {
+        ev = EVENTS[2][0];
+        if(!this.shownEvents[2]) this.shownEvents[2]=new Set();
+        this.shownEvents[2].add(0);
+    }
+    
+    UI.showTurnReport(totalInc,maint,cTax,pollD,mgrReport,msgs,ev);
+    UI.renderBuild();UI.renderTrade();UI.updateAll();
+  },
+
+  pollConsequences(msgs){
+    if(this.poll>=35&&this.poll<55&&Math.random()<0.4){const f=200+Math.floor(Math.random()*150);this.funds=Math.max(0,this.funds-f);msgs.push({type:'warn',text:'⚠️ 觀音環保局稽查水質開罰 -$'+f});}
+    if(this.poll>=55&&this.poll<80){this.rep=Math.max(0,this.rep-5);if(Math.random()<0.4){const f=500+Math.floor(Math.random()*200);this.funds=Math.max(0,this.funds-f);msgs.push({type:'bad',text:'💧 嚴重水污染威脅藻礁！重罰 -$'+f+'，聲譽 -5'});}}
+    if(this.poll>=80){this.rep=Math.max(0,this.rep-12);this.funds=Math.max(0,this.funds-800);msgs.push({type:'bad',text:'☣️ 生態浩劫！勒令停工罰款 $800，聲譽 -12'});
+      if(Math.random()<0.3){const facs=BKEYS.filter(k=>B[k].rev>0&&this.c[k]>0);if(facs.length){const f=facs[Math.floor(Math.random()*facs.length)];this.c[f]--;msgs.push({type:'bad',text:'⛔ '+B[f].name+' 被勒令無限期關廠！'});}}}
+  },
+  rollEvent(){
+    const pool=EVENTS[this.stageIdx];if(!pool||!pool.length)return null;
+    if(!this.shownEvents[this.stageIdx])this.shownEvents[this.stageIdx]=new Set();
+    const shown=this.shownEvents[this.stageIdx];
+    const avail=[];
+    for(let i=0;i<pool.length;i++){
+      if(shown.has(i))continue;
+      if(pool[i].id==='cbam_eu'&&this.c.iso>=1)continue;
+      avail.push(i);
+    }
+    if(avail.length===0){
+      shown.clear();
+      for(let i=0;i<pool.length;i++){
+        if(pool[i].id==='cbam_eu'&&this.c.iso>=1)continue;
+        avail.push(i);
+      }
+      if(avail.length===0)return null;
+    }
+    const idx=avail[Math.floor(Math.random()*avail.length)];
+    shown.add(idx);this.lastEvIdx[this.stageIdx]=idx;
+    return pool[idx];
+  },
+  applyEff(eff){if(!eff)return;if(eff.funds)this.funds+=eff.funds;if(eff.rep)this.rep+=eff.rep;if(eff.tech)this.tech+=eff.tech;if(eff.esg)this.esg+=eff.esg;if(eff.poll)this.poll=Math.max(0,this.poll+eff.poll);if(eff.mkt)Object.entries(eff.mkt).forEach(([sid,d])=>{this.matMarket[sid]=Math.max(0.6,Math.min(2.5,(this.matMarket[sid]||1)+d));});this.rep=Math.max(0,Math.min(100,this.rep));this.esg=Math.max(0,Math.min(100,this.esg));if(this.funds<0)this.funds=0;},
+  
+  checkStageClear() {
+    if (this.rep <= 0) {
+        UI.showGameOver();
+        return;
+    }
+    const stage = STAGES[this.stageIdx];
+    if (stage && stage.goals.every(g => g.ck(this))) {
+        if (this.stageIdx < STAGES.length - 1) {
+            const ci = this.stageIdx;
+            this.stageIdx++;
+            UI.updateAll();
+            UI.showStageComplete(ci, STAGES[this.stageIdx]);
+        } else {
+            UI.showVictory();
+        }
+    }
+  },
+
+  restart(){this.resetVars();UI.renderBuild();UI.renderTrade();UI.updateAll();UI.closeModal();setTimeout(()=>UI.showModal('🔄 重新開始','<div style="font-size:13px;text-align:center;padding:8px 0;">準備回到1973年，再次出發！</div>',()=>{UI.closeModal();G.startTut();}),300);},
+  captureScreen(){
+    const el=document.querySelector('.mdlg-in');if(!el)return;
+    el.scrollTop=0;
+    const prev={overflow:el.style.overflow,maxHeight:el.style.maxHeight,height:el.style.height};
+    el.style.overflow='visible';el.style.maxHeight='none';el.style.height='auto';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      html2canvas(el,{backgroundColor:'#f0f4f8',scale:2,logging:false,
+        width:el.scrollWidth,height:el.scrollHeight}).then(c=>{
+        Object.assign(el.style,prev);
+        const a=document.createElement('a');
+        a.download='昇貿科技_'+this.playerName+'.png';
+        a.href=c.toDataURL('image/png');a.click();
+      }).catch(()=>Object.assign(el.style,prev));
+    }));
+  },
+
+  managerBuy(){
+    const need=this.calcMatNeed()*2;
+    if(this.materials>=Math.min(this.matCap*0.8,need))return'礦產庫存充足，本年未採購';
+    const batches=Math.min(3,Math.floor((this.matCap-this.materials)/50));
+    if(batches===0)return'倉庫已滿，跳過';
+    
+    let availableSup = SUP.filter(s => !s.req || this.c[s.req] >= 1);
+    const priced=availableSup.map(s=>({...s,ep:Math.floor(s.base*(this.matMarket[s.id]||1))})).sort((a,b)=>a.ep-b.ep);
+    
+    const bought=[];
+    for(let i=0;i<batches&&this.materials<this.matCap;i++){
+      const pick=Math.random()<0.70?priced[0]:priced[Math.floor(Math.random()*priced.length)];
+      const price=Math.floor(pick.base*(this.matMarket[pick.id]||1)*(0.88+Math.random()*0.24));
+      if(this.funds<price)break;
+      if(pick.route==='risk'&&Math.random()<0.25){
+        this.funds-=price;this.materials=Math.min(this.matCap,this.materials+20);
+        this.matBuys[pick.id]=(this.matBuys[pick.id]||0)+1;
+        bought.push(pick.flag+'$'+price+'⚠️');
+      }else{
+        this.funds-=price;this.materials=Math.min(this.matCap,this.materials+50);
+        this.matBuys[pick.id]=(this.matBuys[pick.id]||0)+1;
+        bought.push(pick.flag+'$'+price);
+      }
+    }
+    return bought.length?'自動採購：'+bought.join(' ・ '):'資金不足，未採購';
+  },
+
+  managerAdvice(){
+    const tips=[];
+    if(this.poll>=60)tips.push('⛔ 觀音廠區廢水污染嚴重威脅大潭藻礁！立即投資【藻礁水質防護站】，否則面臨天價罰款與商譽崩盤。');
+    else if(this.poll>=40)tips.push('⚠️ 污染指標偏高。建議增設水處理或太陽能設施，因為Apple等歐美品牌非常看重ESG。');
+    
+    if(this.stageIdx>=2 && this.esg<50)tips.push('🌿 Apple與國際大廠對ESG要求極高，請盡快向右捲動投資【低溫銲料產線】或綠電！');
+    if(this.stageIdx>=4 && this.c.iso===0)tips.push('🏅 歐盟CBAM與RMI審查即將實施，請確保 ESG≥75 且 污染≤20，並準備資金申請【RMI與碳足跡認證】。');
+    
+    const need=this.calcMatNeed();
+    if(need>0&&this.materials<need)tips.push('📦 錫礦斷鏈！產線降載中。請確保有足夠資金進口印尼或南美的金屬原料。');
+    if(this.funds<500)tips.push('💸 現金流緊縮！暫停擴廠，完成幾筆國際訂單以補充資金。');
+    
+    if(this.stageIdx===0&&this.c.wire<2)tips.push('🗜️ 初期必須先擴建【傳統焊錫廠】，奠定電子材料加工基礎。');
+    if(this.stageIdx===1&&this.c.global===0)tips.push('🌏 科技大廠要求在地服務，強烈建議投資【海外生產基地】跟隨代工廠腳步。');
+    if(this.stageIdx===2&&this.c.lts===0)tips.push('❄️ 節能減碳是趨勢！建造【低溫銲料產線】不僅能接 Apple 大單，還能大幅提升 ESG！');
+    if(this.stageIdx===3&&this.c.bga===0)tips.push('🔮 AI 伺服器需求爆發，請盡速併購與設立【BGA錫球產線】搶下高毛利訂單。');
+    
+    if(tips.length===0)tips.push('✅ 觀音中樞運作順暢！繼續推動無鉛與低溫製程，讓昇貿成為全球電子材料標竿。');
+    return tips[0];
+  },
+
+  saveToSheets(){
+    const url = 'https://script.google.com/macros/s/AKfycbzPiIQOSrJSDcCJeYDIYUX5vjDJXD0oKbW0Tv3YYStw3ULkhy4akj3GoEYXwqTPphsA/exec';
+    UI.toast('📊 正在上傳成績至資料庫...', 'good', 3000);
+    
+    const bldg=BKEYS.filter(k=>this.c[k]>0).map(k=>B[k].name+'×'+this.c[k]).join(' ');
+    const totalBuys=Object.values(this.matBuys).reduce((a,b)=>a+b,0);
+    const purch=totalBuys===0?'無':SUP.filter(s=>(this.matBuys[s.id]||0)>0).map(s=>s.name+':'+Math.round((this.matBuys[s.id]||0)/totalBuys*100)+'%').join(' ');
+    const ifrId='gs-ifr-'+Date.now();
+    const ifr=document.createElement('iframe');ifr.name=ifrId;ifr.style.display='none';document.body.appendChild(ifr);
+    const frm=document.createElement('form');frm.method='POST';frm.action=url;frm.target=ifrId;frm.style.display='none';
+    
+    const cbamStatus = this.c.iso >= 1 ? 'RMI/CBAM已認證' : '未認證';
+    
+    const fields={
+      company: '昇貿科技',
+      player: this.playerName,
+      date: new Date().toLocaleDateString('zh-TW'),
+      year: this.year,
+      funds: this.funds,
+      rep: this.rep,
+      tech: this.tech,
+      esg: this.esg,
+      poll: this.poll,
+      countries: this.countries.size,
+      contracts: this.done.length,
+      zdhc: cbamStatus, 
+      buildings: bldg,
+      purchases: purch,
+      contractList: this.done.join(',')
+    };
+      
+    Object.entries(fields).forEach(([k,v])=>{const inp=document.createElement('input');inp.type='hidden';inp.name=k;inp.value=v;frm.appendChild(inp);});
+    document.body.appendChild(frm);frm.submit();
+    setTimeout(()=>{if(frm.parentNode)frm.parentNode.removeChild(frm);if(ifr.parentNode)ifr.parentNode.removeChild(ifr);},5000);
+  }
+};
+
+/* ===== UI ===== */
+const UI={
+  tab(t,sys=false){if(G.tutStep!==0&&!sys)return;document.querySelectorAll('.tab-c').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.tab-b').forEach(el=>el.classList.remove('active'));document.getElementById('tc-'+t).classList.add('active');document.getElementById(t==='build'?'tb-build':'tb-trade').classList.add('active');},
+  renderBuild(){
+    const dk=document.getElementById('build-deck');dk.innerHTML='';
+    BKEYS.forEach(k=>{const b=B[k];const cnt=G.c[k];
+      const locked=b.treq>G.tech||(b.ereq&&b.ereq>G.esg)||(b.maxPoll!==undefined&&G.poll>b.maxPoll)||(b.stageReq!==undefined&&G.stageIdx<b.stageReq);
+      const maxed=b.max&&cnt>=b.max;
+      const noMoney=G.funds<b.cost;
+      const card=document.createElement('div');card.className='bcard'+((locked||noMoney||maxed)?' disabled':'')+(b.green?' green-card':'');
+      card.onclick=()=>{if(!locked&&!noMoney&&!maxed)G.selectCard(k);};
+      let info='';
+      if(b.ot==='tech')info='<span class="info">技術+'+b.boost+'</span>';
+      else if(b.ot==='esg')info='<span class="info">ESG+'+b.boost+'</span>';
+      else if(b.ot==='hybrid')info='<span class="info">技+'+b.boostT+' ESG+'+b.boostE+'</span>';
+      else info='<span class="info">營收 $'+b.rev+'</span>';
+      
+      const pollTxt=b.poll>0?'<span class="poll-cost">☣️+'+b.poll+'/年</span>':(b.poll<0?'<span class="info" style="color:var(--green)">☣️'+b.poll+'/年</span>':'');
+      let lockTxt='';
+      if(maxed)lockTxt='已認證';
+      else if(b.stageReq!==undefined&&G.stageIdx<b.stageReq)lockTxt=`第${STAGE_LABEL[b.stageReq]}階段`;
+      else if(b.treq>G.tech)lockTxt='技術≥'+b.treq;
+      else if(b.ereq&&b.ereq>G.esg)lockTxt='ESG≥'+b.ereq;
+      else if(b.maxPoll!==undefined&&G.poll>b.maxPoll)lockTxt='污染≤'+b.maxPoll;
+      
+      card.innerHTML=(cnt>0?'<div class="badge">'+cnt+'</div>':'')+'<span class="emoji">'+b.e+'</span><span class="name">'+b.name+'</span><div class="divider"></div>'+info+pollTxt+'<div style="margin-top:auto;"><span class="cost">$'+b.cost+'</span></div>'+(lockTxt?'<div class="lock-ov">🔒<br>'+lockTxt+'</div>':'');
+      dk.appendChild(card);});
+  },
+  renderTrade(){
+    const dk=document.getElementById('trade-deck');dk.innerHTML='';
+    const mg=document.createElement('div');
+    mg.style.cssText='flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 6px;border-radius:8px;border:1.5px solid '+(G.managerActive?'var(--teal)':'var(--brd)')+';background:'+(G.managerActive?'rgba(33,97,140,0.1)':'rgba(255,255,255,0.4)')+';cursor:pointer;min-width:56px;';
+    mg.innerHTML='<span style="font-size:16px;">🤵</span><span style="font-size:8px;font-weight:700;color:'+(G.managerActive?'var(--teal)':'var(--muted)')+';">'+(G.managerActive?'採購運作中':'聘用經理</span><span style="font-size:7px;color:var(--muted);">$60/年')+'</span>';
+    mg.onclick=()=>{
+      if(G.tutStep!==0)return;
+      if(G.managerActive){
+        UI.showModal('🤵 解雇採購經理','<div style="font-size:13px;line-height:1.8;text-align:left;">確定要解雇採購經理？<br><br>解雇後將<b>停止自動採購</b>，每年節省 <b style="color:var(--green);">$60</b>，但需親自緊盯國際礦產價格。</div>',null);
+        const foot=document.getElementById('m-foot');foot.innerHTML='';
+        const yes=document.createElement('button');yes.className='mbtn red';yes.innerText='✅ 確定解雇';
+        yes.onclick=()=>{G.managerActive=false;UI.closeModal();UI.toast('🤵 採購經理已離職','warn');UI.renderTrade();};foot.appendChild(yes);
+        const no=document.createElement('button');no.className='mbtn';no.style.marginTop='6px';no.innerText='❌ 繼續任用';
+        no.onclick=()=>UI.closeModal();foot.appendChild(no);
+      }else{
+        const html='<div style="font-size:13px;line-height:1.8;text-align:left;"><div style="background:rgba(33,97,140,0.07);border-radius:8px;padding:10px;margin-bottom:10px;"><b>🤵 採購經理職能：</b><br><br>✅ <b>自動跨國採購</b>：每年依國際原料行情自動補貨。<br>✅ <b>戰略情報</b>：提供精準的產能與永續轉型建議。</div>💰 年薪：<b style="color:var(--gold);">$60/年</b><br><br>確定要聘用嗎？</div>';
+        UI.showModal('🤵 聘用採購經理',html,null);
+        const foot=document.getElementById('m-foot');foot.innerHTML='';
+        const yes=document.createElement('button');yes.className='mbtn gold';yes.innerText='✅ 是，立即聘用';
+        yes.onclick=()=>{G.managerActive=true;UI.closeModal();UI.toast('🤵 經理上任！自動盯緊國際錫價（$60/年）','good');UI.renderTrade();};foot.appendChild(yes);
+        const no=document.createElement('button');no.className='mbtn';no.style.marginTop='6px';no.innerText='❌ 自己處理';
+        no.onclick=()=>UI.closeModal();foot.appendChild(no);
+      }
+    };
+    dk.appendChild(mg);
+    const sm=document.createElement('div');sm.className='sep-label';sm.innerText='原料';dk.appendChild(sm);
+    SUP.forEach(s=>{
+      const locked = s.req && G.c[s.req] < 1;
+      const card=document.createElement('div');
+      card.className='tcard' + (locked ? ' disabled' : '');
+      card.onclick=()=>G.buyMat(s.id);
+      const mkt=G.matMarket[s.id]||1.0;const estPrice=Math.floor(s.base*mkt);
+      const mktClr=mkt>1.3?'var(--red)':mkt>1.1?'var(--gold)':mkt<0.8?'var(--green)':'var(--txt)';
+      const mktLbl=mkt>1.3?'↑↑':mkt>1.1?'↑':mkt<0.8?'↓':'—';
+      const lockIcon = locked ? '<div class="lock-ov">🔒<br>需'+B[s.req].name+'</div>' : '';
+      card.innerHTML='<span class="flag">'+s.flag+'</span><span class="cname">'+s.name+'</span><span class="creq">'+s.label+'</span><span class="crwd" style="color:'+mktClr+'">$'+estPrice+' '+mktLbl+'</span>'+lockIcon;dk.appendChild(card);});
+    const sc=document.createElement('div');sc.className='sep-label';sc.innerText='訂單';dk.appendChild(sc);
+    for(let si=1;si<=G.stageIdx+1;si++){(CONTRACTS[si]||[]).forEach(ct=>{const isDone=G.done.includes(ct.id);
+      const card=document.createElement('div');card.className='tcard'+(isDone?' done':'');
+      card.onclick=()=>{if(!isDone)G.tryContract(ct.id);};
+      let reqs=[];if(ct.reqs.wire)reqs.push('🗜️≥'+ct.reqs.wire);if(ct.reqs.paste)reqs.push('🧪≥'+ct.reqs.paste);if(ct.reqs.bga)reqs.push('🔮≥'+ct.reqs.bga);if(ct.reqs.global)reqs.push('🌏≥'+ct.reqs.global);if(ct.reqs.lts)reqs.push('❄️≥'+ct.reqs.lts);if(ct.reqs.iso)reqs.push('🏅≥'+ct.reqs.iso);if(ct.reqs.tech)reqs.push('🔬≥'+ct.reqs.tech);if(ct.reqs.esg)reqs.push('🌿≥'+ct.reqs.esg);if(ct.reqs.maxPoll!==undefined)reqs.push('☣️≤'+ct.reqs.maxPoll);
+      card.innerHTML='<span class="flag">'+ct.flag+'</span><span class="cname">'+ct.client+'</span><span class="creq">'+reqs.join(' ')+'</span><span class="crwd">'+(isDone?'✅已出貨':'$'+ct.rwd.funds+' 🏆+'+ct.rwd.rep)+'</span>';dk.appendChild(card);});}
+  },
+  updateAll(){
+    document.getElementById('h-funds').innerText=G.funds.toLocaleString();
+    document.getElementById('h-rep').innerText=G.rep;
+    document.getElementById('h-tech').innerText=G.tech;
+    document.getElementById('h-esg').innerText=G.esg;
+    document.getElementById('h-poll').innerText=G.poll;
+    const repEl=document.getElementById('h-rep');repEl.className='stat-val '+(G.rep>60?'teal':G.rep>30?'':'red');
+    const pollEl=document.getElementById('h-poll');pollEl.className='stat-val '+(G.poll<25?'green':G.poll<50?'gold':G.poll<70?'red':'red');
+    const pollBox=pollEl.closest('.stat-box');pollBox.className='stat-box'+(G.poll>=50?' danger':G.poll>=25?' warn':'');
+    document.getElementById('year-display').innerText=G.year+'年';
+    document.getElementById('stage-badge').innerText='第'+STAGE_LABEL[G.stageIdx]+'階段';
+    const zb=document.getElementById('cbam-badge');if(zb)zb.style.display=G.c.iso>=1?'block':'none';
+    document.getElementById('story-text').innerText=STAGES[G.stageIdx].short;
+    const gl=document.getElementById('goal-list');gl.innerHTML='';
+    STAGES[G.stageIdx].goals.forEach(g=>{const met=g.ck(G);const d=document.createElement('div');d.className='goal-item';d.innerHTML='<span class="gc '+(met?'done':'')+'">'+(met?'✅':'⬜')+'</span><span>'+g.txt+'</span>';gl.appendChild(d);});
+    document.getElementById('s-rev').innerText='$'+G.calcRev();
+    document.getElementById('s-fac').innerText=G.totalFac();
+    document.getElementById('s-mat').innerText=G.materials;
+    const pd=G.calcPollPerTurn();const pdEl=document.getElementById('s-polly');pdEl.innerText=(pd>=0?'+':'')+pd;pdEl.className='dval'+(pd>0?' bad':'');
+    document.getElementById('s-exp').innerText=G.countries.size+'家';
+    const pct=Math.min(100,G.poll);document.getElementById('poll-fill').style.width=pct+'%';
+    document.getElementById('poll-fill').style.background=G.poll<25?'#196f3d':G.poll<50?'#b9770e':G.poll<70?'#cb4335':'#922b21';
+    document.getElementById('poll-label').innerText='☣️ '+G.poll;
+    const fv=document.getElementById('factory-view');fv.className='';if(G.poll>=70)fv.className='very-polluted';else if(G.poll>=40)fv.className='polluted';
+    const fg=document.getElementById('factory-grid');fg.innerHTML='';
+    const zones=[{label:'生產',keys:['wire','paste','bga','global','lts']},{label:'研發',keys:['rd']},{label:'環保',keys:['water','solar','iso']}];
+    zones.forEach(z=>{const items=z.keys.filter(k=>G.c[k]>0);if(!items.length&&z.label!=='生產')return;const zone=document.createElement('div');zone.className='fac-zone';const lbl=document.createElement('span');lbl.className='fac-zone-label';lbl.innerText=z.label;zone.appendChild(lbl);if(!items.length){const emp=document.createElement('span');emp.className='fac-empty';emp.innerText='尚無設施';zone.appendChild(emp);}items.forEach(k=>{const tile=document.createElement('div');tile.className='fac-tile';tile.title=B[k].name;tile.innerHTML='<span class="fe">'+B[k].e+'</span><span class="fc">×'+G.c[k]+'</span>';zone.appendChild(tile);});fg.appendChild(zone);});
+    this.renderBuild();
+  },
+  toast(msg,type='good',dur=1500){const c=document.getElementById('toast-c');const t=document.createElement('div');t.className='toast '+type;t.innerText=msg;c.appendChild(t);setTimeout(()=>{t.classList.add('hiding');setTimeout(()=>t.remove(),500);},dur);},
+  showModal(title,html,onClose){document.getElementById('m-title').innerHTML=title;document.getElementById('m-body').innerHTML='<div style="font-size:13px;line-height:1.6;color:var(--txt);text-align:left;">'+html+'</div>';
+    document.getElementById('modal-ov').style.display='flex';const foot=document.getElementById('m-foot');foot.innerHTML='';const btn=document.createElement('button');btn.id='m-btn';btn.className='mbtn';btn.innerText='確 定';btn.onclick=onClose||(()=>this.closeModal());foot.appendChild(btn);},
+  closeModal(){document.getElementById('modal-ov').style.display='none';},
+  showEvent(ev){
+    let html='<div style="font-size:14px;font-weight:700;color:'+(ev.tone==='bad'?'var(--red)':ev.tone==='good'?'var(--green)':'var(--gold)')+';margin-bottom:6px;">'+ev.hl+'</div>';
+    html+='<div style="font-size:12px;margin-bottom:8px;">'+ev.dt+'</div>';
+    if(ev.fact)html+='<div style="font-size:11px;color:var(--teal);background:rgba(33,97,140,0.06);padding:6px;border-radius:6px;margin-bottom:8px;">'+ev.fact+'</div>';
+    if(ev.eff&&!ev.choices){G.applyEff(ev.eff);let et=[];if(ev.eff.funds)et.push('資金'+(ev.eff.funds>0?'+':'')+ev.eff.funds);if(ev.eff.rep)et.push('聲譽'+(ev.eff.rep>0?'+':'')+ev.eff.rep);if(ev.eff.tech)et.push('技術'+(ev.eff.tech>0?'+':'')+ev.eff.tech);if(ev.eff.esg)et.push('ESG'+(ev.eff.esg>0?'+':'')+ev.eff.esg);
+      if(et.length)html+='<div style="font-size:11px;color:var(--gold);background:rgba(185,119,14,0.08);padding:4px 8px;border-radius:6px;margin-bottom:6px;">影響：'+et.join('、')+'</div>';}
+    if(ev.choices&&ev.choices.length){
+      if(ev.eff)G.applyEff(ev.eff);
+      this.showModal(ev.tone==='bad'?'⚠️ 產業危機':'📰 戰略決策',html,null);
+      const foot=document.getElementById('m-foot');foot.innerHTML='';
+      ev.choices.forEach(ch=>{
+        const btn=document.createElement('div');btn.className='ch-btn';
+        btn.innerHTML='<div class="ch-title">'+ch.label+'</div><div class="ch-desc">'+ch.desc+'</div>';
+        if(ch.certify){
+          btn.onclick=()=>{
+            if(G.c.iso>=1){UI.toast('🏅 已完成認證','warn');this.closeModal();UI.updateAll();return;}
+            if(G.tech<60||G.esg<75||G.poll>20){
+              UI.toast(`❌ 條件未達！需技≥60、ESG≥75、污≤20 (目前:技${G.tech} ESG${G.esg} 污${G.poll})`,'bad',4500);
+              return;
+            }
+            if(G.funds<1500){UI.toast('❌ 資金不足 $1,500！','bad');return;}
+            G.c.iso=1;G.funds=Math.max(0,G.funds-1500);
+            G.esg=Math.min(100,G.esg+20);G.poll=Math.max(0,G.poll-1);G.rep=Math.min(100,G.rep+10);
+            this.closeModal();
+            UI.toast('🏅 RMI與碳足跡認證完成！ESG+20 污染-1 聲譽+10','good',4000);
+            UI.updateAll();UI.renderBuild();
+            G.checkStageClear(); 
+          };
+        }else{
+          btn.onclick=()=>{
+            G.applyEff(ch.fx);
+            const fx=ch.fx||{};const et=[];
+            if(fx.funds)et.push('💰'+(fx.funds>0?'+':'')+fx.funds);
+            if(fx.rep)et.push('🏆'+(fx.rep>0?'+':'')+fx.rep);
+            if(fx.tech)et.push('🔬'+(fx.tech>0?'+':'')+fx.tech);
+            if(fx.esg)et.push('🌿'+(fx.esg>0?'+':'')+fx.esg);
+            if(fx.poll)et.push('☣️'+(fx.poll>0?'+':'')+fx.poll);
+            if(fx.mkt)Object.entries(fx.mkt).forEach(([sid,d])=>{const s=SUP.find(x=>x.id===sid);if(s)et.push(s.flag+'原料'+(d>0?'↑':'↓'));});
+            this.closeModal();
+            const hasNeg=et.some(t=>/(💰|🏆|🔬|🌿)-|☣️\+/.test(t));
+            UI.toast('▸ 決策結果：'+(et.length?et.join(' ｜ '):'已生效'),hasNeg?'warn':'good',3500);
+            UI.updateAll();UI.renderBuild();
+            G.checkStageClear(); 
+          };
+        }
+        foot.appendChild(btn);
+      });
+    }else{
+      this.showModal(ev.tone==='bad'?'⚠️ 突發事件':'📰 產業新聞',html,()=>{
+        this.closeModal();
+        UI.updateAll();
+        G.checkStageClear(); 
+      });
+    }
+  },
+  showTurnReport(inc,maint,cTax,pollD,mgrReport,msgs,ev){
+    let html='<div style="font-size:13px;">';
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;">';
+    html+='<div style="background:rgba(185,119,14,0.1);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">年營收</div><div style="font-size:18px;color:var(--gold);font-weight:bold;font-family:\'Playfair Display\',serif;">+$'+inc+'</div></div>';
+    html+='<div style="background:rgba(203,67,53,0.08);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">維護費</div><div style="font-size:18px;color:var(--red);font-weight:bold;font-family:\'Playfair Display\',serif;">−$'+maint+'</div></div>';
+    if(cTax>0)html+='<div style="background:rgba(203,67,53,0.06);padding:8px;border-radius:8px;text-align:center;grid-column:1/-1;"><div style="font-size:10px;color:var(--muted);">碳費徵收（☣️'+G.poll+'×4）</div><div style="font-size:16px;color:var(--red);font-weight:bold;">−$'+cTax+'</div></div>';
+    html+='<div style="background:rgba(125,60,152,0.1);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">污染變化</div><div style="font-size:18px;font-weight:bold;color:'+(pollD>0?'var(--red)':'var(--green)')+'">'+(pollD>0?'+':'')+pollD+'</div></div>';
+    html+='<div style="background:rgba(34,153,84,0.07);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">ESG ／ 技術</div><div style="font-size:16px;font-weight:bold;color:var(--green);">🌿'+G.esg+' 🔬'+G.tech+'</div></div>';
+    html+='</div>';
+    if(msgs&&msgs.length){
+      html+='<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px;">';
+      msgs.forEach(m=>{
+        const clr=m.type==='bad'?'var(--red)':m.type==='warn'?'#935116':'var(--teal)';
+        const bg=m.type==='bad'?'rgba(203,67,53,0.08)':m.type==='warn'?'rgba(185,119,14,0.09)':'rgba(33,97,140,0.06)';
+        const bd=m.type==='bad'?'var(--red)':m.type==='warn'?'#b9770e':'var(--teal)';
+        html+='<div style="padding:6px 10px;border-radius:7px;font-size:12px;background:'+bg+';color:'+clr+';border-left:3px solid '+bd+';line-height:1.5;">'+m.text+'</div>';
+      });
+      html+='</div>';
+    }
+    if(mgrReport)html+='<div style="padding:8px 10px;background:rgba(33,97,140,0.07);border-radius:8px;font-size:11px;line-height:1.8;border-left:3px solid var(--teal);margin-bottom:6px;">🤵 <b>採購經理報告</b><br>'+mgrReport+'</div>';
+    html+='<div style="font-size:11px;color:var(--muted);text-align:right;">📦 金屬庫存 '+G.materials+' ｜ 🏆 聲譽 '+G.rep+'</div>';
+    html+='</div>';
+    if(ev){
+      this.showModal(G.year+'年 📊 營運報告',html,()=>{
+        this.closeModal();
+        setTimeout(()=>this.showEvent(ev),120); 
+      });
+      const btn=document.getElementById('m-btn');btn.innerText='📰 處理本年事件 →';btn.className='mbtn gold';
+    }else{
+      this.showModal(G.year+'年 📊 營運報告',html,()=>{
+        this.closeModal();
+        G.checkStageClear(); 
+      });
+    }
+  },
+  showStageComplete(ci,next){
+    const voices=['','💬「台灣不只要做代工，我們要掌控連結電路的命脈。」','💬「觀音大潭的風機在轉，我們的低溫革命也正在改變全球電子業。」','💬「當 AI 伺服器運轉時，裡面的晶片正靠著觀音出產的微小錫球跳動著。」','💬「沒有血汗礦產，不犧牲藻礁，這才是我們能昂首站上世界舞台的原因。」'];
+    const voice=voices[G.stageIdx]||'';const goals=next.goals.map(g=>'🔹 '+g.txt).join('<br>');
+    let html='<div style="text-align:center;"><div style="font-size:24px;margin-bottom:8px;">🎉⚡✨</div><div style="font-size:16px;font-weight:900;color:var(--gold);margin-bottom:6px;">'+STAGES[ci].title+'<br>達成！</div>';
+    if(voice)html+='<div style="font-size:12px;color:var(--muted);margin:10px 0;padding:8px;background:rgba(0,0,0,0.04);border-radius:8px;border-left:3px solid var(--teal);">'+voice+'</div>';
+    html+='<hr style="border:none;border-top:1.5px dashed var(--brd);margin:10px 0;"><div style="text-align:left;line-height:1.6;">'+next.desc+'<br><br><span style="color:var(--gold)">🏆 新階段挑戰：</span><br>'+goals+'</div></div>';
+    this.showModal('⚡ 企業躍升',html,()=>{this.closeModal();UI.renderBuild();UI.renderTrade();UI.updateAll();});
+    document.getElementById('m-btn').innerText='🏭 啟動新戰略';document.getElementById('m-btn').className='mbtn gold';
+  },
+  showGameOver(){this.showModal('💔 企業重整','<div style="text-align:center;"><div style="font-size:40px;">📉</div><div style="font-size:14px;color:var(--red);font-weight:700;margin:8px 0;">環境災難與品牌危機</div><div style="font-size:12px;">因嚴重污染引發藻礁浩劫，或違反衝突礦產禁令，跨國品牌全面抽單。<br>企業無法度過本次危機。</div></div>',null);
+    document.getElementById('m-foot').innerHTML='<button class="mbtn red" onclick="G.restart()">🔄 重返 1973</button>';},
+
+  showVictory(){
+    let html='<div style="text-align:center;"><div style="font-size:28px;">🏆⚡🌍</div><div style="font-size:16px;font-weight:900;color:var(--gold);margin:6px 0;font-family:\'Noto Serif TC\',serif;">恭喜策略長！'+G.playerName+'</div><div style="font-size:11px;margin-bottom:8px;">1973 觀音小廠 ➡️ 2030 全球綠色電子材料樞紐</div></div>';
+    html+=this.buildChart();
+    html+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:8px 0;text-align:center;">';
+    html+='<div style="background:rgba(33,97,140,0.08);padding:4px;border-radius:6px;"><div style="font-size:8px;color:var(--muted);">品牌客戶群</div><div style="font-family:\'Playfair Display\',serif;font-size:14px;color:var(--teal);">'+G.countries.size+'家</div></div>';
+    html+='<div style="background:rgba(185,119,14,0.08);padding:4px;border-radius:6px;"><div style="font-size:8px;color:var(--muted);">跨國大單</div><div style="font-family:\'Playfair Display\',serif;font-size:14px;color:var(--gold);">'+G.done.length+'筆</div></div>';
+    html+='<div style="background:rgba(34,153,84,0.08);padding:4px;border-radius:6px;"><div style="font-size:8px;color:var(--muted);">終局ESG/污染</div><div style="font-family:\'Playfair Display\',serif;font-size:14px;color:var(--green);">'+G.esg+'/☣️'+G.poll+'</div></div></div>';
+    html+='<div style="text-align:left;font-size:11px;background:rgba(33,97,140,0.04);padding:6px;border-radius:6px;margin-bottom:6px;"><b>🏭 企業版圖：</b><br>';
+    BKEYS.forEach(k=>{if(G.c[k]>0)html+=B[k].e+' '+B[k].name+' ×'+G.c[k]+'&emsp;';});
+    html+='</div>';
+    html+='<div style="text-align:left;font-size:11px;background:rgba(185,119,14,0.06);padding:6px;border-radius:6px;margin-bottom:6px;"><b>🌍 全球科技同盟：</b><br>';
+    if(G.done.length===0)html+='（無）';
+    G.done.forEach(id=>{for(let s=1;s<=5;s++){const ct=(CONTRACTS[s]||[]).find(x=>x.id===id);if(ct){html+=ct.flag+' '+ct.client+'<br>';break;}}});
+    html+='</div>';
+    html+='<div style="text-align:left;font-size:10px;background:rgba(34,153,84,0.06);padding:6px;border-radius:6px;line-height:1.5;"><b>📚 從遊戲看懂昇貿科技：</b><br>';
+    html+='✅ <b>隱形樞紐：</b>桃園觀音的廠區生產了全球前三大的微電子焊接材料，Apple、NVIDIA的供應鏈都少不了它。<br>';
+    html+='✅ <b>低溫革命：</b>LTS 低溫銲料技術能讓代工廠降低25%的耗電與碳排，是綠色電子製程的核心推手。<br>';
+    html+='✅ <b>道德採購：</b>作為國際供應鏈一員，必須遵守 RMI，確保印尼或中南美的礦產不含非洲血汗童工的淚水。<br>';
+    html+='✅ <b>生態平衡：</b>觀音工業區的擴展與大潭藻礁的保育息息相關，ESG 的 G(治理) 是台灣企業接軌國際的唯一道路。</div>';
+    
+    G.saveToSheets();
+    this.showModal('🏆 永續科技的勝利',html,null);
+    document.getElementById('m-foot').innerHTML='<button class="mbtn gold" onclick="G.captureScreen()">📸 截圖留念</button><button class="mbtn" onclick="G.restart()" style="margin-top:6px;">🔄 再玩一次</button>';
+  },
+
+  buildChart(){
+    const h=G.history;if(h.length<2)return '';
+    const W=300,H=120,P=22;
+    const maxEsg=Math.max(100,...h.map(d=>d.esg));
+    const maxPoll=Math.max(50,...h.map(d=>d.poll));
+    const maxRev=Math.max(100,...h.map(d=>d.rev));
+    const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+    const toY=(v,max)=>clamp(P+((H-2*P)*(1-v/max)),P,H-P);
+    const toX=(i)=>P+(W-2*P)*i/(h.length-1);
+    let esgPts='',pollPts='',revPts='';
+    h.forEach((d,i)=>{
+      const x=toX(i);
+      esgPts+=x+','+toY(d.esg,maxEsg)+' ';
+      pollPts+=x+','+toY(d.poll,maxPoll)+' ';
+      revPts+=x+','+toY(d.rev,maxRev)+' ';
+    });
+    let svg='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;margin:6px 0;background:rgba(0,0,0,0.03);border-radius:8px;" overflow="hidden">';
+    svg+='<defs><clipPath id="cp"><rect x="'+P+'" y="'+P+'" width="'+(W-2*P)+'" height="'+(H-2*P)+'"/></clipPath></defs>';
+    for(let i=0;i<=4;i++){const y=P+(H-2*P)*i/4;svg+='<line x1="'+P+'" y1="'+y+'" x2="'+(W-P)+'" y2="'+y+'" stroke="#ddd" stroke-width="0.5"/>';}
+    svg+='<g clip-path="url(#cp)">';
+    svg+='<polyline points="'+esgPts+'" fill="none" stroke="#229954" stroke-width="2" opacity="0.85"/>';
+    svg+='<polyline points="'+pollPts+'" fill="none" stroke="#cb4335" stroke-width="2" opacity="0.85"/>';
+    svg+='<polyline points="'+revPts+'" fill="none" stroke="#b9770e" stroke-width="2" opacity="0.85" stroke-dasharray="4 2"/>';
+    svg+='</g>';
+    svg+='<text x="'+P+'" y="13" font-size="9" fill="#229954" font-family="sans-serif">🌿ESG</text>';
+    svg+='<text x="'+(P+55)+'" y="13" font-size="9" fill="#cb4335" font-family="sans-serif">☣️污染</text>';
+    svg+='<text x="'+(P+110)+'" y="13" font-size="9" fill="#b9770e" font-family="sans-serif">💰年收(虛線)</text>';
+    if(h.length>0){svg+='<text x="'+P+'" y="'+(H-3)+'" font-size="8" fill="#888" font-family="sans-serif">'+h[0].year+'</text>';svg+='<text x="'+(W-P-22)+'" y="'+(H-3)+'" font-size="8" fill="#888" font-family="sans-serif">'+h[h.length-1].year+'</text>';}
+    svg+='</svg>';
+    return '<div style="margin:4px 0;"><div style="font-size:10px;font-weight:700;color:var(--teal);margin-bottom:2px;">📊 企業轉型趨勢圖</div>'+svg+'</div>';
+  },
+
+  help(type){const h={funds:'【💰 資金】\n建廠與購買原料（錫礦/銀銅合金）都需要資金。\n原料不足會導致工廠產能降載。\n後期污染過高會被課徵重額碳費。',rep:'【🏆 聲譽】\nApple、NVIDIA 等國際大廠對你的信任。\n發生「藻礁污染」或「血汗礦產」等危機將大幅扣減，歸零即破產。',tech:'【🔬 技術力】\n從「傳統焊錫」跨足「低溫銲料」與「BGA錫球」的關鍵。\n建造【微電子研究所】可快速提升。',esg:'【🌿 ESG分數】\n代表企業誠信與生態保護能力。\n歐盟 CBAM、Apple 等頂級客戶要求極高的 ESG 達標才能接單。\n投資【水質防護】與【低溫銲料】可大幅加分。',poll:'【☣️ 污染值 (廢水/碳排)】\n金屬冶煉與化學調配會產生污染。\n累積過高會引發裁罰，甚至強迫關廠並威脅大潭藻礁。\n也會每年腐蝕你的 ESG 分數。'};
+    this.showModal('❓ 營運指標說明','<div style="white-space:pre-line;font-size:13px;line-height:1.6;">'+((h[type])||'')+'</div>',()=>this.closeModal());},
+  stageDetail(){const s=STAGES[G.stageIdx];const goals=s.goals.map(g=>'🔹 '+g.txt).join('<br>');this.showModal(s.title,'<div style="line-height:1.6;">'+s.desc+'<br><br><span style="color:var(--gold)">🏆 階段目標：</span><br>'+goals+'</div>',()=>this.closeModal());},
+  hlEl(sel,text){document.getElementById('tut-ov').style.display='block';const el=document.querySelector(sel);if(el){el.classList.add('hl-target');const bp=el.closest('#bottom-panel')||el.closest('#hud');if(bp)bp.style.zIndex='2001';}document.getElementById('tut-text').innerHTML='<div class="tut-t">策略指引</div>'+text.replace(/\n/g,'<br>');document.getElementById('tut-tip').style.display='block';},
+  clearHL(){document.getElementById('tut-ov').style.display='none';document.getElementById('tut-tip').style.display='none';document.querySelectorAll('.hl-target').forEach(el=>el.classList.remove('hl-target'));const bp=document.getElementById('bottom-panel');if(bp)bp.style.zIndex='100';const hud=document.getElementById('hud');if(hud)hud.style.zIndex='100';}
+};
+window.addEventListener('DOMContentLoaded',()=>G.init());
+</script>
+</body>
+</html>
