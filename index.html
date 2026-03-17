@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>觀音工業區 🌍 永續企業戰略模擬</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=LXGW+WenKai+TC:wght@400;700&display=swap');
+
+:root {
+  --bg-color: #f4f7f6;
+  --text-main: #2c3e50;
+  --text-muted: #7f8c8d;
+  --card-bg: #ffffff;
+  --primary: #16a085;
+  --accent: #d4ac0d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'LXGW WenKai TC', 'Noto Serif TC', serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: radial-gradient(#d1dada 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+header {
+  text-align: center;
+  padding: 60px 20px 30px;
+  background: linear-gradient(135deg, #1abc9c, #117864);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  margin-bottom: 40px;
+}
+
+header h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+header p {
+  font-size: 16px;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+  flex: 1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+  border-color: rgba(22, 160, 133, 0.3);
+}
+
+.card:hover::before {
+  transform: scaleX(1);
+}
+
+.card-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+  display: inline-block;
+}
+
+.card-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #2c3e50;
+}
+
+.card-subtitle {
+  font-size: 13px;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.card-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.card-footer {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.play-btn {
+  background: rgba(22, 160, 133, 0.1);
+  color: var(--primary);
+  padding: 6px 16px;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.card:hover .play-btn {
+  background: var(--primary);
+  color: white;
+}
+
+/* Specific colors for different industries */
+.card[data-type="chemical"]::before { background: #6a5acd; }
+.card[data-type="chemical"] .card-subtitle { color: #6a5acd; }
+.card[data-type="chemical"] .play-btn { color: #6a5acd; background: rgba(106,90,205,0.1); }
+.card[data-type="chemical"]:hover .play-btn { background: #6a5acd; color: white; }
+
+.card[data-type="energy"]::before { background: #b8860b; }
+.card[data-type="energy"] .card-subtitle { color: #b8860b; }
+.card[data-type="energy"] .play-btn { color: #b8860b; background: rgba(184,134,11,0.1); }
+.card[data-type="energy"]:hover .play-btn { background: #b8860b; color: white; }
+
+.card[data-type="textile"]::before { background: #27ae60; }
+.card[data-type="textile"] .card-subtitle { color: #27ae60; }
+.card[data-type="textile"] .play-btn { color: #27ae60; background: rgba(39,174,96,0.1); }
+.card[data-type="textile"]:hover .play-btn { background: #27ae60; color: white; }
+
+.card[data-type="petro"]::before { background: #c0392b; }
+.card[data-type="petro"] .card-subtitle { color: #c0392b; }
+.card[data-type="petro"] .play-btn { color: #c0392b; background: rgba(192,57,43,0.1); }
+.card[data-type="petro"]:hover .play-btn { background: #c0392b; color: white; }
+
+.card[data-type="electronics"]::before { background: #2980b9; }
+.card[data-type="electronics"] .card-subtitle { color: #2980b9; }
+.card[data-type="electronics"] .play-btn { color: #2980b9; background: rgba(41,128,185,0.1); }
+.card[data-type="electronics"]:hover .play-btn { background: #2980b9; color: white; }
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-top: auto;
+}
+
+@media (max-width: 600px) {
+  header h1 { font-size: 28px; }
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌍 觀音在地與全球永續</h1>
+  <p>從桃園觀音出發，探索台灣隱形冠軍如何透過技術創新與綠色轉型，影響全球的永續發展與供應鏈。請選擇一間企業開始你的經營模擬！</p>
+</header>
+
+<div class="container">
+  <div class="grid">
+    
+    <!-- 永光化學 -->
+    <a href="everlightGame.html" class="card" data-type="chemical">
+      <div class="card-icon">🧪</div>
+      <div class="card-title">永光化學</div>
+      <div class="card-subtitle">觀音的化學力量</div>
+      <div class="card-desc">從傳統染料到半導體光阻劑，體驗化學工業的垂直整合，在 ZDHC 零污染與高科技之間尋求平衡。</div>
+      <div class="card-footer">
+        <span>特用化學 / 電子材料</span>
+        <span class="play-btn">進入遊戲 →</span>
+      </div>
+    </a>
+
+    <!-- 美琪瑪 -->
+    <a href="mechemaGame.html" class="card" data-type="energy">
+      <div class="card-icon">🔋</div>
+      <div class="card-title">美琪瑪國際</div>
+      <div class="card-subtitle">觀音的能源樞紐</div>
+      <div class="card-desc">掌控全球電動車的心臟！從進口鈷鎳礦到精煉正極材料，並發展 90% 廢觸媒回收技術克服環保危機。</div>
+      <div class="card-footer">
+        <span>電池材料 / 循環經濟</span>
+        <span class="play-btn">進入遊戲 →</span>
+      </div>
+    </a>
+
+    <!-- 遠東新世紀 -->
+    <a href="farEasternGame.html" class="card" data-type="textile">
+      <div class="card-icon">♻️</div>
+      <div class="card-title">遠東新世紀</div>
+      <div class="card-subtitle">觀音的循環奇蹟</div>
+      <div class="card-desc">將廢寶特瓶化為神奇的 rPET 再生酯粒。串聯 Nike 與可口可樂，打造全球最龐大的綠色循環供應鏈。</div>
+      <div class="card-footer">
+        <span>聚酯化纖 / 食品級回收</span>
+        <span class="play-btn">進入遊戲 →</span>
+      </div>
+    </a>
+
+    <!-- 和美紡織 -->
+    <a href="homeiGame.html" class="card" data-type="textile">
+      <div class="card-icon">💧</div>
+      <div class="card-title">和美紡織</div>
+      <div class="card-subtitle">觀音的綠色水脈</div>
+      <div class="card-desc">面對水資源大旱與快時尚毒衣物風暴，引進超臨界無水染技術，挑戰國際最嚴格的零排放認證。</div>
+      <div class="card-footer">
+        <span>環保染整 / 無水科技</span>
+        <span class="play-btn">進入遊戲 →</span>
+      </div>
+    </a>
+
+    <!-- 亞東石化 -->
+    <a href="orientalGame.html" class="card" data-type="petro">
+      <div class="card-icon">🛢️</div>
+      <div class="card-title">亞東石化</div>
+      <div class="card-subtitle">觀音的純化樞紐</div>
+      <div class="card-desc">石化業的減碳煉金術。度過空污黑煙危機，投資 CCU 廢氣碳捕捉技術，將二氧化碳轉化為衣服原料。</div>
+      <div class="card-footer">
+        <span>純對苯二甲酸 / 碳捕捉</span>
+        <span class="play-btn">進入遊戲 →</span>
+      </div>
+    </a>
+
+    <!-- 昇貿科技 -->
+    <a href="shenmaoGame.html" class="card" data-type="electronics">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">昇貿科技</div>
+      <div class="card-subtitle">觀音的電脈樞紐</div>
+      <div class="card-desc">AI 伺服器與 Apple 產品的隱形黏著劑。推動低溫銲料減碳，並拒絕血汗礦產，保護大潭藻礁生態。</div>
+      <div class="card-footer">
+        <span>微電子銲料 / 無鉛製程</span>
+        <span class="play-btn">進入遊戲 →</span>
+      </div>
+    </a>
+
+    <!-- 聚紡 -->
+    <a href="gfunGame.html" class="card" data-type="textile">
+      <div class="card-icon">🧵</div>
+      <div class="card-title">聚紡 GFun</div>
+      <div class="card-subtitle">觀音的機能奇蹟</div>
+      <div class="card-desc">把咖啡渣與廢棄鏡片變成頂級戶外防風衣！挺過空污申報的誠信危機，用智慧染整贏回全球品牌的信任。</div>
+      <div class="card-footer">
+        <span>機能塗佈 / 跨界回收</span>
+        <span class="play-btn">進入遊戲 →</span>
+      </div>
+    </a>
+
+    <!-- 台灣太陽油墨 -->
+    <a href="taiyoGame.html" class="card" data-type="electronics">
+      <div class="card-icon">🛡️</div>
+      <div class="card-title">台灣太陽油墨</div>
+      <div class="card-subtitle">矽島的綠色防護盾</div>
+      <div class="card-desc">守護電路板的經典綠色！從傳統網印邁向零廢液的「噴墨防焊」革命，成為 5G 與車用電子的堅實後盾。</div>
+      <div class="card-footer">
+        <span>防焊油墨 / 零廢液製程</span>
+        <span class="play-btn">進入遊戲 →</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 桃園市立觀音高中國際教育課程
+</footer>
+
+</body>
+</html>
