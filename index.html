@@ -3,25 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>桃園市立觀音高中 🌍 永續企業戰略模擬</title>
+<title>觀音產業 × 國際鏈結 | 永續企業戰略模擬</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=LXGW+WenKai+TC:wght@400;700&display=swap');
 
 :root {
-  /* 擷取自觀音高中校徽的明亮配色系統 */
-  --bg-base: #f4f9f9;
-  --bg-gradient-end: #e3ecec;
-  
-  /* 校徽主色調 */
-  --school-navy: #0d274c;   /* 深海藍 (文字/標題) */
-  --school-blue: #1b4f93;   /* 觀音藍 (點綴) */
-  --school-green: #148f77;  /* 湖水綠/青綠 */
+  /* 擷取自觀音高中校徽的核心配色 */
+  --school-navy: #133a71;   /* 深海藍 */
+  --school-blue: #1b4f93;   /* 觀音藍 */
+  --school-green: #148f77;  /* 湖水綠 */
   --school-gold: #d4ac0d;   /* 亮金 */
   
+  /* 明亮且純淨的背景色調 */
+  --bg-base: #f0f4f8;
   --text-main: #1a2b3c;
   --text-muted: #5d6d7e;
   
-  /* 各產業專屬能量光色 (適配明亮背景的飽和度) */
+  /* 各產業的提示光暈色 (配合明亮底色) */
   --glow-chem: #8e44ad;   /* 紫：化學 */
   --glow-energy: #d4ac0d; /* 金：能源 */
   --glow-textile: #27ae60;/* 綠：紡織 */
@@ -42,58 +40,41 @@ body {
   position: relative;
 }
 
-/* ================= 沉浸式動態背景 (水彩極光 + SVG 星點) ================= */
+/* ================= 沉浸式動態背景 (校徽流光漸層) ================= */
 #ambient-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: radial-gradient(circle at 50% 0%, #ffffff 0%, var(--bg-gradient-end) 100%);
+  background: #f4f8fb;
   overflow: hidden;
 }
 
-/* 明亮版：水彩極光光暈動畫 */
+/* 校徽配色的水彩極光光暈動畫 */
 .aurora-blob {
   position: absolute;
-  filter: blur(90px);
-  opacity: 0.15; /* 降低透明度營造柔和感 */
-  animation: floatBlob 20s infinite alternate ease-in-out;
+  filter: blur(100px);
+  opacity: 0.15; /* 輕柔透亮的質感 */
+  animation: floatBlob 25s infinite alternate ease-in-out;
   border-radius: 50%;
 }
-.blob-1 { width: 45vw; height: 45vw; background: var(--school-blue); top: -10%; left: -10%; }
+.blob-1 { width: 50vw; height: 50vw; background: var(--school-blue); top: -15%; left: -10%; }
 .blob-2 { width: 55vw; height: 55vw; background: var(--school-green); bottom: -10%; right: -15%; animation-delay: -5s; animation-direction: alternate-reverse;}
-.blob-3 { width: 35vw; height: 35vw; background: var(--school-gold); top: 30%; left: 40%; animation-delay: -10s; opacity: 0.12;}
+.blob-3 { width: 40vw; height: 40vw; background: var(--school-gold); top: 25%; left: 35%; animation-delay: -10s; opacity: 0.12;}
 
 @keyframes floatBlob {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(8vw, 8vh) scale(1.05); }
-  100% { transform: translate(-5vw, 12vh) scale(0.95); }
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(8vw, 8vh) scale(1.1) rotate(90deg); }
+  100% { transform: translate(-5vw, 12vh) scale(0.9) rotate(180deg); }
 }
 
-/* SVG 分子/供應鏈連線網 (深色線條配亮色底) */
-.svg-network {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.6;
-}
-.network-line { stroke: var(--school-navy); stroke-width: 0.6; stroke-dasharray: 4 6; opacity: 0.15; animation: dashMove 40s linear infinite; }
-.network-node { fill: var(--school-gold); animation: pulseNode 3s infinite alternate; }
-
-@keyframes dashMove { to { stroke-dashoffset: -1000; } }
-@keyframes pulseNode { 
-  0% { r: 1.5; opacity: 0.4; filter: drop-shadow(0 0 1px rgba(212,172,13,0.3)); } 
-  100% { r: 3; opacity: 0.8; filter: drop-shadow(0 0 4px rgba(212,172,13,0.6)); } 
-}
-
-/* 底部海洋/藻礁波浪 SVG (清新亮色版) */
+/* 底部流動的海洋與藻礁 SVG 波浪 */
 .wave-container {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 12vh;
-  min-height: 80px;
+  height: 15vh;
+  min-height: 120px;
   overflow: hidden;
   line-height: 0;
   z-index: 0;
@@ -108,9 +89,9 @@ body {
   animation: waveFlow 25s linear infinite;
   transform-origin: bottom;
 }
-.wave-1 { fill: rgba(20, 143, 119, 0.15); animation-duration: 30s; }
-.wave-2 { fill: rgba(27, 79, 147, 0.1); animation-duration: 22s; animation-direction: reverse; bottom: 0px; }
-.wave-3 { fill: rgba(255, 255, 255, 0.4); animation-duration: 35s; bottom: -10px; }
+.wave-1 { fill: rgba(20, 143, 119, 0.15); animation-duration: 35s; } /* 觀音綠波浪 */
+.wave-2 { fill: rgba(27, 79, 147, 0.12); animation-duration: 25s; animation-direction: reverse; bottom: 5px; } /* 觀音藍波浪 */
+.wave-3 { fill: rgba(255, 255, 255, 0.5); animation-duration: 40s; bottom: -10px; }
 
 @keyframes waveFlow {
   0% { transform: translateX(0); }
@@ -120,7 +101,7 @@ body {
 /* ================= 標頭區設計 ================= */
 header {
   text-align: center;
-  padding: 45px 20px 25px;
+  padding: 55px 20px 25px;
   position: relative;
   z-index: 10;
   display: flex;
@@ -128,55 +109,52 @@ header {
   align-items: center;
 }
 
-.logo-container {
-  width: 95px;
-  height: 95px;
+/* 移除白底，讓校徽自然懸浮 */
+.school-logo {
+  width: 110px;
+  height: auto;
   margin-bottom: 20px;
-  position: relative;
-  border-radius: 50%;
-  background: #ffffff;
-  padding: 8px;
-  box-shadow: 0 8px 25px rgba(13, 39, 76, 0.08), inset 0 0 10px rgba(0,0,0,0.03);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   animation: logoFloat 4s ease-in-out infinite alternate;
-}
-.logo-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  filter: drop-shadow(0 12px 20px rgba(27, 79, 147, 0.25));
 }
 
 @keyframes logoFloat {
-  0% { transform: translateY(0px); box-shadow: 0 8px 25px rgba(13, 39, 76, 0.08); }
-  100% { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(20, 143, 119, 0.15); }
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-10px); filter: drop-shadow(0 18px 25px rgba(20, 143, 119, 0.3)); }
 }
 
 header h1 {
   font-family: 'Noto Serif TC', serif;
-  font-size: 38px;
+  font-size: 40px;
   font-weight: 900;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   margin-bottom: 12px;
   background: linear-gradient(135deg, var(--school-navy), var(--school-blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+}
+
+header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--school-green);
+  margin-bottom: 16px;
+  letter-spacing: 2px;
 }
 
 header p {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-muted);
-  max-width: 650px;
+  max-width: 680px;
   margin: 0 auto;
   line-height: 1.8;
   letter-spacing: 1px;
 }
 
-/* ================= 遊戲卡片網格 (亮色毛玻璃 + SVG互動) ================= */
+/* ================= 遊戲卡片網格 (透亮毛玻璃 + SVG邊框) ================= */
 .container {
-  max-width: 1280px;
+  max-width: 1300px;
   margin: 20px auto 80px;
   padding: 0 25px;
   flex: 1;
@@ -192,9 +170,9 @@ header p {
 
 .card {
   position: relative;
-  background: rgba(255, 255, 255, 0.65); /* 明亮玻璃感 */
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.75); /* 高質感磨砂玻璃 */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
   padding: 30px 25px;
   text-decoration: none;
@@ -202,15 +180,15 @@ header p {
   display: flex;
   flex-direction: column;
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  border: 1px solid rgba(255, 255, 255, 1);
-  box-shadow: 0 10px 30px rgba(13, 39, 76, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 30px rgba(13, 39, 76, 0.06);
 }
 
 /* 卡片懸浮：上浮與深層發光 */
 .card:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-8px);
   background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 15px 40px rgba(13, 39, 76, 0.1);
+  box-shadow: 0 20px 40px rgba(13, 39, 76, 0.12);
 }
 
 /* ✨ 動態 SVG 追蹤邊框 (光脈衝特效) ✨ */
@@ -225,11 +203,11 @@ header p {
 }
 .card-svg-border rect {
   fill: none;
-  stroke-width: 3;
-  stroke-dasharray: 300 2000;
+  stroke-width: 3.5;
+  stroke-dasharray: 200 2000;
   stroke-dashoffset: 2000;
   opacity: 0;
-  transition: opacity 0.3s, stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.3s, stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   rx: 20px;
 }
 .card:hover .card-svg-border rect {
@@ -237,14 +215,14 @@ header p {
   stroke-dashoffset: 0;
 }
 
-/* 各產業專屬光效 */
-.card[data-type="chemical"] .card-svg-border rect { stroke: var(--glow-chem); filter: drop-shadow(0 0 4px rgba(142,68,173,0.5)); }
-.card[data-type="energy"] .card-svg-border rect { stroke: var(--glow-energy); filter: drop-shadow(0 0 4px rgba(212,172,13,0.5)); }
-.card[data-type="textile"] .card-svg-border rect { stroke: var(--glow-textile); filter: drop-shadow(0 0 4px rgba(39,174,96,0.5)); }
-.card[data-type="petro"] .card-svg-border rect { stroke: var(--glow-petro); filter: drop-shadow(0 0 4px rgba(192,57,43,0.5)); }
-.card[data-type="electronics"] .card-svg-border rect { stroke: var(--glow-elec); filter: drop-shadow(0 0 4px rgba(41,128,185,0.5)); }
+/* 各產業專屬光流色彩 */
+.card[data-type="chemical"] .card-svg-border rect { stroke: var(--glow-chem); filter: drop-shadow(0 0 6px rgba(142,68,173,0.5)); }
+.card[data-type="energy"] .card-svg-border rect { stroke: var(--glow-energy); filter: drop-shadow(0 0 6px rgba(212,172,13,0.5)); }
+.card[data-type="textile"] .card-svg-border rect { stroke: var(--glow-textile); filter: drop-shadow(0 0 6px rgba(39,174,96,0.5)); }
+.card[data-type="petro"] .card-svg-border rect { stroke: var(--glow-petro); filter: drop-shadow(0 0 6px rgba(192,57,43,0.5)); }
+.card[data-type="electronics"] .card-svg-border rect { stroke: var(--glow-elec); filter: drop-shadow(0 0 6px rgba(41,128,185,0.5)); }
 
-/* 卡片內部元素 (確保在 SVG 邊框之上) */
+/* 卡片內部元素 */
 .card-content {
   position: relative;
   z-index: 2;
@@ -253,7 +231,7 @@ header p {
   height: 100%;
 }
 
-/* 旋轉圖騰與圖標 */
+/* 幾何旋轉底圖與 Emoji */
 .icon-container {
   position: relative;
   width: 65px;
@@ -263,25 +241,25 @@ header p {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
 .icon-bg {
   position: absolute;
-  inset: -5px;
-  animation: spin 15s linear infinite;
-  opacity: 0.2;
+  inset: -6px;
+  animation: spin 18s linear infinite;
+  opacity: 0.15;
   transition: opacity 0.3s, transform 0.3s;
 }
 .card:hover .icon-bg { 
-  opacity: 0.5; 
-  animation-duration: 5s; 
+  opacity: 0.4; 
+  animation-duration: 6s; 
 }
 
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
-/* 針對明亮背景，替圖騰設定專屬顏色 */
+/* 圖騰顏色調適 */
 .card[data-type="chemical"] .icon-bg svg { stroke: var(--glow-chem); }
 .card[data-type="energy"] .icon-bg svg { stroke: var(--glow-energy); }
 .card[data-type="textile"] .icon-bg svg { stroke: var(--glow-textile); }
@@ -291,15 +269,15 @@ header p {
 .card-icon {
   font-size: 34px;
   z-index: 2;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.card:hover .card-icon { transform: scale(1.15) rotate(-5deg); }
+.card:hover .card-icon { transform: scale(1.2) rotate(-5deg); }
 
 /* 卡片文字 */
 .card-title {
   font-family: 'Noto Serif TC', serif;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 900;
   margin-bottom: 6px;
   letter-spacing: 1px;
@@ -311,14 +289,13 @@ header p {
   font-weight: 700;
   margin-bottom: 16px;
   letter-spacing: 1.5px;
-  color: var(--school-green);
 }
 
-/* 特殊副標題顏色調適 */
 .card[data-type="chemical"] .card-subtitle { color: var(--glow-chem); }
-.card[data-type="energy"] .card-subtitle { color: #b9770e; }
+.card[data-type="energy"] .card-subtitle { color: var(--glow-energy); }
+.card[data-type="textile"] .card-subtitle { color: var(--glow-textile); }
 .card[data-type="petro"] .card-subtitle { color: var(--glow-petro); }
-.card[data-type="electronics"] .card-subtitle { color: var(--school-blue); }
+.card[data-type="electronics"] .card-subtitle { color: var(--glow-elec); }
 
 .card-desc {
   font-size: 14px;
@@ -327,11 +304,11 @@ header p {
   flex: 1;
 }
 
-/* 底部標籤與按鈕 */
+/* 底部標籤與進入按鈕 */
 .card-footer {
   margin-top: 25px;
   padding-top: 15px;
-  border-top: 1px dashed rgba(13, 39, 76, 0.1);
+  border-top: 1px dashed rgba(13, 39, 76, 0.15);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -362,7 +339,7 @@ header p {
 }
 
 .card[data-type="chemical"]:hover .play-btn { background: var(--glow-chem); color: #fff; box-shadow: 0 4px 10px rgba(142,68,173,0.3); transform: translateX(4px);}
-.card[data-type="energy"]:hover .play-btn { background: var(--glow-energy); color: #fff; box-shadow: 0 4px 10px rgba(241,196,15,0.3); transform: translateX(4px);}
+.card[data-type="energy"]:hover .play-btn { background: var(--glow-energy); color: #fff; box-shadow: 0 4px 10px rgba(212,172,13,0.3); transform: translateX(4px);}
 .card[data-type="textile"]:hover .play-btn { background: var(--glow-textile); color: #fff; box-shadow: 0 4px 10px rgba(39,174,96,0.3); transform: translateX(4px);}
 .card[data-type="petro"]:hover .play-btn { background: var(--glow-petro); color: #fff; box-shadow: 0 4px 10px rgba(192,57,43,0.3); transform: translateX(4px);}
 .card[data-type="electronics"]:hover .play-btn { background: var(--glow-elec); color: #fff; box-shadow: 0 4px 10px rgba(41,128,185,0.3); transform: translateX(4px);}
@@ -376,15 +353,17 @@ footer {
   letter-spacing: 1.5px;
   backdrop-filter: blur(10px);
   z-index: 10;
-  border-top: 1px solid rgba(13, 39, 76, 0.05);
-  background: rgba(255, 255, 255, 0.5);
+  border-top: 1px solid rgba(27, 79, 147, 0.08);
+  background: rgba(255, 255, 255, 0.6);
   margin-top: auto;
 }
 
+/* 響應式調整 */
 @media (max-width: 768px) {
-  header h1 { font-size: 28px; }
+  header h1 { font-size: 30px; }
+  header h2 { font-size: 16px; }
   .grid { grid-template-columns: 1fr; }
-  .logo-container { width: 80px; height: 80px; }
+  .school-logo { width: 90px; }
 }
 </style>
 </head>
@@ -392,10 +371,12 @@ footer {
 
 <!-- 沉浸式明亮動態背景 -->
 <div id="ambient-bg">
+  <!-- 校徽配色的極光暈染 -->
   <div class="aurora-blob blob-1"></div>
   <div class="aurora-blob blob-2"></div>
   <div class="aurora-blob blob-3"></div>
   
+  <!-- 高科技感的深藍色 SVG 連線網 -->
   <svg class="svg-network" width="100%" height="100%">
     <line class="network-line" x1="10%" y1="20%" x2="30%" y2="50%" />
     <line class="network-line" x1="30%" y1="50%" x2="70%" y2="40%" />
@@ -412,7 +393,7 @@ footer {
     <circle class="network-node" cx="50%" cy="90%" style="animation-delay: 2.5s" />
   </svg>
 
-  <!-- 清新版底部海洋波浪 SVG -->
+  <!-- 底部清新的海洋與藻礁波浪 SVG -->
   <div class="wave-container">
     <svg class="wave-1" viewBox="0 0 1200 120" preserveAspectRatio="none">
       <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118,137.9,114,204,96.88,245.4,85.81,283.6,70.51,321.39,56.44Z"></path>
@@ -427,11 +408,12 @@ footer {
 </div>
 
 <header>
-  <div class="logo-container">
-    <img src="桃園市立觀音高級中等學校校徽.png" alt="桃園市立觀音高級中等學校校徽" onerror="this.style.display='none'">
-  </div>
-  <h1>觀音企業永續模擬</h1>
-  <p>穿透廠房的圍牆，看見台灣隱形冠軍如何以綠色科技翻轉全球供應鏈。<br>請選擇一家企業，啟動您的專屬戰略模擬。</p>
+  <!-- 直接懸浮的校徽 -->
+  <img src="桃園市立觀音高級中等學校校徽.png" alt="桃園市立觀音高級中等學校校徽" class="school-logo" onerror="this.style.display='none'">
+  
+  <h1>觀音產業 × 國際鏈結</h1>
+  <h2>永續企業戰略模擬</h2>
+  <p>在地出發，鏈結全球。探索台灣隱形冠軍如何以綠色科技翻轉國際供應鏈。<br>請選擇一家在地企業，啟動您的專屬戰略模擬。</p>
 </header>
 
 <div class="container">
@@ -452,7 +434,7 @@ footer {
         <div class="card-desc">從傳統染料到半導體光阻劑，體驗化學工業的垂直整合，在 ZDHC 零污染與高科技之間尋求平衡。</div>
         <div class="card-footer">
           <span class="tags">特用化學 / 電子材料</span>
-          <span class="play-btn">啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
     </a>
@@ -472,7 +454,7 @@ footer {
         <div class="card-desc">掌控全球電動車的心臟！從進口鈷鎳礦到精煉正極材料，並發展廢觸媒回收技術克服重金屬危機。</div>
         <div class="card-footer">
           <span class="tags">電池材料 / 循環經濟</span>
-          <span class="play-btn">啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
     </a>
@@ -492,7 +474,7 @@ footer {
         <div class="card-desc">將廢寶特瓶化為神奇的 rPET 再生酯粒。串聯 Nike 與可口可樂，打造全球最龐大的綠色循環供應鏈。</div>
         <div class="card-footer">
           <span class="tags">聚酯化纖 / 閉環回收</span>
-          <span class="play-btn">啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
     </a>
@@ -512,7 +494,7 @@ footer {
         <div class="card-desc">面對水資源大旱與快時尚毒衣物風暴，引進超臨界無水染技術，挑戰國際最嚴格的零排放認證。</div>
         <div class="card-footer">
           <span class="tags">環保染整 / 無水科技</span>
-          <span class="play-btn">啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
     </a>
@@ -532,7 +514,7 @@ footer {
         <div class="card-desc">石化業的減碳煉金術。度過空污黑煙危機，投資 CCU 廢氣碳捕捉技術，將二氧化碳轉化為衣服原料。</div>
         <div class="card-footer">
           <span class="tags">PTA / 碳捕捉(CCU)</span>
-          <span class="play-btn">啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
     </a>
@@ -552,7 +534,7 @@ footer {
         <div class="card-desc">AI 伺服器與 Apple 的隱形黏著劑。推動低溫銲料減碳，並拒絕血汗礦產，保護大潭藻礁海岸生態。</div>
         <div class="card-footer">
           <span class="tags">微電子銲料 / 衝突礦產</span>
-          <span class="play-btn">啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
     </a>
@@ -572,7 +554,7 @@ footer {
         <div class="card-desc">把咖啡渣與廢棄鏡片變成戶外防風衣！挺過空污申報危機，用智慧染整贏回全球頂級品牌的信任。</div>
         <div class="card-footer">
           <span class="tags">機能塗佈 / 跨界升級</span>
-          <span class="play-btn">啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
     </a>
@@ -592,7 +574,7 @@ footer {
         <div class="card-desc">守護電路板的經典綠色！從傳統網印邁向零廢液的「噴墨防焊」革命，成為車用與 5G 電子的堅實後盾。</div>
         <div class="card-footer">
           <span class="tags">防焊油墨 / 零廢液製程</span>
-          <span class="play-btn">啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="play-btn">模擬啟動 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
     </a>
