@@ -4,24 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>💧 和美紡織 — 觀音的綠色水脈</title>
+<title>💧 和美紡織 — 觀音的綠色水脈 Homei</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=LXGW+WenKai+TC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 :root{--bg:rgba(235,245,250,0.95);--bgs:#ebf5fa;--brd:#a9cce3;--teal:#154360;--gold:#b9770e;--red:#c0392b;--green:#1e8449;--purple:#6c3483;--txt:#1b2631;--muted:#5d6d7e;--light:#aeb6bf;}
 *{margin:0;padding:0;box-sizing:border-box;touch-action:manipulation;user-select:none;}
-body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dvh;overflow:hidden;color:var(--txt);display:flex;flex-direction:column;background:#0e2b3c;}
-#chem-bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:linear-gradient(135deg,#0e2b3c 0%,#154360 30%,#1a5276 60%,#0e2b3c 100%);}
+body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dvh;overflow:hidden;color:var(--txt);display:flex;flex-direction:column;background:#0d1b2a;}
+#chem-bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:linear-gradient(135deg,#0d1b2a 0%,#154360 30%,#1a5276 60%,#0d1b2a 100%);}
 .particle{position:absolute;width:4px;height:4px;background:rgba(169,204,227,0.5);border-radius:50%;animation:twinkle 4s ease-in-out infinite;pointer-events:none;}
 @keyframes twinkle{0%,100%{opacity:0;transform:scale(0.3);}50%{opacity:1;transform:scale(1.5);}}
 #hud{flex:0 0 auto;background:var(--bg);border-bottom:2px solid var(--brd);padding:4px;padding-top:max(4px,env(safe-area-inset-top));display:grid;grid-template-columns:repeat(5,1fr);gap:2px;z-index:100;position:relative;backdrop-filter:blur(12px);}
 .stat-box{text-align:center;border:1.5px solid var(--brd);background:rgba(255,255,255,0.7);padding:2px 1px;border-radius:6px;cursor:pointer;transition:background 0.2s;position:relative;}
 .stat-box:active{background:rgba(212,230,241,0.8);}
-.stat-box.warn{background:rgba(185,119,14,0.15);border-color:var(--gold);}
+.stat-box.warn{background:rgba(212,172,13,0.15);border-color:var(--gold);}
 .stat-box.danger{background:rgba(192,57,43,0.12);border-color:var(--red);}
 .stat-label{font-size:9px;color:var(--muted);display:block;letter-spacing:0.5px;}
 .stat-val{font-family:'Playfair Display',serif;font-size:15px;color:var(--txt);font-weight:bold;line-height:1;}
-.stat-val.gold{color:#935116;}.stat-val.teal{color:var(--teal);}.stat-val.green{color:#145a32;}.stat-val.red{color:#922b21;}.stat-val.purple{color:var(--purple);}
+.stat-val.gold{color:var(--gold);}.stat-val.teal{color:var(--teal);}.stat-val.green{color:var(--green);}.stat-val.red{color:var(--red);}.stat-val.purple{color:var(--purple);}
 #info-bar{display:flex;width:100%;background:rgba(235,245,250,0.92);border-bottom:1.5px solid var(--brd);font-size:11px;line-height:1.3;z-index:90;flex-shrink:0;backdrop-filter:blur(8px);}
 #info-bar-story{flex:1;padding:3px 6px;border-right:1px solid var(--brd);color:var(--txt);}
 #info-bar-goals{flex:1;padding:3px 6px;}
@@ -31,11 +31,11 @@ body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dv
 .goal-item .gc{font-size:11px;}.goal-item .gc.done{color:var(--green);font-weight:bold;}
 #game-stage{flex:1;position:relative;display:flex;justify-content:center;align-items:center;overflow:hidden;width:100%;z-index:1;}
 #factory-view{position:relative;width:100%;height:100%;transition:filter 0.5s;}
-#factory-view.polluted{filter:sepia(0.3) hue-rotate(180deg) brightness(0.85);} /* 廢水污染感 */
-#factory-view.very-polluted{filter:sepia(0.6) hue-rotate(200deg) brightness(0.7) contrast(1.2);}
+#factory-view.polluted{filter:sepia(0.3) hue-rotate(160deg) brightness(0.85);}
+#factory-view.very-polluted{filter:sepia(0.6) hue-rotate(180deg) brightness(0.7) contrast(1.2);}
 #year-display{position:absolute;top:8px;left:8px;padding:4px 12px;color:var(--txt);font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;z-index:92;pointer-events:none;background:rgba(255,255,255,0.85);border-radius:16px;border:1.5px solid var(--brd);backdrop-filter:blur(8px);letter-spacing:2px;}
-#stage-badge{position:absolute;top:8px;right:8px;padding:3px 10px;color:#fff;font-family:'Noto Serif TC',serif;font-size:11px;font-weight:700;z-index:92;background:var(--teal);border-radius:12px;}
-#cbam-badge{display:none;position:absolute;top:36px;right:8px;padding:2px 10px;background:linear-gradient(135deg,var(--green),#145a32);color:#fff;font-size:10px;font-weight:700;border-radius:10px;letter-spacing:1px;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:92;}
+#stage-badge{position:absolute;top:8px;right:8px;padding:3px 10px;color:#fff;font-family:'Noto Serif TC',serif;font-size:11px;font-weight:700;z-index:92;background:var(--teal);border-radius:12px;margin-right:45px;}
+#bluesign-badge{display:none;position:absolute;top:36px;right:8px;padding:2px 10px;background:linear-gradient(135deg,var(--green),#145a32);color:#fff;font-size:10px;font-weight:700;border-radius:10px;letter-spacing:1px;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:92;}
 #factory-grid{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:50px 10px 22px;overflow:hidden;}
 .fac-zone{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.15);border-radius:8px;padding:5px 8px;min-height:36px;flex-wrap:wrap;}
 .fac-zone-label{font-size:9px;color:rgba(255,255,255,0.7);width:26px;flex-shrink:0;text-align:right;padding-right:5px;border-right:1px solid rgba(255,255,255,0.3);margin-right:3px;letter-spacing:0.5px;}
@@ -83,10 +83,10 @@ body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dv
 @keyframes pulse-btn{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
 #toast-c{position:fixed;top:calc(108px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:260px;pointer-events:none;z-index:1500;display:flex;flex-direction:column;gap:5px;}
 .toast{background:rgba(255,255,255,0.95);color:var(--txt);border-left:3px solid var(--teal);padding:5px 10px;font-family:'LXGW WenKai TC',serif;font-size:12px;border-radius:8px;backdrop-filter:blur(8px);opacity:0;transform:translateY(-8px);animation:tIn 0.3s forwards;transition:all 0.4s ease;box-shadow:0 4px 12px rgba(0,0,0,0.15);}
-.toast.good{border-color:var(--green);}.toast.bad{border-color:var(--red);color:var(--red);}.toast.warn{border-color:var(--gold);color:#935116;}
+.toast.good{border-color:var(--green);}.toast.bad{border-color:var(--red);color:var(--red);}.toast.warn{border-color:var(--gold);color:var(--gold);}
 @keyframes tIn{to{opacity:1;transform:translateY(0);}}
 .toast.hiding{opacity:0;transform:translateX(10px);max-height:0;padding:0;margin:0;border:none;}
-#modal-ov{position:fixed;inset:0;background:rgba(14,43,60,0.75);z-index:3000;display:none;justify-content:center;align-items:center;padding:15px;backdrop-filter:blur(5px);}
+#modal-ov{position:fixed;inset:0;background:rgba(13,27,42,0.75);z-index:3000;display:none;justify-content:center;align-items:center;padding:15px;backdrop-filter:blur(5px);}
 .mdlg{background:linear-gradient(135deg,var(--teal),#1a5276);border:2px solid rgba(255,255,255,0.3);padding:3px;width:95%;max-width:380px;max-height:88vh;box-shadow:0 15px 45px rgba(0,0,0,0.4);display:flex;flex-direction:column;border-radius:14px;}
 .mdlg-in{background:var(--bgs);border:1px solid var(--brd);padding:16px;text-align:center;overflow-y:auto;border-radius:12px;}
 .mbtn{margin-top:12px;background:rgba(21,67,96,0.1);color:var(--txt);border:1.5px solid var(--brd);padding:10px 18px;cursor:pointer;font-size:14px;width:100%;font-family:'Noto Serif TC',serif;font-weight:700;border-radius:10px;transition:all 0.2s;letter-spacing:2px;}
@@ -97,8 +97,8 @@ body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dv
 .ch-btn:active{background:rgba(21,67,96,0.15);border-color:var(--teal);}
 .ch-title{font-weight:700;color:var(--teal);margin-bottom:2px;}
 .ch-desc{font-size:11px;color:var(--muted);}
-#name-ov{display:none;position:fixed;inset:0;z-index:6000;background:linear-gradient(135deg,#0e2b3c 0%,#154360 35%,#1a5276 65%,#0e2b3c 100%);flex-direction:column;align-items:center;justify-content:center;padding:20px;}
-#tut-ov{position:fixed;inset:0;background:rgba(14,43,60,0.8);z-index:2000;display:none;cursor:pointer;backdrop-filter:blur(3px);}
+#name-ov{display:none;position:fixed;inset:0;z-index:6000;background:linear-gradient(135deg,#0d1b2a 0%,#154360 35%,#1a5276 65%,#0d1b2a 100%);flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+#tut-ov{position:fixed;inset:0;background:rgba(13,27,42,0.8);z-index:2000;display:none;cursor:pointer;backdrop-filter:blur(3px);}
 #tut-tip{position:fixed;top:30%;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.97);color:var(--txt);padding:16px 18px;border-radius:14px;font-weight:600;z-index:2002;display:none;box-shadow:0 8px 30px rgba(0,0,0,0.25);text-align:center;width:80%;animation:fTip 2s ease-in-out infinite alternate;cursor:pointer;font-family:'LXGW WenKai TC',serif;line-height:1.6;}
 .tut-t{color:var(--teal);font-size:14px;margin-bottom:6px;border-bottom:1.5px solid var(--brd);padding-bottom:3px;font-family:'Noto Serif TC',serif;font-weight:700;letter-spacing:2px;}
 @keyframes fTip{from{transform:translate(-50%,0);}to{transform:translate(-50%,-8px);}}
@@ -109,40 +109,42 @@ body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dv
 </style>
 </head>
 <body>
+<button id="lang-btn" onclick="toggleLang()" style="position:fixed;top:10px;right:10px;z-index:9999;background:rgba(26,107,138,0.92);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:1px;box-shadow:0 2px 10px rgba(0,0,0,0.25);backdrop-filter:blur(8px);transition:all 0.2s;">EN</button>
+
 <div id="chem-bg"><div class="particle" style="top:15%;left:10%;animation-delay:0s;"></div><div class="particle" style="top:30%;left:30%;animation-delay:0.8s;"></div><div class="particle" style="top:50%;left:55%;animation-delay:1.5s;"></div><div class="particle" style="top:40%;left:75%;animation-delay:0.3s;"></div><div class="particle" style="top:65%;left:85%;animation-delay:2s;"></div><div class="particle" style="top:25%;left:50%;animation-delay:1.2s;"></div></div>
 <div id="toast-c"></div>
 <div id="tut-ov" onclick="G.tutClick()"></div>
-<div id="tut-tip" onclick="G.tutClick()"><div id="tut-text"></div><div class="tut-next">▼ 點擊繼續</div></div>
+<div id="tut-tip" onclick="G.tutClick()"><div id="tut-text"></div><div class="tut-next" data-i18n="tut_next">▼ 點擊繼續</div></div>
 <div id="hud">
-  <div class="stat-box" onclick="UI.help('funds')"><span class="stat-label">💰 資金</span><span class="stat-val gold" id="h-funds">1,200</span></div>
-  <div class="stat-box" onclick="UI.help('rep')"><span class="stat-label">🏆 聲譽</span><span class="stat-val teal" id="h-rep">50</span></div>
-  <div class="stat-box" onclick="UI.help('tech')"><span class="stat-label">🔬 技術</span><span class="stat-val" id="h-tech">5</span></div>
-  <div class="stat-box" onclick="UI.help('esg')"><span class="stat-label">🌿 ESG</span><span class="stat-val green" id="h-esg">20</span></div>
-  <div class="stat-box" onclick="UI.help('poll')"><span class="stat-label">☣️ 廢水污染</span><span class="stat-val purple" id="h-poll">0</span></div>
+  <div class="stat-box" onclick="UI.help('funds')"><span class="stat-label" data-i18n="stat_funds">💰 資金</span><span class="stat-val gold" id="h-funds">1,200</span></div>
+  <div class="stat-box" onclick="UI.help('rep')"><span class="stat-label" data-i18n="stat_rep">🏆 聲譽</span><span class="stat-val teal" id="h-rep">50</span></div>
+  <div class="stat-box" onclick="UI.help('tech')"><span class="stat-label" data-i18n="stat_tech">🔬 技術</span><span class="stat-val" id="h-tech">10</span></div>
+  <div class="stat-box" onclick="UI.help('esg')"><span class="stat-label" data-i18n="stat_esg">🌿 ESG</span><span class="stat-val green" id="h-esg">20</span></div>
+  <div class="stat-box" onclick="UI.help('poll')"><span class="stat-label" data-i18n="stat_poll">☣️ 廢水/空污</span><span class="stat-val purple" id="h-poll">0</span></div>
 </div>
 <div id="info-bar">
-  <div id="info-bar-story" onclick="UI.stageDetail()" style="cursor:pointer;"><div class="bar-title">📋 營運簡報</div><div id="story-text" style="font-size:10px;">...</div></div>
-  <div id="info-bar-goals"><div class="bar-title">🏆 階段目標</div><div id="goal-list"></div></div>
+  <div id="info-bar-story" onclick="UI.stageDetail()" style="cursor:pointer;"><div class="bar-title" data-i18n="bar_story">📋 營運簡報</div><div id="story-text" style="font-size:10px;">...</div></div>
+  <div id="info-bar-goals"><div class="bar-title" data-i18n="bar_goals">🏆 階段目標</div><div id="goal-list"></div></div>
 </div>
 <div id="game-stage"><div id="factory-view">
-  <div id="year-display">1985年</div><div id="stage-badge">第一階段</div>
-  <div id="cbam-badge">🏅 ZDHC零排放</div>
+  <div id="year-display">1993年</div><div id="stage-badge">第一階段</div>
+  <div id="bluesign-badge">🏅 Bluesign 認證</div>
   <div id="factory-grid"></div>
   <div id="data-overlay">
-    <div class="drow"><span>年營收</span><span class="dval" id="s-rev">$0</span></div>
-    <div class="drow"><span>廠房數</span><span class="dval" id="s-fac">0</span></div>
+    <div class="drow"><span data-i18n="ov_rev">年營收</span><span class="dval" id="s-rev">$0</span></div>
+    <div class="drow"><span data-i18n="ov_fac">廠房數</span><span class="dval" id="s-fac">0</span></div>
     <div class="dsep"></div>
-    <div class="drow"><span>紗線存量</span><span class="dval" id="s-mat">0</span></div>
-    <div class="drow"><span>廢水/碳排</span><span class="dval" id="s-polly">+0</span></div>
-    <div class="drow"><span>合約客戶</span><span class="dval" id="s-exp">0家</span></div>
+    <div class="drow"><span data-i18n="ov_mat">胚布存量</span><span class="dval" id="s-mat">0</span></div>
+    <div class="drow"><span data-i18n="ov_pollpd">污染變化</span><span class="dval" id="s-polly">+0</span></div>
+    <div class="drow"><span data-i18n="ov_exp">品牌客戶</span><span class="dval" id="s-exp">0家</span></div>
   </div>
   <div id="poll-bar"><div id="poll-fill" style="width:0;background:var(--green);"></div><span id="poll-label">☣️ 0</span></div>
 </div></div>
-<div id="next-btn" onclick="G.nextTurn()">下一<br>年度</div>
+<div id="next-btn" onclick="G.nextTurn()" data-i18n="next_btn">下一<br>年度</div>
 <div id="bottom-panel">
   <div class="tabs">
-    <button class="tab-b active" id="tb-build" onclick="UI.tab('build')">🏭 觀音廠區建設</button>
-    <button class="tab-b" id="tb-trade" onclick="UI.tab('trade')">🌍 原料採購與接單</button>
+    <button class="tab-b active" id="tb-build" onclick="UI.tab('build')"><span data-i18n="tab_build">🏭 觀音廠區建設</span></button>
+    <button class="tab-b" id="tb-trade" onclick="UI.tab('trade')"><span data-i18n="tab_trade">🌍 採購與出貨</span></button>
   </div>
   <div id="tc-build" class="tab-c active"><div id="build-deck" class="deck"></div></div>
   <div id="tc-trade" class="tab-c"><div id="trade-deck" class="deck"></div></div>
@@ -155,123 +157,181 @@ body{font-family:'LXGW WenKai TC','Noto Serif TC',serif;width:100vw;height:100dv
 <div id="name-ov">
   <div style="text-align:center;max-width:340px;width:100%;">
     <div style="font-size:44px;margin-bottom:10px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));">💧</div>
-    <div style="font-size:22px;font-weight:900;color:#ffffff;font-family:'Noto Serif TC',serif;letter-spacing:3px;margin-bottom:5px;text-shadow:0 2px 10px rgba(0,0,0,0.4);">觀音的綠色水脈</div>
-    <div style="font-size:11px;color:rgba(255,255,255,0.65);letter-spacing:2px;margin-bottom:28px;font-family:'LXGW WenKai TC',serif;">和美紡織 · 染整水資源與零排放模擬</div>
+    <div data-i18n="intro_tagline" style="font-size:22px;font-weight:900;color:#ffffff;font-family:'Noto Serif TC',serif;letter-spacing:3px;margin-bottom:5px;text-shadow:0 2px 10px rgba(0,0,0,0.4);">觀音的綠色水脈</div>
+    <div data-i18n="intro_subtitle" style="font-size:11px;color:rgba(255,255,255,0.65);letter-spacing:2px;margin-bottom:28px;font-family:'LXGW WenKai TC',serif;">和美紡織 Homei · 永續染整與零排放模擬</div>
     <div id="name-box" style="background:rgba(235,245,250,0.95);border:2px solid rgba(255,255,255,0.6);border-radius:14px;padding:18px 16px;text-align:left;backdrop-filter:blur(16px);box-shadow:0 8px 32px rgba(0,0,0,0.3);">
-      <div style="font-family:'Noto Serif TC',serif;font-size:13px;color:var(--teal);font-weight:700;margin-bottom:6px;">📋 董事長室任命</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6;">1985年，桃園觀音工業區。<br>傳統染整業面臨極大的耗水與廢水挑戰。你將帶領和美紡織轉型，從高污染代工走向全球最頂尖的零排放綠色紡織樞紐。</div>
+      <div data-i18n="intro_appt" style="font-family:'Noto Serif TC',serif;font-size:13px;color:var(--teal);font-weight:700;margin-bottom:6px;">📋 董事長室任命</div>
+      <div data-i18n="intro_desc" style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6;">1993年，桃園觀音工業區。<br>你將帶領和美紡織，從高耗水的傳統染整廠，轉型為全球頂尖的廢水零排放綠色紡織樞紐。</div>
       <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.7);border:1.5px solid var(--brd);border-radius:9px;padding:8px 12px;">
         <span style="font-size:18px;">👤</span>
-        <input id="p-name" type="text" maxlength="12" placeholder="輸入您的名字…" style="flex:1;min-width:0;background:transparent;border:none;color:var(--txt);font-size:16px;padding:4px 2px;outline:none;font-family:'Noto Serif TC',serif;letter-spacing:2px;" onkeydown="if(event.key==='Enter')G.confirmName()"/>
+        <input id="p-name" type="text" maxlength="12" data-i18n="intro_input" placeholder="輸入您的名字…" style="flex:1;min-width:0;background:transparent;border:none;color:var(--txt);font-size:16px;padding:4px 2px;outline:none;font-family:'Noto Serif TC',serif;letter-spacing:2px;" onkeydown="if(event.key==='Enter')G.confirmName()"/>
       </div>
     </div>
-    <button onclick="G.confirmName()" style="margin-top:14px;width:100%;padding:13px;background:var(--teal);border:none;color:#fff;font-size:14px;font-family:'Noto Serif TC',serif;font-weight:700;letter-spacing:3px;cursor:pointer;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.25);transition:opacity 0.2s;">🏭 接受任命，啟程 1985</button>
+    <button onclick="G.confirmName()" data-i18n="intro_btn" style="margin-top:14px;width:100%;padding:13px;background:var(--teal);border:none;color:#fff;font-size:14px;font-family:'Noto Serif TC',serif;font-weight:700;letter-spacing:3px;cursor:pointer;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.25);transition:opacity 0.2s;">🏭 接受任命，啟程 1993</button>
   </div>
 </div>
 <script>
-/* ===== BUILDINGS: Tailored for Ho Mei Textile (Dyeing & Finishing) ===== */
-const B={
-  dye:{id:'dye',name:'傳統高溫染整線',e:'🌡️',cost:300,rev:250,poll:4,treq:0,d:'基礎染整代工。高耗水且產生大量廢水，會快速累積污染值。'},
-  eco_dye:{id:'eco_dye',name:'低浴比氣流染機',e:'🌬️',cost:800,rev:550,poll:2,treq:20,d:'大幅降低用水量與化學品消耗，適合接高品質運動品牌訂單。'},
-  waterless:{id:'waterless',name:'超臨界無水染機',e:'🛸',cost:1600,rev:900,poll:-1,treq:50,d:'利用CO2進行無水染色，徹底解決水資源與廢水問題。ESG+5',ot:'esg',boost:5},
-  vietnam:{id:'vietnam',name:'東南亞成衣廠',e:'🌏',cost:1200,rev:600,poll:1,treq:25,d:'垂直整合下游，提供從染布到成衣的一站式服務。'},
-  rd:{id:'rd',name:'綠色紡織實驗室',e:'🔬',cost:1000,rev:0,poll:0,treq:0,d:'開發環保染料與再生布料技術。建設時一次性技術+15',ot:'tech',boost:15},
-  water_treat:{id:'water_treat',name:'MBR廢水處理廠',e:'💧',cost:800,rev:0,poll:-5,treq:10,d:'高階生物薄膜廢水處理，水回收率達70%。強烈抑制廢水污染！ESG+10',ot:'esg',boost:10,green:true},
-  solar:{id:'solar',name:'廠區熱回收與太陽能',e:'☀️',cost:600,rev:0,poll:-2,treq:25,d:'回收染機熱水廢熱並供應綠電，減少碳排。建設時ESG+8',ot:'esg',boost:8,green:true},
-  zdhc:{id:'zdhc',name:'ZDHC 零排放認證',e:'🏅',cost:1500,rev:0,poll:-2,treq:60,d:'有害化學物質零排放認證，接軌國際頂級品牌。ESG+20，限一次',ot:'esg',boost:20,ereq:75,maxPoll:20,stageReq:4,green:true,max:1} // 第五階段解鎖
-};
-const BKEYS=['dye','eco_dye','waterless','vietnam','rd','water_treat','solar','zdhc'];
+/* ===== I18N SYSTEM ===== */
+var LANG = localStorage.getItem('guanyin_lang') || 'zh';
+const T = (zh, en) => LANG === 'en' && en ? en : zh;
+const tObj = (obj, key) => T(obj[key], obj[key+'_en'] || obj[key]);
+const Tobj = tObj;
 
-/* SUPPLIERS: Textile Supply Chain */
+const GAME_I18N = {
+  'stat_funds': { zh: '💰 資金', en: '💰 Funds' },
+  'stat_rep': { zh: '🏆 聲譽', en: '🏆 Rep' },
+  'stat_tech': { zh: '🔬 技術', en: '🔬 Tech' },
+  'stat_esg': { zh: '🌿 ESG', en: '🌿 ESG' },
+  'stat_poll': { zh: '☣️ 廢水/空污', en: '☣️ Wastewater/Pollution' },
+  'bar_story': { zh: '📋 營運簡報', en: '📋 Mission Brief' },
+  'bar_goals': { zh: '🏆 階段目標', en: '🏆 Stage Goals' },
+  'ov_rev': { zh: '年營收', en: 'Annual Revenue' },
+  'ov_fac': { zh: '廠房數', en: 'Facilities' },
+  'ov_mat': { zh: '胚布存量', en: 'Fabric Stock' },
+  'ov_pollpd': { zh: '污染變化', en: 'Pollution Δ' },
+  'ov_exp': { zh: '品牌客戶', en: 'Major Clients' },
+  'tab_build': { zh: '🏭 觀音廠區建設', en: '🏭 Guanyin Plant Build' },
+  'tab_trade': { zh: '🌍 採購與出貨', en: '🌍 Sourcing & Shipping' },
+  'tut_next': { zh: '▼ 點擊繼續', en: '▼ Click to Continue' },
+  'next_btn': { zh: '下一<br>年度', en: 'Next<br>Year' },
+  'intro_tagline': { zh: '觀音的綠色水脈', en: "Guanyin's Green Waterway" },
+  'intro_subtitle': { zh: '和美紡織 Homei · 永續染整與零排放模擬', en: 'Homei Textile · Sustainable Dyeing & ZLD Sim' },
+  'intro_appt': { zh: '📋 董事長室任命', en: '📋 Board Appointment' },
+  'intro_desc': { zh: '1993年，桃園觀音工業區。<br>你將帶領和美紡織，從高耗水的傳統染整廠，轉型為全球頂尖的廢水零排放綠色紡織樞紐。', en: '1993, Guanyin Industrial Park.<br>Lead Homei Textile from a high-water-use traditional dyeing plant to a global top-tier zero-discharge green textile hub.' },
+  'intro_input': { zh: '輸入您的名字…', en: 'Enter your name...' },
+  'intro_btn': { zh: '🏭 接受任命，啟程 1993', en: '🏭 Accept & Start 1993' }
+};
+
+function applyStaticI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = GAME_I18N[el.dataset.i18n];
+    if (v) {
+      if (el.tagName === 'INPUT') el.placeholder = T(v.zh, v.en);
+      else el.innerHTML = T(v.zh, v.en);
+    }
+  });
+}
+
+function toggleLang() {
+  LANG = LANG === 'zh' ? 'en' : 'zh';
+  localStorage.setItem('guanyin_lang', LANG);
+  document.getElementById('lang-btn').innerText = LANG === 'en' ? '中' : 'EN';
+  applyStaticI18n();
+  UI.updateAll();
+  if (G.tutStep !== 0) { G.updateTut(); }
+  if (G.introStep < 3 && document.getElementById('modal-ov').style.display === 'flex') {
+    G.showIntro();
+  }
+}
+
+/* ===== BUILDINGS: Tailored for Homei Textile ===== */
+const B={
+  dye_old:{id:'dye_old',name:'傳統染整線',name_en:'Traditional Dye Line',e:'🏭',cost:400,rev:300,poll:5,treq:0,d:'基礎染整生產。極度耗水，會快速累積廢水與空污。',d_en:'Basic dyeing production. Highly water-intensive, rapidly accumulates wastewater and pollution.'},
+  dye_new:{id:'dye_new',name:'智慧無水染整',name_en:'Smart Waterless Dye',e:'⚙️',cost:900,rev:600,poll:2,treq:25,d:'導入自動化與無水染技術，減少60%用水量，利潤更高。',d_en:'Adopts automation and waterless dye tech, reducing water use by 60% with higher profits.'},
+  esp:{id:'esp',name:'靜電除塵系統',name_en:'ESP System',e:'💨',cost:500,rev:0,poll:-3,treq:10,d:'大幅過濾燃煤鍋爐產生的黑煙與微粒。技術+5，ESG+8',d_en:'Filters black smoke & particulates from coal boilers. Tech+5, ESG+8',ot:'hybrid',boostT:5,boostE:8,green:true},
+  heat:{id:'heat',name:'廢熱回收系統',name_en:'Heat Recovery',e:'🔥',cost:700,rev:100,poll:-2,treq:20,d:'回收染整高溫廢水與定型機廢熱，節省燃料成本。ESG+10',d_en:'Recovers heat from high-temp wastewater & stenters, saving fuel costs. ESG+10',ot:'esg',boost:10,green:true},
+  rd:{id:'rd',name:'綠色紡織研發部',name_en:'Green Textile R&D',e:'🔬',cost:800,rev:0,poll:0,treq:0,d:'研發低碳製程與環保染料。建設時一次性技術+15',d_en:'R&D for low-carbon processes & eco-dyes. One-time Tech +15 on build.',ot:'tech',boost:15},
+  mbr:{id:'mbr',name:'MBR生物薄膜',name_en:'MBR Bio-membrane',e:'🦠',cost:1000,rev:0,poll:-4,treq:40,d:'高階生物廢水處理，有效降解化學染劑。ESG+15',d_en:'Advanced biological wastewater treatment, degrading chemical dyes. ESG+15.',ot:'esg',boost:15,green:true},
+  zld:{id:'zld',name:'廢水零排放(ZLD)',name_en:'ZLD System',e:'♻️',cost:1500,rev:0,poll:-6,treq:60,d:'終極廢水回收技術！將每一滴水循環再利用。ESG+20',d_en:'Ultimate water recycling tech! Circulates every drop of water. ESG+20.',ot:'esg',boost:20,green:true},
+  bluesign:{id:'bluesign',name:'藍天使認證',name_en:'Bluesign Cert.',e:'🏅',cost:1200,rev:0,poll:-1,treq:70,d:'歐美頂級品牌必備的最高環保標準認證。ESG+20，限一次',d_en:'The highest eco-standard required by premium global brands. ESG+20, max 1.',ot:'esg',boost:20,ereq:75,maxPoll:20,stageReq:4,green:true,max:1}
+};
+const BKEYS=['dye_old','dye_new','esp','heat','rd','mbr','zld','bluesign'];
+
+/* SUPPLIERS: Fabric Supply Chain */
 const SUP=[
-  {id:'cn_yarn',name:'中國常規棉紗',flag:'🇨🇳',base:90,route:'risk',label:'低價棉紗 (高污染耗水風險)',swing:0.25},
-  {id:'tw_poly',name:'台灣機能化纖',flag:'🇹🇼',base:110,route:'safe',label:'高品質聚酯紗線 (品質穩定)',swing:0.10},
-  {id:'eco_pet',name:'環保回收酯粒',flag:'♻️',base:130,route:'safe',label:'廢寶特瓶抽絲 (歐美高階必備)',swing:0.15}
+  {id:'tw_yarn',name:'台灣在地化纖',name_en:'Taiwan Local Fibers',flag:'🇹🇼',base:100,route:'safe',label:'胚布原料 (在地供應, 穩定)',label_en:'Greige Fabric (Local, stable)',swing:0.15},
+  {id:'cn_yarn',name:'中國棉紡大廠',name_en:'China Cotton/Yarn',flag:'🇨🇳',base:85,route:'risk',label:'胚布原料 (廉價, 供應鏈風險)',label_en:'Greige Fabric (Cheap, supply risk)',swing:0.35},
+  {id:'eco_yarn',name:'遠東環保回收紗',name_en:'FENC Eco-Yarn',flag:'♻️',base:120,route:'safe',label:'寶特瓶回收紗 (高品質, 需ESG)',label_en:'Recycled PET Yarn (High quality, needs ESG)',swing:0.10}
 ];
 
-/* CONTRACTS: Textile Brands */
+/* CONTRACTS: Homei Downstream */
 const CONTRACTS={
-1:[{id:'tw_brand',flag:'🇹🇼',client:'台灣內銷服飾',desc:'平價休閒服飾染整',reqs:{dye:2},rwd:{funds:600,rep:5},country:'台灣'},
-   {id:'asia_fast',flag:'🌏',client:'亞洲平價連鎖',desc:'大量快速交貨訂單',reqs:{dye:3,tech:10},rwd:{funds:900,rep:8},country:'亞洲'}],
-2:[{id:'us_casual',flag:'🇺🇸',client:'美國國民休閒品牌',desc:'高品質純棉染整',reqs:{eco_dye:1,vietnam:1,tech:25},rwd:{funds:1600,rep:12},country:'美國',tag:'casual'},
-   {id:'eu_fast',flag:'🇪🇺',client:'歐洲快時尚巨頭',desc:'快速反應一站式代工',reqs:{eco_dye:2,tech:30},rwd:{funds:2000,rep:15},country:'歐盟',tag:'fast_fashion'}],
-3:[{id:'yoga_brand',flag:'🇨🇦',client:'頂級瑜珈服飾',desc:'高彈性機能布料',reqs:{eco_dye:2,vietnam:1,tech:45,esg:40},rwd:{funds:2800,rep:18},country:'加拿大',tag:'sports'},
-   {id:'nike_adidas',flag:'🏃',client:'全球連鎖運動品牌',desc:'環保排汗運動布料',reqs:{eco_dye:3,tech:50,esg:50},rwd:{funds:3000,rep:20},country:'全球',tag:'sports'}],
-4:[{id:'patagonia',flag:'🏔️',client:'國際戶外永續品牌',desc:'100% 回收材質與環保染',reqs:{waterless:1,tech:60,esg:65,maxPoll:35},rwd:{funds:4000,rep:22},country:'美國',tag:'eco'},
-   {id:'medical',flag:'🏥',client:'歐美醫療級防護衣',desc:'高階防護布料貼合',reqs:{eco_dye:3,tech:65},rwd:{funds:3200,rep:18},country:'全球',tag:'medical'}],
-5:[{id:'cbam_eu',flag:'🇪🇺',client:'歐盟零碳精品服飾',desc:'符合 CBAM 碳關稅與 ZDHC',reqs:{zdhc:1,esg:80,maxPoll:15},rwd:{funds:5500,rep:30},country:'歐盟',tag:'cbam'},
-   {id:'zero_water',flag:'💧',client:'無水染頂級特供',desc:'超臨界無水染專屬訂單',reqs:{waterless:2,tech:80,esg:75},rwd:{funds:4800,rep:25},country:'全球',tag:'eco'}]
+1:[{id:'tw_apparel',flag:'🇹🇼',client:'台灣成衣廠',client_en:'TW Apparel Maker',desc:'基礎平織布染整',desc_en:'Basic woven fabric dyeing',reqs:{dye_old:1},rwd:{funds:500,rep:5},country:'台灣',country_en:'Taiwan'},
+   {id:'asia_fast',flag:'🌏',client:'亞洲快時尚品牌',client_en:'Asia Fast Fashion',desc:'大量低價針織布染整',desc_en:'Mass low-cost knit dyeing',reqs:{dye_old:2,tech:10},rwd:{funds:700,rep:8},country:'亞洲',country_en:'Asia'}],
+2:[{id:'jp_casual',flag:'🇯🇵',client:'日系休閒服飾(Uniqlo)',client_en:'JP Casual Wear (Uniqlo)',desc:'高品質吸濕排汗布料',desc_en:'High-quality moisture-wicking fabric',reqs:{dye_old:2,tech:20},rwd:{funds:1400,rep:10},country:'日本',country_en:'Japan',tag:'apparel'},
+   {id:'us_sports',flag:'🇺🇸',client:'美國運動品牌',client_en:'US Sports Brand',desc:'高機能彈性運動面料',desc_en:'High-function elastic sports fabric',reqs:{dye_new:1,tech:30},rwd:{funds:1800,rep:15},country:'美國',country_en:'USA',tag:'sports'}],
+3:[{id:'global_outdoor',flag:'🏔️',client:'國際戶外大廠',client_en:'Global Outdoor Brand',desc:'防潑水透氣高階面料',desc_en:'Water-repellent breathable premium fabric',reqs:{dye_new:2,tech:45,esg:40},rwd:{funds:2500,rep:18},country:'全球',country_en:'Global',tag:'outdoor'},
+   {id:'nike_eco',flag:'🏃',client:'Nike環保產線',client_en:'Nike Eco-Line',desc:'低碳低水耗綠色供應鏈',desc_en:'Low-carbon low-water green supply chain',reqs:{dye_new:1,mbr:1,tech:50,esg:50},rwd:{funds:2200,rep:15},country:'美國',country_en:'USA',tag:'eco'}],
+4:[{id:'lulu_yoga',flag:'🧘',client:'頂尖瑜珈品牌(Lululemon)',client_en:'Top Yoga Brand (Lululemon)',desc:'極致親膚與永續製程面料',desc_en:'Ultimate skin-friendly & sustainable fabric',reqs:{dye_new:2,zld:1,tech:60,esg:65,maxPoll:35},rwd:{funds:3500,rep:22},country:'加拿大',country_en:'Canada',tag:'sports'},
+   {id:'eu_premium',flag:'🇪🇺',client:'歐盟高階服飾',client_en:'EU Premium Apparel',desc:'嚴格無毒化學品溯源布料',desc_en:'Strict non-toxic chemical traceable fabric',reqs:{dye_new:3,tech:65},rwd:{funds:3000,rep:18},country:'歐盟',country_en:'EU',tag:'premium'}],
+5:[{id:'bluesign_eu',flag:'🏅',client:'Bluesign® 終極訂單',client_en:'Bluesign® Ultimate Order',desc:'符合最高標準之零污染布料',desc_en:'Zero-pollution fabric meeting highest standards',reqs:{bluesign:1,esg:80,maxPoll:15},rwd:{funds:5000,rep:30},country:'全球',country_en:'Global',tag:'bluesign'},
+   {id:'green_bond',flag:'💰',client:'綠色金融永續貸款',client_en:'Green Finance Loan',desc:'廢水零排放(ZLD)獲市場大規模融資',desc_en:'ZLD System wins massive market funding',reqs:{zld:1,mbr:1,tech:75,esg:70},rwd:{funds:4500,rep:25},country:'全球',country_en:'Global',tag:'eco'}]
 };
 
-/* STAGES: Transformation of Ho Mei Textile */
+/* STAGES: Homei's Transformation */
 const STAGES=[
-{title:'階段一：染整起家（1980-1995）',short:'在觀音建立染整代工廠',
- desc:'🏭 1980年代，台灣紡織業蓬勃發展。你在<b style="color:var(--teal)">桃園觀音</b>建立和美紡織，專攻染整代工。<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">⚠️ 染整是高耗水、高污染產業。每蓋一座傳統染缸，廢水污染值將快速上升！</div>',
- goals:[{txt:'傳統高溫染整線 ≥ 2',ck:g=>g.c.dye>=2},{txt:'技術力 ≥ 15',ck:g=>g.tech>=15},{txt:'完成1筆基礎訂單',ck:g=>g.done.some(id=>['tw_brand','asia_fast'].includes(id))}]},
-{title:'階段二：自動化與節水（1996-2010）',short:'導入低浴比染機，進軍快時尚',
- desc:'📈 快時尚崛起，訂單大增。但傳統染缸太耗水，你必須投資「低浴比氣流染機」並在東南亞設廠以應付產能。<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">💡 建設「東南亞成衣廠」能接下更多歐美品牌大單。<br>💨 產能暴增，請務必投資「MBR廢水處理廠」否則環保局將重罰！</div>',
- goals:[{txt:'低浴比氣流染機 ≥ 1',ck:g=>g.c.eco_dye>=1},{txt:'東南亞成衣廠 ≥ 1',ck:g=>g.c.vietnam>=1},{txt:'技術力 ≥ 35',ck:g=>g.tech>=35}]},
-{title:'階段三：無水染整與機能布料（2011-2020）',short:'克服水資源危機，打入頂級運動品牌',
- desc:'💧 桃園面臨大旱缺水危機！傳統染整面臨停工風險。品牌端也開始要求供應商減少水足跡。<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">🛸 研發並投資「超臨界無水染機」！它能徹底擺脫缺水危機，大幅提升 ESG！<br>⚠️ <span style="color:var(--red)">警告：國際環保組織正緊盯供應鏈，廢水超標將被客戶抽單！</span></div>',
- goals:[{txt:'超臨界無水染機 ≥ 1',ck:g=>g.c.waterless>=1},{txt:'ESG ≥ 55',ck:g=>g.esg>=55},{txt:'接下 瑜珈品牌 或 運動品牌 訂單',ck:g=>g.done.some(id=>['yoga_brand','nike_adidas'].includes(id))}]},
-{title:'階段四：毒衣物風暴與循環經濟（2021-2025）',short:'面對綠色和平質疑，建立透明溯源',
- desc:'☠️ 國際環保組織發布「毒衣物報告」，指控服飾殘留有毒化學物。歐美大廠要求所有供應鏈必須無毒且使用回收材料。<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">♻️ 採購「環保回收酯粒」並確保污染受控。準備迎接最終的 ZDHC (有害化學物質零排放) 考驗。</div>',
- goals:[{txt:'廢水污染 ≤ 25',ck:g=>g.poll<=25},{txt:'ESG ≥ 70',ck:g=>g.esg>=70},{txt:'技術力 ≥ 70',ck:g=>g.tech>=70}]},
-{title:'階段五：零排放與全球綠色樞紐（2026-2030）',short:'取得 ZDHC 與 歐盟 CBAM 認證',
- desc:'⚖️ 全球最高環保標準 <b style="color:var(--teal)">ZDHC (零排放)</b> 與歐盟 <b style="color:var(--teal)">CBAM (碳關稅)</b> 全面啟動！只有完全無毒、低碳排的工廠能生存。<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">最終任務：取得 ZDHC 零排放認證，以極高的 ESG 與極低污染，拿下歐盟零碳訂單。</div>',
- goals:[{txt:'取得 ZDHC 零排放認證',ck:g=>g.c.zdhc>=1},{txt:'完成 歐盟 CBAM 零碳精品訂單',ck:g=>g.done.includes('cbam_eu')},{txt:'ESG ≥ 85 且 污染 ≤ 15',ck:g=>g.esg>=85&&g.poll<=15}]}
+{title:'階段一：染整起步（1993-2000）',title_en:'Phase 1: Dyeing Startup (1993-2000)',short:'落腳觀音，水火交織的染缸',short_en:'Settling in Guanyin, the dye vat of fire and water',
+ desc:'🏭 1993年，台灣紡織業蓬勃發展，和美紡織在<b style="color:var(--teal)">桃園觀音</b>建廠，以平織布、針織布的染整加工起家。<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">⚠️ 染整業需要大量的純水與高溫蒸汽，每一座傳統染整線都會製造大量工業廢水與燃煤黑煙！</div>',
+ desc_en:'🏭 1993, TW textiles were booming. Homei Textile built a plant in <b style="color:var(--teal)">Guanyin, Taoyuan</b>, starting with woven and knit fabric dyeing.<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">⚠️ Dyeing requires massive pure water and high-temp steam. Traditional lines create huge industrial wastewater and coal smoke!</div>',
+ goals:[{txt:'傳統染整線 ≥ 2',txt_en:'Traditional Dye Line ≥ 2',ck:g=>g.c.dye_old>=2},{txt:'技術力 ≥ 15',txt_en:'Tech ≥ 15',ck:g=>g.tech>=15},{txt:'完成1筆基礎訂單',txt_en:'Complete 1 basic order',ck:g=>g.done.some(id=>['tw_apparel','asia_fast'].includes(id))}]},
+{title:'階段二：擴張與污染（2001-2012）',title_en:'Phase 2: Expansion & Pollution (2001-2012)',short:'面對快時尚崛起與環境代價',short_en:'Facing fast fashion and environmental costs',
+ desc:'📈 進入21世紀，全球快時尚(Fast Fashion)崛起，訂單如雪片般飛來。但觀音廠的廢水排放與鍋爐空污也達到了臨界點。<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">💡 必須升級「智慧無水染整」才能接下高階運動品牌訂單。<br>💨 產能暴增帶來環境壓力，請投資「靜電除塵」與「廢熱回收」降低空污！</div>',
+ desc_en:'📈 Entering the 21st century, global Fast Fashion surged, bringing endless orders. But Guanyin plant\'s wastewater and boiler emissions reached a tipping point.<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">💡 Must upgrade to "Smart Waterless Dye" to win premium sports brand orders.<br>💨 Rapid expansion brings eco-pressure. Invest in "ESP" and "Heat Recovery" to lower pollution!</div>',
+ goals:[{txt:'智慧無水染整 ≥ 1',txt_en:'Smart Waterless Dye ≥ 1',ck:g=>g.c.dye_new>=1},{txt:'靜電除塵 或 廢熱回收 ≥ 1',txt_en:'ESP System or Heat Recovery ≥ 1',ck:g=>(g.c.esp+g.c.heat)>=1},{txt:'技術力 ≥ 35',txt_en:'Tech ≥ 35',ck:g=>g.tech>=35}]},
+{title:'階段三：看見台灣與綠色陣痛（2013-2018）',title_en:'Phase 3: Green Growing Pains (2013-2018)',short:'廢水稽查風暴與環保覺醒',short_en:'Wastewater audit storms & Eco-awakening',
+ desc:'🚨 <b style="color:var(--red)">重大危機：</b>2013年紀錄片《看見台灣》揭露工業區廢水染紅河川，引發社會譁然！環保署展開史無前例的強力稽查。<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">🦠 傳統廢水處理已不敷使用，必須研發建置「MBR生物薄膜」技術！<br>⚠️ 廢水超標將會引發巨大裁罰，請隨時注意污染值！</div>',
+ desc_en:'🚨 <b style="color:var(--red)">MAJOR CRISIS:</b> 2013 documentary "Beyond Beauty" exposed rivers dyed red by industrial zones, sparking public outcry! EPA launched unprecedented audits.<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">🦠 Traditional wastewater treatment is no longer enough. Must build "MBR Bio-membrane"!<br>⚠️ Wastewater violations will trigger massive fines. Watch your pollution stats!</div>',
+ goals:[{txt:'MBR生物薄膜 ≥ 1',txt_en:'MBR Bio-membrane ≥ 1',ck:g=>g.c.mbr>=1},{txt:'ESG ≥ 55',txt_en:'ESG ≥ 55',ck:g=>g.esg>=55},{txt:'接下 國際戶外大廠 或 Nike 訂單',txt_en:'Global Outdoor or Nike Order',ck:g=>g.done.some(id=>['global_outdoor','nike_eco'].includes(id))}]},
+{title:'階段四：零排放標竿（2019-2025）',title_en:'Phase 4: Zero Discharge Benchmark (2019-2025)',short:'將每一滴廢水循環再利用',short_en:'Recycling every single drop of wastewater',
+ desc:'🌍 氣候變遷導致台灣面臨罕見大旱，缺水成為染整業最大的生存危機。和美紡織決定挑戰業界極限：打造廢水零排放系統。<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">♻️ 成功運轉「廢水零排放(ZLD)」，讓廠區擺脫缺水危機並吸引頂尖品牌！<br>🏆 高 ESG 是獲得 Lululemon 與歐盟高階訂單的關鍵。</div>',
+ desc_en:'🌍 Climate change brought rare severe droughts to Taiwan. Water shortage is the biggest survival crisis for dyeing. Homei decides to challenge the limit: Zero Liquid Discharge.<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">♻️ Operate "ZLD System" to escape drought crises and attract top brands!<br>🏆 High ESG is key to winning Lululemon and premium EU orders.</div>',
+ goals:[{txt:'廢水零排放(ZLD) ≥ 1',txt_en:'ZLD System ≥ 1',ck:g=>g.c.zld>=1},{txt:'污染值 ≤ 35',txt_en:'Pollution ≤ 35',ck:g=>g.poll<=35},{txt:'ESG ≥ 70',txt_en:'ESG ≥ 70',ck:g=>g.esg>=70},{txt:'技術力 ≥ 65',txt_en:'Tech ≥ 65',ck:g=>g.tech>=65}]},
+{title:'階段五：永續水脈與全球標竿（2026-2030）',title_en:'Phase 5: Sustainable Waterway Benchmark (2026-2030)',short:'Bluesign® 藍天使的終極大考',short_en:'The Ultimate Bluesign® Test',
+ desc:'⚖️ 國際品牌全面實施綠色供應鏈！進入歐美市場的高階面料必須取得全球最嚴苛的 <b style="color:var(--teal)">Bluesign® 藍天使認證</b>。<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">最終任務：取得 Bluesign® 認證，以極高的 ESG 與極低污染，拿下終極環保訂單。</div>',
+ desc_en:'⚖️ Global brands fully mandate green supply chains! Premium fabrics entering the US/EU market must pass the strictest <b style="color:var(--teal)">Bluesign® certification</b>.<br><br><div style="font-family:monospace;background:#154360;color:#aeb6bf;padding:6px 8px;border-radius:6px;font-size:11px;">Final Mission: Obtain Bluesign® cert, with high ESG and low pollution, to win the ultimate eco-order.</div>',
+ goals:[{txt:'取得 藍天使認證(Bluesign)',txt_en:'Obtain Bluesign® Cert',ck:g=>g.c.bluesign>=1},{txt:'完成 Bluesign® 終極訂單',txt_en:'Fulfill Bluesign® Ultimate Order',ck:g=>g.done.includes('bluesign_eu')},{txt:'ESG ≥ 85 且 污染 ≤ 15',txt_en:'ESG ≥ 85 & Poll ≤ 15',ck:g=>g.esg>=85&&g.poll<=15}]}
 ];
 const STAGE_LABEL=['一','二','三','四','五'];
-const BASE_INC=[150,300,500,700,900];
+const BASE_INC=[120,250,450,650,850];
 const MIN_INC=100;
 
-/* ===== EVENTS: Textile & Environmental Specific ===== */
+/* ===== EVENTS: Homei & Textile Specific ===== */
 const EVENTS={
 0:[
- {hl:'📈 台灣成衣出口大爆發',dt:'1980年代台灣被譽為成衣王國，加工訂單接不完！',tone:'good',eff:{funds:400,rep:5},fact:'📌 染整業是紡織鏈中利潤最高但也最耗水的環節。'},
- {hl:'棉花價格暴漲',dt:'全球氣候異常導致棉花減產，中國棉紗價格飆升！',tone:'bad',eff:{funds:-200,mkt:{cn_yarn:0.35,tw_poly:0.15}},choices:[{label:'🤝 轉用台灣化纖替代',desc:'與化纖廠簽訂長約',fx:{funds:-300,rep:5,mkt:{tw_poly:-0.15}}},{label:'📉 咬牙購買高價棉紗',desc:'利潤下降',fx:{funds:150,rep:-2}}]},
- {hl:'🏭 觀音工業區擴建',dt:'基礎設施完善，水電供應無虞，適合染整擴廠！',tone:'good',eff:{tech:5,funds:-100,rep:5}}
+ {hl:'🤝 歐美訂單大舉來台',hl_en:'🤝 Huge US/EU Orders Arrive',dt:'1990年代台灣紡織代工迎來黃金期，觀音工業區訂單爆滿！',dt_en:'1990s was the golden era for Taiwan textile OEM. Guanyin park is flooded with orders!',tone:'good',eff:{funds:400,rep:5},fact:'📌 當時台灣被稱為「紡織王國」，染整加工是利潤核心。',fact_en:'📌 Taiwan was called the "Textile Kingdom", and dyeing was the profit core.'},
+ {hl:'🛢️ 原物料價格波動',hl_en:'🛢️ Raw Material Price Fluctuation',dt:'國際棉價與化纖原料上漲，胚布成本增加！',dt_en:'Global cotton & chem-fiber prices rise, increasing greige fabric costs!',tone:'bad',eff:{funds:-150,mkt:{tw_yarn:0.20,cn_yarn:0.15}},choices:[{label:'🤝 與台灣大廠簽長約',label_en:'🤝 Sign TW Long-Term Contract',desc:'鎖定價格但需付訂金',desc_en:'Lock price but pay deposit',fx:{funds:-200,rep:5,mkt:{tw_yarn:-0.15}}},{label:'📉 咬牙承受現貨波動',label_en:'📉 Bear Spot Volatility',desc:'利潤下降',desc_en:'Profits decline',fx:{funds:100,rep:-2}}]},
+ {hl:'🏭 觀音廠區擴建',hl_en:'🏭 Guanyin Plant Expansion',dt:'為因應龐大產能需求，增設新的染缸與定型機！',dt_en:'To meet massive capacity needs, new dye vats and stenters are added!',tone:'good',eff:{tech:5,funds:-100,rep:5}}
 ],
 1:[
- {hl:'💧 桃園水庫大旱危機！',dt:'石門水庫見底！工業區面臨限水，傳統染整廠首當其衝！',tone:'bad',eff:{funds:-300,rep:-5},fact:'📌 染整業極度依賴水資源。缺水即代表停工。',id:'drought',choices:[
-   {label:'💧 投資 MBR 廢水回收系統',desc:'將廢水回收再利用，擺脫缺水限制 (資金-500, 污染-5, ESG+15)',fx:{funds:-500,poll:-5,esg:15,rep:5}},
-   {label:'🚚 砸錢買水車水',desc:'苦撐度過旱季，但利潤大減 (資金-400)',fx:{funds:-400,rep:-3}}
- ]},
- {hl:'🌏 全球快時尚崛起',dt:'Zara、H&M 帶動快時尚，要求極短交期與巨量產能！',tone:'good',eff:{funds:500,rep:5},choices:[{label:'✈️ 擴展東南亞一條龍',desc:'快速接單交貨',fx:{funds:-500,rep:10,tech:5}},{label:'🏭 固守台灣染布代工',desc:'利潤遭壓縮',fx:{funds:200,rep:-3}}]},
- {hl:'🌊 觀音大堀溪污染事件',dt:'環保局強力稽查工業區偷排廢水！',tone:'warn',eff:{},choices:[{label:'🔬 提前升級污水處理設備',desc:'確保合規，保護河川',fx:{funds:-300,poll:-4,esg:8}},{label:'📉 應付稽查',desc:'遭抓包開罰並影響聲譽',fx:{funds:-300,rep:-8,esg:-10}}]}
+ {hl:'🏢 導入自動化調液系統',hl_en:'🏢 Adopt Auto-Dosing System',dt:'引進歐洲先進自動化染料調配系統，減少人為誤差與染料浪費！',dt_en:'Imported advanced EU auto-dosing system, reducing human error and dye waste!',tone:'good',eff:{tech:10,funds:-150,poll:-2},fact:'📌 自動化是傳統染整業升級的第一步，能有效提升良率。',fact_en:'📌 Automation is the first step to upgrade traditional dyeing, effectively boosting yield.'},
+ {hl:'🇨🇳 中國紅色供應鏈崛起',hl_en:'🇨🇳 Rise of Red Supply Chain',dt:'中國大陸大規模建置染整廠，挾帶低水電成本引發削價競爭！',dt_en:'Mainland China built massive dyeing plants with low utility costs, triggering a price war!',tone:'bad',eff:{funds:-250,rep:-5},fact:'📌 面對低價競爭，台灣紡織業只能朝向「高機能、環保」轉型。',fact_en:'📌 Facing cheap competition, Taiwan textiles must shift to "High-function, Eco-friendly".',choices:[{label:'⚙️ 加速智慧無水染整轉型',label_en:'⚙️ Accelerate Smart Waterless Dye',desc:'投資新技術，跳脫低價紅海',desc_en:'Invest in new tech to escape the low-price red sea',fx:{funds:-400,tech:10,rep:5}},{label:'📉 降價硬撐接單',label_en:'📉 Stubbornly Cut Prices',desc:'利潤與聲譽雙輸',desc_en:'Lose-lose for profits & rep',fx:{funds:-150,rep:-8}}]},
+ {hl:'⚡ 能源成本飆漲',hl_en:'⚡ Energy Cost Surge',dt:'燃煤與燃氣價格上漲，染整廠的蒸汽成本大增！',dt_en:'Coal and gas prices rise, heavily increasing steam costs for dyeing plants!',tone:'warn',eff:{funds:-200},fact:'📌 染整業是能源消耗大戶，廢熱回收系統(Heat Recovery)能有效節省燃料。',fact_en:'📌 Dyeing is highly energy-intensive. Heat Recovery effectively saves fuel.'}
 ],
 2:[
- {hl:'🏃 運動品牌環保規範',dt:'Nike 等大廠要求供應商必須使用一定比例的「環保回收酯粒」！',tone:'warn',eff:{tech:5,esg:-5},fact:'📌 品牌端對 ESG 的要求已經成為接單的硬門票。',choices:[{label:'♻️ 全面導入環保回收紗線',desc:'採購成本高，但能接大單',fx:{funds:-400,esg:15,rep:10,mkt:{eco_pet:-0.1}}},{label:'🏭 繼續使用傳統低價紗線',desc:'流失一線品牌客戶',fx:{rep:-10}}]},
- {hl:'🛸 超臨界 CO2 無水染技術突破',dt:'研發出不需一滴水的染色技術，震驚業界！',tone:'good',eff:{tech:15,esg:15,rep:10},fact:'📌 這是徹底解決染整業廢水問題的聖杯技術。'},
- {hl:'☠️ 綠色和平「毒衣物」報告',dt:'環保組織揭露快時尚服飾殘留有毒化學物，引發全球抵制！',tone:'bad',eff:{rep:-15,esg:-10},choices:[{label:'🔬 宣示建立無毒供應鏈',desc:'投入巨資研發無氟撥水劑等無毒化學品',fx:{funds:-500,tech:10,rep:12,esg:10}},{label:'📉 辯稱符合當地最低法規',desc:'遭品牌端列入黑名單',fx:{rep:-15,esg:-15}}]}
+ {hl:'🚨 看見台灣：廢水稽查風暴！',hl_en:'🚨 Beyond Beauty: Wastewater Audits!',dt:'【重大危機】紀錄片揭露河川污染，環保署針對觀音工業區展開突擊夜間稽查！',dt_en:'[MAJOR CRISIS] Documentary exposed river pollution. EPA launched surprise night audits in Guanyin!',tone:'bad',eff:{rep:-15,esg:-20,funds:-500},id:'water_audit',fact:'📌 2013年《看見台灣》上映後，政府大幅加嚴廢水排放標準與裁罰力度。',fact_en:'📌 After the 2013 film "Beyond Beauty", the government strictly tightened wastewater standards and fines.',choices:[
+   {label:'坦承不足，全面升級生物薄膜',label_en:'Admit Flaws, Upgrade to Bio-membrane',desc:'痛定思痛徹底改善 (資金-500, 污染-6, ESG+15, 聲譽-5)',desc_en:'Improve thoroughly (Funds-500, Poll-6, ESG+15, Rep-5)',fx:{funds:-500,poll:-6,esg:15,rep:-5}},
+   {label:'試圖尋找法規漏洞規避',label_en:'Seek Legal Loopholes',desc:'遭媒體踢爆，商譽大跌 (資金-150, 聲譽-25, ESG-15)',desc_en:'Exposed by media. Rep tanks (Funds-150, Rep-25, ESG-15)',fx:{funds:-150,rep:-25,esg:-15}}
+ ]},
+ {hl:'👕 國際品牌無毒承諾 (ZDHC)',hl_en:'👕 Global Brand Non-Toxic Commitment',dt:'綠色和平組織發起「去毒行動」，Nike等大廠承諾排除有害化學物質！',dt_en:'Greenpeace launched "Detox" campaign. Nike & others commit to eliminating hazardous chemicals!',tone:'good',eff:{tech:10,esg:15,rep:10},fact:'📌 這迫使台灣染整廠全面停用含氟潑水劑等有毒助劑。',fact_en:'📌 This forced Taiwan dyeing plants to completely ban toxic agents like PFC repellents.'},
+ {hl:'💧 桃園面臨嚴重旱災',hl_en:'💧 Taoyuan Severe Drought',dt:'石門水庫蓄水率跌破20%，工業區啟動每週停水兩天管制！',dt_en:'Shihmen Reservoir drops below 20%. Industrial park starts 2-day/week water cuts!',tone:'warn',eff:{funds:-300},choices:[{label:'💧 緊急擴建廠內儲水與初級回收',label_en:'💧 Urgent Water Storage & Recovery',desc:'斥資買水並建立水循環體系',desc_en:'Buy water and build water recycling sys',fx:{funds:-400,esg:10,poll:-3}},{label:'🚚 仰賴水車高價運水',label_en:'🚚 Rely on Expensive Water Trucks',desc:'治標不治本，產能大減',desc_en:'Treats symptoms not root cause. Cap drops.',fx:{funds:-250,rep:-3}}]}
 ],
 3:[
- {hl:'🏅 ZDHC (有害化學物質零排放) 聯盟',dt:'頂尖品牌聯合要求：不加入 ZDHC 零排放計畫的工廠，一律剔除供應鏈！',tone:'warn',eff:{rep:-5,esg:-5},fact:'📌 ZDHC 認證是紡織染整業當今最高的環保聖杯。',choices:[{label:'🏅 啟動 ZDHC 廠區改造計畫',desc:'準備迎戰第五階段的終極認證 (需技術提升)',fx:{funds:-400,esg:10,tech:8}},{label:'📉 轉接無環保要求的次級訂單',desc:'利潤與聲譽大減',fx:{funds:200,rep:-20,esg:-15}}]},
- {hl:'😷 醫療防護服需求暴增',dt:'全球疫情爆發，和美紡織的高階防水透濕布料成為防疫關鍵！',tone:'good',eff:{rep:20,funds:800,tech:5},fact:'📌 機能布料技術在關鍵時刻展現了極大的社會價值。'},
- {hl:'⚡ 能源危機與電價大漲',dt:'染整與熱定型機耗能極大，電費調漲侵蝕獲利！',tone:'bad',eff:{funds:-400},choices:[{label:'☀️ 全面鋪設廠區太陽能與熱回收',desc:'自發自用並回收廢熱',fx:{funds:-500,esg:15,poll:-4,rep:5}},{label:'📉 吸收成本',desc:'利潤嚴重受創',fx:{funds:-300}}]}
+ {hl:'💰 獲選綠色供應鏈指標廠',hl_en:'💰 Selected as Green Supply Chain Rep.',dt:'和美紡織在廢水處理的卓越成效，獲選為國際戶外大廠的亞太區示範廠！',dt_en:'Homei\'s excellence in wastewater treatment won the title of Asia-Pac Demo Plant for global outdoor brands!',tone:'good',eff:{rep:15,funds:800,esg:10},fact:'📌 當環保成為國際標配，擁有高 ESG 的企業就能獲得穩定大單。',fact_en:'📌 When eco-friendliness becomes a global standard, high ESG firms secure stable big orders.'},
+ {hl:'🌪️ 極端氣候導致斷電危機',hl_en:'🌪️ Extreme Climate Causes Power Outage',dt:'夏季高溫導致全台用電吃緊，觀音工業區面臨無預警降壓！',dt_en:'Summer heat spikes TW power usage. Guanyin faces unannounced voltage drops!',tone:'warn',eff:{funds:-200},fact:'📌 染整設備若突然斷電會導致整缸布料報廢。',fact_en:'📌 Sudden power outages in dyeing ruin the entire vat of fabric.',choices:[{label:'☀️ 加速建置屋頂太陽能與儲能',label_en:'☀️ Accelerate Rooftop Solar & Storage',desc:'提升能源韌性並減碳',desc_en:'Boost energy resilience and cut carbon',fx:{funds:-350,esg:8,poll:-2}},{label:'📉 承擔報廢損失',label_en:'📉 Bear the Scrap Loss',desc:'不投資設備，忍受產能損耗',desc_en:'No investment, endure capacity loss',fx:{funds:-150,rep:-4}}]},
+ {hl:'♻️ 發表「環保無水染」布料',hl_en:'♻️ Launch "Eco Waterless Dye" Fabric',dt:'使用超臨界二氧化碳(CO2)代替水進行染色，達成真正的零水耗！',dt_en:'Using supercritical CO2 instead of water for dyeing, achieving true zero-water consumption!',tone:'good',eff:{tech:15,rep:15,funds:400}}
 ],
 4:[
- {id:'cbam_eu', hl:'🇪🇺 歐盟 CBAM 碳關稅逼近',dt:'歐洲品牌要求所有紡織品必須附上「碳足跡與零排放證明」！',tone:'warn',eff:{funds:-400,rep:-5},choices:[{label:'🏅 申請 ZDHC 與碳足跡認證',desc:'條件：技術≥60、ESG≥75、污染≤20｜費用 $1,500',certify:true},{label:'放棄歐洲高階市場',desc:'轉攻低端市場，利潤大減',fx:{funds:-600,rep:-15}}]},
- {hl:'🤖 AI 智慧對色系統',dt:'導入 AI 電腦對色，打樣成功率提升至 98%，大幅減少重染的浪費！',tone:'good',eff:{tech:15,funds:600,poll:-3},fact:'📌 數位轉型不僅省錢，還能減少染料廢水的產生。'},
- {hl:'🏆 榮獲亞洲永續企業獎',dt:'和美紡織從高污染代工廠轉型為無水零排放的典範，獲國際大獎！',tone:'good',eff:{esg:15,rep:15,funds:500}}
+ {id:'bluesign_eu', hl:'🇪🇺 歐盟與品牌最高環保要求',hl_en:'🇪🇺 EU & Brands Highest Eco Demand',dt:'頂級戶外與瑜珈品牌宣告：供應商必須取得 Bluesign 藍天使認證，否則剔除供應鏈！',dt_en:'Premium outdoor & yoga brands declare: Suppliers must get Bluesign cert or be axed!',tone:'warn',eff:{funds:-400,rep:-5},choices:[{label:'🏅 挑戰申請 Bluesign 藍天使認證',label_en:'🏅 Challenge Bluesign® Cert',desc:'條件：技術≥70、ESG≥75、污染≤20｜費用 $1,200',desc_en:'Req: Tech≥70, ESG≥75, Poll≤20 | Cost $1200',certify:true},{label:'放棄歐美高階訂單',label_en:'Give up US/EU Premium Orders',desc:'退回低階代工，營收重創',desc_en:'Return to low-end OEM, revenue hit hard',fx:{funds:-600,rep:-15}}]},
+ {hl:'👗 推動「舊衣回收」閉環計畫',hl_en:'👗 Promote "Old Clothes Recycling" Loop',dt:'與遠東新世紀合作，將回收的舊衣重新打碎、抽絲、再染整！',dt_en:'Partnered with FENC to shred, re-spin, and re-dye old recycled clothes!',tone:'good',eff:{tech:8,funds:200,esg:15,rep:10},fact:'📌 Textile-to-Textile (衣到衣) 是紡織業最終極的循環經濟目標。',fact_en:'📌 Textile-to-Textile is the ultimate circular economy goal for the industry.'},
+ {hl:'🏆 榮獲國家企業環保獎',hl_en:'🏆 Won National Enterprise Eco Award',dt:'和美紡織的 ZDHC 廢水零排放系統獲總統親自頒獎肯定！',dt_en:'Homei\'s ZLD system was personally awarded by the President!',tone:'good',eff:{esg:15,rep:20,funds:500}}
 ]};
 
 /* ===== GAME STATE ===== */
 const G={
-  year:1980,funds:1500,rep:50,tech:10,esg:20,poll:0,
-  c:{dye:0,eco_dye:0,waterless:0,vietnam:0,rd:0,water_treat:0,solar:0,zdhc:0},
+  year:1993,funds:1200,rep:50,tech:10,esg:20,poll:0,
+  c:{dye_old:0,dye_new:0,esp:0,heat:0,rd:0,mbr:0,zld:0,bluesign:0},
   materials:300,matCap:600,stageIdx:0,done:[],countries:new Set(),
-  playerName:'策略長',introStep:0,tutStep:0,curEvent:null,lastEvIdx:{},shownEvents:{},
-  history:[],matBuys:{cn_yarn:0,tw_poly:0,eco_pet:0},buildLog:[],
-  matMarket:{cn_yarn:1.0,tw_poly:1.0,eco_pet:1.0},
+  playerName:LANG==='zh'?'永續長':'CSO',introStep:0,tutStep:0,curEvent:null,lastEvIdx:{},shownEvents:{},
+  history:[],matBuys:{tw_yarn:0,cn_yarn:0,eco_yarn:0},buildLog:[],
+  matMarket:{tw_yarn:1.0,cn_yarn:1.0,eco_yarn:1.0},
   managerActive:false,
 
-  init(){this.resetVars();UI.renderBuild();UI.renderTrade();UI.updateAll();this.introStep=0;this.showIntro();},
-  resetVars(){this.year=1980;this.funds=1500;this.rep=50;this.tech=10;this.esg=20;this.poll=0;
-    this.c={dye:0,eco_dye:0,waterless:0,vietnam:0,rd:0,water_treat:0,solar:0,zdhc:0};
+  init(){applyStaticI18n();this.resetVars();UI.renderBuild();UI.renderTrade();UI.updateAll();this.introStep=0;this.showIntro();},
+  resetVars(){this.year=1993;this.funds=1200;this.rep=50;this.tech=10;this.esg=20;this.poll=0;
+    this.c={dye_old:0,dye_new:0,esp:0,heat:0,rd:0,mbr:0,zld:0,bluesign:0};
     this.materials=300;this.matCap=600;this.stageIdx=0;this.done=[];this.countries=new Set();
-    this.curEvent=null;this.lastEvIdx={};this.shownEvents={};this.tutStep=0;this.history=[];this.matBuys={cn_yarn:0,tw_poly:0,eco_pet:0};this.buildLog=[];
-    this.matMarket={cn_yarn:1.0,tw_poly:1.0,eco_pet:1.0};
+    this.curEvent=null;this.lastEvIdx={};this.shownEvents={};this.tutStep=0;this.history=[];this.matBuys={tw_yarn:0,cn_yarn:0,eco_yarn:0};this.buildLog=[];
+    this.matMarket={tw_yarn:1.0,cn_yarn:1.0,eco_yarn:1.0};
     this.managerActive=false;
     document.getElementById('factory-grid').innerHTML='';},
 
@@ -279,34 +339,34 @@ const G={
   confirmName(){const i=document.getElementById('p-name');const n=(i?i.value:'').trim();if(!n){const b=document.getElementById('name-box');if(b){b.style.animation='none';setTimeout(()=>{b.style.animation='nameShake 0.4s ease';},10);}return;}this.playerName=n;document.getElementById('name-ov').style.display='none';this.showIntro();},
   showIntro(){
     const steps=[
-      {title:'📋 董事長室任命',text:`<div style="font-family:'Noto Serif TC',serif;font-size:12px;line-height:2;text-align:left;border:1px solid var(--brd);border-radius:8px;padding:12px;background:rgba(255,255,255,0.8);">
-<div style="font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:4px;">HO MEI TEXTILE CO., LTD.</div>
-<div style="font-weight:900;font-size:15px;color:var(--teal);margin-bottom:8px;">和美紡織股份有限公司</div>
-<div style="font-size:11px;color:var(--muted);">營運中樞：桃園市觀音工業區</div>
+      {title:T('📋 董事長室機密任命','📋 Confidential Appointment'),text:`<div style="font-family:'Noto Serif TC',serif;font-size:12px;line-height:2;text-align:left;border:1px solid var(--brd);border-radius:8px;padding:12px;background:rgba(255,255,255,0.8);">
+<div style="font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:4px;">HOMEI TEXTILE CO., LTD.</div>
+<div style="font-weight:900;font-size:15px;color:var(--teal);margin-bottom:8px;">${T('和美紡織股份有限公司','Homei Textile Co., Ltd.')}</div>
+<div style="font-size:11px;color:var(--muted);">${T('營運中樞：桃園市觀音工業區','HQ: Guanyin Industrial Park, Taoyuan')}</div>
 <hr style="border:none;border-top:1px dashed var(--brd);margin:6px 0;"/>
-<b>職位任命：全球營運與永續長</b><br>
-你將帶領和美紡織，從傳統高污染的染整代工廠，轉型為國際運動大廠指定的綠色零排放樞紐。<br><br>
+<b>${T('職位任命：全球營運與永續長','Appointed: Global COO & CSO')}</b><br>
+${T('台灣紡織業正處於代工的黃金年代，但染整廠也被視為「高污染、高耗水」的夕陽產業。你將負責帶領觀音廠區翻轉這個宿命。','Taiwan textiles are in a golden OEM era, but dyeing plants are seen as high-pollution, high-water sunset industries. You will lead Guanyin plant to reverse this fate.')}<br><br>
 <div style="background:rgba(21,67,96,0.07);padding:8px;border-radius:6px;font-size:11px;border-left:3px solid var(--teal);">
-「紡織業不能再背負污染河川的罪名。我們要把乾淨的水，還給觀音。」
-</div></div>`,btn:'接受任命 →'},
-      {title:'🏭 觀音：水與布的交織',text:`<div style="font-size:13px;line-height:1.8;text-align:left;">
-你站在觀音工業區的染整廠內。<br>
-巨大的高溫高壓染缸轟隆作響，每天吞噬著大量的清水，排出顏色深邃的廢水。<br><br>
+${T('「沒有夕陽產業，只有夕陽思維。我們要讓染整廠變得比科技廠還要乾淨。」','"There are no sunset industries, only sunset thinking. We will make our dyeing plant cleaner than a tech plant."')}
+</div></div>`,btn:T('接受任命 →','Accept →')},
+      {title:T('🏭 觀音：水火交織的染缸','🏭 Guanyin: Vat of Fire & Water'),text:`<div style="font-size:13px;line-height:1.8;text-align:left;">
+${T('你站在觀音工業區的和美廠區內。','You stand inside Homei plant in Guanyin.')}<br>
+${T('巨大的定型機散發著高溫，染缸裡翻滾著五顏六色的化學染劑。這裡產出世界上最美的布料，但也排出了最黑的廢水。','Giant stenters radiate heat, vats churn with colorful dyes. It makes the world\'s most beautiful fabrics, but also discharges the blackest wastewater.')}<br><br>
 <div style="background:rgba(21,67,96,0.07);border-left:3px solid var(--teal);padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:10px;">
-廠區環安主任憂心忡忡：<br>
-<span style="color:var(--teal);font-weight:700;">「水資源越來越緊張，如果再發生桃園大旱，我們就得停工。更別提環保局天天來查廢水排放了！」</span>
+${T('廠區環安主任警告你：','Plant Safety Director warns you:')}<br>
+<span style="color:var(--teal);font-weight:700;">${T('「染整業是吃水怪獸。如果我們只顧擴廠而不升級污水處理，一旦面臨旱災或環保稽查，公司就會面臨滅頂之災！」','"Dyeing is a water monster. If we expand without upgrading wastewater treatment, drought or EPA audits will destroy us!"')}</span>
 </div>
-資本：$ 1,500 萬模擬幣<br>
-<span style="color:var(--red);font-size:11px;">⚠️ 擴展傳統染缸雖然賺錢，但會產生極高廢水污染。請務必投資水處理設施 (ESG)！</span></div>`,btn:'我準備好了 →'},
-      {title:`🎯 ${this.playerName}，你的核心使命`,text:`<div style="font-size:13px;line-height:2;text-align:left;">
-從 <b>1980年</b> 的高耗水染整代工 ——<br>
-轉型為 <b>2030年</b> Patagonia 與 Nike 依賴的無水零排放樞紐。<br><br>
+${T('資本：$ 1,200 萬模擬幣','Capital: $12M Sim-Coins')}<br>
+<span style="color:var(--red);font-size:11px;">⚠️ ${T('擴展產能的同時，請務必投資「廢熱回收」與「MBR廢水處理」技術 (ESG)！','While expanding, MUST invest in "Heat Recovery" & "MBR Wastewater" tech (ESG)!')}</span></div>`,btn:T('我準備好了 →','I am ready →')},
+      {title:`🎯 ${this.playerName}，${T('你的核心使命','Your Core Mission')}`,text:`<div style="font-size:13px;line-height:2;text-align:left;">
+${T('從 <b>1993年</b> 的高耗水傳統染廠 ——','From a <b>1993</b> high-water traditional dyeing plant —')}<br>
+${T('轉型為 <b>2030年</b> 能夠「廢水零排放(ZLD)」的世界綠色標竿。','To a <b>2030</b> global green benchmark capable of "Zero Liquid Discharge (ZLD)".')}<br><br>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;">
-<div style="background:rgba(185,119,14,0.1);padding:6px;border-radius:6px;">💰 <b>技術躍升</b><br>投資低浴比與無水染整</div>
-<div style="background:rgba(192,57,43,0.1);padding:6px;border-radius:6px;">☣️ <b>水質拉鋸</b><br>克服大旱與廢水裁罰</div>
-<div style="background:rgba(30,132,73,0.1);padding:6px;border-radius:6px;">♻️ <b>循環材料</b><br>導入回收寶特瓶紗線</div>
-<div style="background:rgba(21,67,96,0.1);padding:6px;border-radius:6px;">🌍 <b>終極認證</b><br>挑戰 ZDHC 零排放標準</div>
-</div></div>`,btn:'💧 啟程 1980'}
+<div style="background:rgba(185,119,14,0.1);padding:6px;border-radius:6px;">💰 <b>${T('產能升級','Cap Upgrade')}</b><br>${T('邁向智慧無水染整','Shift to Smart Waterless Dye')}</div>
+<div style="background:rgba(192,57,43,0.1);padding:6px;border-radius:6px;">☣️ <b>${T('廢水危機','Water Crisis')}</b><br>${T('避免環保署強力稽查','Avoid EPA Heavy Audits')}</div>
+<div style="background:rgba(30,132,73,0.1);padding:6px;border-radius:6px;">♻️ <b>${T('極致循環','Extreme Loop')}</b><br>${T('投資 MBR 與 ZLD 系統','Invest in MBR & ZLD')}</div>
+<div style="background:rgba(21,67,96,0.1);padding:6px;border-radius:6px;">🌍 <b>${T('終極認證','Ultimate Cert')}</b><br>${T('挑戰 Bluesign 藍天使','Challenge Bluesign Cert')}</div>
+</div></div>`,btn:T('💧 啟程 1993','💧 Start 1993')}
     ];
     const s=steps[this.introStep];
     UI.showModal(s.title,s.text,()=>{UI.closeModal();this.introStep++;if(this.introStep===2){this.showNameInput();return;}if(this.introStep<steps.length){setTimeout(()=>this.showIntro(),200);}else{this.startTut();}});
@@ -316,15 +376,26 @@ const G={
   tutClick(){if(this.tutStep>0){this.tutStep++;this.updateTut();}},
   updateTut(){
     UI.clearHL();
-    if(this.tutStep===1)UI.hlEl('#hud .stat-box:nth-child(1)','💰 資金\n建設廠房與進口紗線都需要資金。\n每年需支付工廠維護費！');
-    else if(this.tutStep===2)UI.hlEl('#hud .stat-box:nth-child(2)','🏆 聲譽\n國際品牌對你的信任度。\n⚠️ 爆發毒衣物醜聞或廢水污染會大幅扣除聲譽，歸零即破產！');
-    else if(this.tutStep===3)UI.hlEl('#hud .stat-box:nth-child(3)','🔬 技術力\n從「傳統染整」跨足「無水染機」的關鍵。\n請適時建造【綠色紡織實驗室】。');
-    else if(this.tutStep===4)UI.hlEl('#hud .stat-box:nth-child(4)','🌿 ESG\n企業永續與水資源保護指標。\n後期國際大廠（如 Nike、歐盟）強制要求極高 ESG 才能接單！\n⚠️ 廢水污染過高會每年自動腐蝕 ESG 分數。');
-    else if(this.tutStep===5)UI.hlEl('#hud .stat-box:nth-child(5)','☣️ 廢水污染\n傳統染整會產生大量廢水與化學污染。\n累積過高會引發「環保重罰」與水資源危機！\n強烈建議投資【MBR廢水處理廠】。');
-    else if(this.tutStep===6){UI.tab('build',true);UI.hlEl('#tc-build','🏭 廠區建設\n向右滑動可看到更多設施！\n從【傳統高溫染整線】開始賺錢。\n解鎖【無水染機】與【廢水處理廠】是解決水危機的關鍵！\n最後記得取得 ZDHC 認證。');}
-    else if(this.tutStep===7){UI.tab('trade',true);UI.hlEl('#tc-trade','🌍 採購與接單\n左邊：進口中國/台灣紗線，或高等級的回收酯粒。\n⭐ 不同的紗線有不同的價格與環保屬性！\n右邊：接下歐美戶外大廠的國際訂單。');}
-    else if(this.tutStep===8){UI.hlEl('#next-btn','⏩ 下一年度\n推進時間。\n隨時注意缺水危機與綠色和平組織的環保施壓！');}
-    else{this.tutStep=0;UI.clearHL();UI.tab('build',true);const s=STAGES[0];const goals=s.goals.map(g=>'🔹 '+g.txt).join('<br>');UI.showModal(s.title,'<div style="text-align:left;line-height:1.6;">'+s.desc+'<br><br><span style="color:var(--gold)">🏆 本階段目標：</span><br>'+goals+'</div>',()=>UI.closeModal());}
+    const ts = {
+      t1: T('💰 資金\n建設廠房與進口胚布都需要資金。\n每年需支付工廠維護費！', '💰 Funds\nNeeded to build plants and import fabric.\nYou pay maintenance fees yearly!'),
+      t2: T('🏆 聲譽\n國際品牌(如Nike/Uniqlo)對你的信任度。\n⚠️ 爆發廢水或空污事件會大幅扣除聲譽，歸零即破產！', '🏆 Reputation\nTrust from global brands (Nike/Uniqlo).\n⚠️ Wastewater/Air poll. events heavily drop Rep. 0 = Game Over!'),
+      t3: T('🔬 技術力\n從「傳統染整」跨足「智慧無水染」與「廢水零排放」的關鍵。\n請適時建造【綠色紡織研發部】。', '🔬 Tech\nKey to upgrading from Traditional to Smart Waterless & ZLD.\nBuild [R&D Dept] appropriately.'),
+      t4: T('🌿 ESG\n企業永續與環保指標。\n後期國際大廠（如 Lululemon、歐盟）強制要求極高 ESG 才能接單！\n⚠️ 廢水污染過高會每年自動腐蝕 ESG 分數。', '🌿 ESG\nCorporate eco index.\nLate-game clients demand high ESG for orders!\n⚠️ High wastewater poll. erodes ESG yearly.'),
+      t5: T('☣️ 污染 (廢水/空污)\n染整會產生巨大的高溫廢水與黑煙污染。\n累積過高會引發「環保重罰」與停工！\n強烈建議投資【廢熱回收】與【MBR薄膜】。', '☣️ Pollution (Water/Air)\nDyeing creates huge high-temp wastewater & smoke.\nHigh levels bring EPA fines & shutdown!\nHighly recommend [Heat Recovery] & [MBR].'),
+      t6: T('🏭 廠區建設\n向右滑動可看到更多設施！\n從【傳統染整線】開始賺錢。\n解鎖【智慧無水染】與【廢水零排放(ZLD)】是轉型關鍵！\n最後記得取得 Bluesign 藍天使認證。', '🏭 Plant Build\nScroll right for more!\nStart with [Traditional Dye Line].\nUnlock Smart Waterless & ZLD to transform!\nDon\'t forget Bluesign cert at the end.'),
+      t7: T('🌍 採購與接單\n左邊：進口台灣或中國的胚布原料。\n⭐ 遠東環保紗需高 ESG 才能處理！\n右邊：接下亞洲與歐美國際品牌的訂單。', '🌍 Sourcing & Orders\nLeft: Import TW/CN fabric materials.\n⭐ FENC Eco-Yarn needs high ESG!\nRight: Fulfill Asia & US/EU global brand orders.'),
+      t8: T('⏩ 下一年度\n推進時間。\n隨時注意水情警報與【看見台灣廢水稽查事件】的強大衝擊！', '⏩ Next Year\nAdvance time.\nWatch out for drought alerts & the huge impact of the Wastewater Audit Event!')
+    };
+
+    if(this.tutStep===1)UI.hlEl('#hud .stat-box:nth-child(1)',ts.t1);
+    else if(this.tutStep===2)UI.hlEl('#hud .stat-box:nth-child(2)',ts.t2);
+    else if(this.tutStep===3)UI.hlEl('#hud .stat-box:nth-child(3)',ts.t3);
+    else if(this.tutStep===4)UI.hlEl('#hud .stat-box:nth-child(4)',ts.t4);
+    else if(this.tutStep===5)UI.hlEl('#hud .stat-box:nth-child(5)',ts.t5);
+    else if(this.tutStep===6){UI.tab('build',true);UI.hlEl('#tc-build',ts.t6);}
+    else if(this.tutStep===7){UI.tab('trade',true);UI.hlEl('#tc-trade',ts.t7);}
+    else if(this.tutStep===8){UI.hlEl('#next-btn',ts.t8);}
+    else{this.tutStep=0;UI.clearHL();UI.tab('build',true);const s=STAGES[0];const goals=s.goals.map(g=>'🔹 '+tObj(g,'txt')).join('<br>');UI.showModal(tObj(s,'title'),'<div style="text-align:left;line-height:1.6;">'+tObj(s,'desc')+'<br><br><span style="color:var(--gold)">🏆 '+T('本階段目標：','Stage Goals:')+'</span><br>'+goals+'</div>',()=>UI.closeModal());}
   },
   calcRev(){let r=0;BKEYS.forEach(k=>{if(B[k].rev>0&&this.c[k]>0)r+=B[k].rev*this.c[k];});return r;},
   calcMatNeed(){let n=0;BKEYS.forEach(k=>{if(B[k].rev>0&&this.c[k]>0)n+=10*this.c[k];});return n;},
@@ -332,19 +403,19 @@ const G={
   totalFac(){return Object.values(this.c).reduce((a,b)=>a+b,0);},
 
   selectCard(key){if(this.tutStep!==0)return;const b=B[key];
-    if(b.stageReq!==undefined && G.stageIdx<b.stageReq){UI.toast(`🔒 需達第${STAGE_LABEL[b.stageReq]}階段解鎖`,'bad');return;}
-    if(b.treq>G.tech){UI.toast('🔒 技術力不足(需≥'+b.treq+')','bad');return;}
-    if(b.ereq&&b.ereq>G.esg){UI.toast('🔒 ESG不足(需≥'+b.ereq+')','bad');return;}
-    if(b.maxPoll!==undefined&&G.poll>b.maxPoll){UI.toast('🔒 污染過高(需≤'+b.maxPoll+')','bad');return;}
-    if(b.max&&this.c[key]>=b.max){UI.toast('🏅 '+b.name+'已達上限','warn');return;}
-    if(this.funds<b.cost){UI.toast('💸 資金不足','bad');return;}
+    if(b.stageReq!==undefined && G.stageIdx<b.stageReq){UI.toast(T(`🔒 需達第${STAGE_LABEL[b.stageReq]}階段解鎖`,`🔒 Unlocks at Stage ${b.stageReq+1}`),'bad');return;}
+    if(b.treq>G.tech){UI.toast(T(`🔒 技術力不足(需≥${b.treq})`,`🔒 Tech too low (Req≥${b.treq})`),'bad');return;}
+    if(b.ereq&&b.ereq>G.esg){UI.toast(T(`🔒 ESG不足(需≥${b.ereq})`,`🔒 ESG too low (Req≥${b.ereq})`),'bad');return;}
+    if(b.maxPoll!==undefined&&G.poll>b.maxPoll){UI.toast(T(`🔒 污染過高(需≤${b.maxPoll})`,`🔒 Poll. too high (Req≤${b.maxPoll})`),'bad');return;}
+    if(b.max&&this.c[key]>=b.max){UI.toast(T(`🏅 ${tObj(b,'name')}已達上限`,`🏅 ${tObj(b,'name')} Maxed out`),'warn');return;}
+    if(this.funds<b.cost){UI.toast(T('💸 資金不足','💸 Insufficient funds'),'bad');return;}
     
     this.funds-=b.cost;this.c[key]++;this.buildLog.push({id:key,year:this.year});
     
-    if(b.ot==='tech'){this.tech+=b.boost;UI.toast('🔬 '+b.name+'建成！技術+'+b.boost,'good');}
-    else if(b.ot==='esg'){this.esg=Math.min(100,this.esg+b.boost);const note=b.max?'（認證完成）':'';UI.toast(b.e+' '+b.name+'建成！ESG+'+b.boost+note,'good');}
-    else if(b.ot==='hybrid'){this.tech+=b.boostT; this.esg=Math.min(100,this.esg+b.boostE); UI.toast(b.e+' '+b.name+'上線！技術+'+b.boostT+' ESG+'+b.boostE,'good');}
-    else{UI.toast('建設'+b.name+' -$'+b.cost,'good');}
+    if(b.ot==='tech'){this.tech+=b.boost;UI.toast(T(`🔬 ${tObj(b,'name')}建成！技術+${b.boost}`,`🔬 ${tObj(b,'name')} Built! Tech+${b.boost}`),'good');}
+    else if(b.ot==='esg'){this.esg=Math.min(100,this.esg+b.boost);const note=b.max?T('（認證完成）',' (Certified)'):'';UI.toast(T(`${b.e} ${tObj(b,'name')}建成！ESG+${b.boost}${note}`,`${b.e} ${tObj(b,'name')} Built! ESG+${b.boost}${note}`),'good');}
+    else if(b.ot==='hybrid'){this.tech+=b.boostT; this.esg=Math.min(100,this.esg+b.boostE); UI.toast(T(`${b.e} ${tObj(b,'name')}上線！技術+${b.boostT} ESG+${b.boostE}`,`${b.e} ${tObj(b,'name')} Built! Tech+${b.boostT} ESG+${b.boostE}`),'good');}
+    else{UI.toast(T(`建設${tObj(b,'name')} -$${b.cost}`,`Built ${tObj(b,'name')} -$${b.cost}`),'good');}
     
     if(b.rev>0)this.matCap+=150;
     UI.renderBuild();UI.renderTrade();UI.updateAll();},
@@ -352,30 +423,30 @@ const G={
   buyMat(sid){if(this.tutStep!==0)return;const s=SUP.find(x=>x.id===sid);
     const mkt=this.matMarket[sid]||1.0;
     const price=Math.floor(s.base*mkt*(0.88+Math.random()*0.24));
-    if(this.funds<price){UI.toast('💸 資金不足（市價$'+price+'）','bad');return;}
-    if(this.materials>=this.matCap){UI.toast('📦 倉庫已滿','bad');return;}
+    if(this.funds<price){UI.toast(T(`💸 資金不足（市價$${price}）`,`💸 Insufficient funds (Mkt $${price})`),'bad');return;}
+    if(this.materials>=this.matCap){UI.toast(T('📦 倉庫已滿','📦 Storage Full'),'bad');return;}
     
     this.matBuys[sid]=(this.matBuys[sid]||0)+1;
-    if(s.route==='risk'&&Math.random()<0.25){UI.toast('⚠️ '+s.flag+' 供應不穩！原料僅+25','warn');this.funds-=price;this.materials=Math.min(this.matCap,this.materials+25);UI.renderTrade();UI.updateAll();return;}
+    if(s.route==='risk'&&Math.random()<0.25){UI.toast(T(`⚠️ ${s.flag} 供應不穩或品質瑕疵！原料僅+25`,`⚠️ ${s.flag} Supply unstable/flawed! Mat+25`),'warn');this.funds-=price;this.materials=Math.min(this.matCap,this.materials+25);UI.renderTrade();UI.updateAll();return;}
     
     this.funds-=price;this.materials=Math.min(this.matCap,this.materials+50);
-    UI.toast(s.flag+' 原料+50 -$'+price,'good');UI.renderTrade();UI.updateAll();},
+    UI.toast(T(`${s.flag} 原料+50 -$${price}`,`${s.flag} Mat+50 -$${price}`),'good');UI.renderTrade();UI.updateAll();},
 
-  tryContract(cid){if(this.tutStep!==0)return;if(this.done.includes(cid)){UI.toast('已完成此訂單','warn');return;}
+  tryContract(cid){if(this.tutStep!==0)return;if(this.done.includes(cid)){UI.toast(T('已完成此訂單','Order Completed'),'warn');return;}
     let ct=null;for(let s=1;s<=5;s++){ct=(CONTRACTS[s]||[]).find(x=>x.id===cid);if(ct)break;}if(!ct)return;
     const r=ct.reqs;let ok=true;let miss=[];
-    if(r.dye&&this.c.dye<r.dye){ok=false;miss.push('傳統染整≥'+r.dye);}
-    if(r.eco_dye&&this.c.eco_dye<r.eco_dye){ok=false;miss.push('氣流染機≥'+r.eco_dye);}
-    if(r.waterless&&this.c.waterless<r.waterless){ok=false;miss.push('無水染機≥'+r.waterless);}
-    if(r.vietnam&&this.c.vietnam<r.vietnam){ok=false;miss.push('東南亞成衣≥'+r.vietnam);}
-    if(r.zdhc&&this.c.zdhc<r.zdhc){ok=false;miss.push('ZDHC認證≥'+r.zdhc);}
-    if(r.tech&&this.tech<r.tech){ok=false;miss.push('技術≥'+r.tech);}
-    if(r.esg&&this.esg<r.esg){ok=false;miss.push('ESG≥'+r.esg);}
-    if(r.maxPoll!==undefined&&this.poll>r.maxPoll){ok=false;miss.push('污染≤'+r.maxPoll);}
-    if(!ok){UI.toast('❌ 未達標：'+miss.join('、'),'bad');return;}
+    if(r.dye_old&&this.c.dye_old<r.dye_old){ok=false;miss.push(T(`傳統染整≥${r.dye_old}`,`Trad. Dye≥${r.dye_old}`));}
+    if(r.dye_new&&this.c.dye_new<r.dye_new){ok=false;miss.push(T(`無水染整≥${r.dye_new}`,`Waterless Dye≥${r.dye_new}`));}
+    if(r.mbr&&this.c.mbr<r.mbr){ok=false;miss.push(T(`MBR薄膜≥${r.mbr}`,`MBR≥${r.mbr}`));}
+    if(r.zld&&this.c.zld<r.zld){ok=false;miss.push(T(`廢水零排放(ZLD)≥${r.zld}`,`ZLD≥${r.zld}`));}
+    if(r.bluesign&&this.c.bluesign<r.bluesign){ok=false;miss.push(T(`Bluesign認證≥${r.bluesign}`,`Bluesign Cert≥${r.bluesign}`));}
+    if(r.tech&&this.tech<r.tech){ok=false;miss.push(T(`技術≥${r.tech}`,`Tech≥${r.tech}`));}
+    if(r.esg&&this.esg<r.esg){ok=false;miss.push(T(`ESG≥${r.esg}`,`ESG≥${r.esg}`));}
+    if(r.maxPoll!==undefined&&this.poll>r.maxPoll){ok=false;miss.push(T(`污染≤${r.maxPoll}`,`Poll≤${r.maxPoll}`));}
+    if(!ok){UI.toast(T('❌ 未達標：','❌ Missing: ')+miss.join('、'),'bad');return;}
     this.done.push(cid);this.funds+=ct.rwd.funds;this.rep=Math.min(100,this.rep+ct.rwd.rep);
     this.countries.add(ct.country);
-    UI.toast(ct.flag+' '+ct.client+' 出貨成功！+$'+ct.rwd.funds,'good');
+    UI.toast(T(`${ct.flag} ${tObj(ct,'client')} 出貨成功！+$${ct.rwd.funds}`,`${ct.flag} ${tObj(ct,'client')} Shipped! +$${ct.rwd.funds}`),'good');
     UI.renderTrade();UI.updateAll();},
 
   nextTurn(){
@@ -385,7 +456,7 @@ const G={
     const pollD=this.calcPollPerTurn();
     this.poll=Math.max(0,this.poll+pollD);
     const esgDecay=Math.floor(this.poll/15); 
-    if(esgDecay>0){this.esg=Math.max(0,this.esg-esgDecay);if(esgDecay>=2)msgs.push({type:'warn',text:'☣️ 廢水污染超標，侵蝕 ESG -'+esgDecay});}
+    if(esgDecay>0){this.esg=Math.max(0,this.esg-esgDecay);if(esgDecay>=2)msgs.push({type:'warn',text:T(`☣️ 廢水與黑煙超標，侵蝕 ESG -${esgDecay}`,`☣️ High poll. erodes ESG -${esgDecay}`)});}
     
     SUP.forEach(s=>{
       let drift=(Math.random()-0.5)*s.swing;
@@ -397,19 +468,19 @@ const G={
     if(this.managerActive){
       const buyResult=this.managerBuy();
       const advice=this.managerAdvice();
-      mgrReport='<b>採購：</b>'+buyResult+'<br><b>💡 建議：</b>'+advice;
+      mgrReport=`<b>${T('採購：','Purchasing:')}</b>${buyResult}<br><b>💡 ${T('建議：','Advice:')}</b>${advice}`;
     }
     
     const maint=this.totalFac()*40+(this.managerActive?60:0);
     this.funds-=maint;
     let cTax=0;
-    if(this.stageIdx>=3){cTax=this.poll*4;this.funds-=cTax;}
+    if(this.stageIdx>=3){cTax=this.poll*4;this.funds-=cTax;} 
     
     const need=this.calcMatNeed();let rev=this.calcRev();
     if(need>0&&this.materials<need){
       const ratio=need>0?this.materials/need:0;
       rev=Math.max(MIN_INC,Math.floor(rev*Math.max(0.3,ratio)));
-      this.materials=0;msgs.push({type:'warn',text:'⚠️ 紗線原料不足！產線降載，聲譽 -2'});this.rep=Math.max(0,this.rep-2);
+      this.materials=0;msgs.push({type:'warn',text:T('⚠️ 胚布原料不足！產線降載，聲譽 -2','⚠️ Fabric shortage! Cap down, Rep -2')});this.rep=Math.max(0,this.rep-2);
     }else{
       this.materials=Math.max(0,this.materials-need);
     }
@@ -422,15 +493,21 @@ const G={
     this.pollConsequences(msgs);
     let ev=this.rollEvent();
     
+    if(this.year >= 2013 && !this.shownEvents[2]?.has(0)) {
+        ev = EVENTS[2][0];
+        if(!this.shownEvents[2]) this.shownEvents[2]=new Set();
+        this.shownEvents[2].add(0);
+    }
+    
     UI.showTurnReport(totalInc,maint,cTax,pollD,mgrReport,msgs,ev);
     UI.renderBuild();UI.renderTrade();UI.updateAll();
   },
 
   pollConsequences(msgs){
-    if(this.poll>=35&&this.poll<55&&Math.random()<0.4){const f=200+Math.floor(Math.random()*150);this.funds=Math.max(0,this.funds-f);msgs.push({type:'warn',text:'⚠️ 觀音環保局稽查廢水超標開罰 -$'+f});}
-    if(this.poll>=55&&this.poll<80){this.rep=Math.max(0,this.rep-5);if(Math.random()<0.4){const f=500+Math.floor(Math.random()*200);this.funds=Math.max(0,this.funds-f);msgs.push({type:'bad',text:'💧 嚴重水污染威脅河川！重罰 -$'+f+'，聲譽 -5'});}}
-    if(this.poll>=80){this.rep=Math.max(0,this.rep-12);this.funds=Math.max(0,this.funds-800);msgs.push({type:'bad',text:'☣️ 生態浩劫！勒令停工罰款 $800，聲譽 -12'});
-      if(Math.random()<0.3){const facs=BKEYS.filter(k=>B[k].rev>0&&this.c[k]>0);if(facs.length){const f=facs[Math.floor(Math.random()*facs.length)];this.c[f]--;msgs.push({type:'bad',text:'⛔ '+B[f].name+' 被勒令無限期關廠！'});}}}
+    if(this.poll>=35&&this.poll<55&&Math.random()<0.4){const f=200+Math.floor(Math.random()*150);this.funds=Math.max(0,this.funds-f);msgs.push({type:'warn',text:T(`⚠️ 觀音環保局廢水告發，罰款 -$${f}`,`⚠️ EPA Wastewater Fine -$${f}`)});}
+    if(this.poll>=55&&this.poll<80){this.rep=Math.max(0,this.rep-5);if(Math.random()<0.4){const f=500+Math.floor(Math.random()*200);this.funds=Math.max(0,this.funds-f);msgs.push({type:'bad',text:T(`💨 嚴重暗管偷排與空污！重罰 -$${f}，聲譽 -5`,`💨 Illegal pipes & severe poll.! Fined -$${f}, Rep -5`)});}}
+    if(this.poll>=80){this.rep=Math.max(0,this.rep-12);this.funds=Math.max(0,this.funds-800);msgs.push({type:'bad',text:T('☣️ 重大污染危機！勒令停工罰款 $800，聲譽 -12','☣️ Major Poll. Crisis! Shutdown Fine $800, Rep -12')});
+      if(Math.random()<0.3){const facs=BKEYS.filter(k=>B[k].rev>0&&this.c[k]>0);if(facs.length){const f=facs[Math.floor(Math.random()*facs.length)];this.c[f]--;msgs.push({type:'bad',text:T(`⛔ ${tObj(B[f],'name')} 被勒令無限期關廠！`,`⛔ ${tObj(B[f],'name')} forcibly closed!`)});}}}
   },
   rollEvent(){
     const pool=EVENTS[this.stageIdx];if(!pool||!pool.length)return null;
@@ -439,13 +516,15 @@ const G={
     const avail=[];
     for(let i=0;i<pool.length;i++){
       if(shown.has(i))continue;
-      if(pool[i].id==='cbam_eu'&&this.c.zdhc>=1)continue;
+      if(pool[i].id==='bluesign_eu'&&this.c.bluesign>=1)continue;
+      if(pool[i].id==='water_audit')continue;
       avail.push(i);
     }
     if(avail.length===0){
       shown.clear();
       for(let i=0;i<pool.length;i++){
-        if(pool[i].id==='cbam_eu'&&this.c.zdhc>=1)continue;
+        if(pool[i].id==='bluesign_eu'&&this.c.bluesign>=1)continue;
+        if(pool[i].id==='water_audit')continue;
         avail.push(i);
       }
       if(avail.length===0)return null;
@@ -474,7 +553,7 @@ const G={
     }
   },
 
-  restart(){this.resetVars();UI.renderBuild();UI.renderTrade();UI.updateAll();UI.closeModal();setTimeout(()=>UI.showModal('🔄 重新開始','<div style="font-size:13px;text-align:center;padding:8px 0;">準備回到1980年，再次出發！</div>',()=>{UI.closeModal();G.startTut();}),300);},
+  restart(){this.resetVars();UI.renderBuild();UI.renderTrade();UI.updateAll();UI.closeModal();setTimeout(()=>UI.showModal(T('🔄 重新開始','🔄 Restart'),`<div style="font-size:13px;text-align:center;padding:8px 0;">${T('準備回到1993年，再次出發！','Ready to return to 1993!')}</div>`,()=>{UI.closeModal();G.startTut();}),300);},
   captureScreen(){
     const el=document.querySelector('.mdlg-in');if(!el)return;
     el.scrollTop=0;
@@ -485,7 +564,7 @@ const G={
         width:el.scrollWidth,height:el.scrollHeight}).then(c=>{
         Object.assign(el.style,prev);
         const a=document.createElement('a');
-        a.download='和美紡織_'+this.playerName+'.png';
+        a.download='Homei_'+this.playerName+'.png';
         a.href=c.toDataURL('image/png');a.click();
       }).catch(()=>Object.assign(el.style,prev));
     }));
@@ -493,9 +572,9 @@ const G={
 
   managerBuy(){
     const need=this.calcMatNeed()*2;
-    if(this.materials>=Math.min(this.matCap*0.8,need))return'紗線庫存充足，本年未採購';
+    if(this.materials>=Math.min(this.matCap*0.8,need))return T('胚布庫存充足，本年未採購','Fabric Stock sufficient, skipped buying');
     const batches=Math.min(3,Math.floor((this.matCap-this.materials)/50));
-    if(batches===0)return'倉庫已滿，跳過';
+    if(batches===0)return T('倉庫已滿，跳過','Storage full, skipped');
     
     let availableSup = SUP.filter(s => !s.req || this.c[s.req] >= 1);
     const priced=availableSup.map(s=>({...s,ep:Math.floor(s.base*(this.matMarket[s.id]||1))})).sort((a,b)=>a.ep-b.ep);
@@ -515,64 +594,32 @@ const G={
         bought.push(pick.flag+'$'+price);
       }
     }
-    return bought.length?'自動採購：'+bought.join(' ・ '):'資金不足，未採購';
+    return bought.length ? T('自動採購：','Auto-buy: ')+bought.join(' ・ ') : T('資金不足，未採購','Not enough funds, skipped');
   },
 
   managerAdvice(){
     const tips=[];
-    if(this.poll>=60)tips.push('⛔ 觀音廠區廢水污染嚴重！立即投資【MBR廢水處理廠】，否則面臨天價罰款與商譽崩盤。');
-    else if(this.poll>=40)tips.push('⚠️ 污染指標偏高。建議增設廢水處理設施，快時尚品牌開始看重水資源保護。');
+    if(this.poll>=60)tips.push(T('⛔ 觀音廠區廢水超標嚴重！立即投資【廢熱回收】或【MBR生物薄膜】，否則面臨天價罰款與商譽崩盤。','⛔ Severe Wastewater Poll.! Invest in [Heat Recovery] or [MBR] now, or face fines & rep crash.'));
+    else if(this.poll>=40)tips.push(T('⚠️ 污染指標偏高。建議增設水處理設施，因應未來的環保稽查。','⚠️ Poll. high. Add water treatment to prep for EPA audits.'));
     
-    if(this.stageIdx>=2 && this.esg<50)tips.push('🌿 運動大廠(Nike/Adidas等)對ESG要求極高，請盡快投資【超臨界無水染機】徹底解決水污染！');
-    if(this.stageIdx>=4 && this.c.zdhc===0)tips.push('🏅 歐盟與頂尖品牌要求零排放！請確保 ESG≥75 且 污染≤20，並準備資金申請【ZDHC 零排放認證】。');
+    if(this.stageIdx>=2 && this.esg<50)tips.push(T('🌿 運動大廠(Nike等)對ESG要求極高，請盡快向右捲動投資【MBR生物薄膜】徹底解決廢水！','🌿 Nike demands high ESG. Scroll right and invest in [MBR] to solve wastewater!'));
+    if(this.stageIdx>=4 && this.c.bluesign===0)tips.push(T('🏅 藍天使認證(Bluesign)是進入歐美的門票！請確保 ESG≥75 且 污染≤20 並準備申請。','🏅 Bluesign is the ticket to US/EU! Ensure ESG≥75 & Poll≤20 and apply.'));
     
     const need=this.calcMatNeed();
-    if(need>0&&this.materials<need)tips.push('📦 紗線斷鏈！產線降載中。請確保有足夠資金進口原紗。');
-    if(this.funds<500)tips.push('💸 現金流緊縮！暫停擴廠，完成幾筆國際訂單以補充資金。');
+    if(need>0&&this.materials<need)tips.push(T('📦 胚布原料斷鏈！產線降載中。請確保有足夠資金進口台廠或中國原料。','📦 Fabric shortage! Capacity dropping. Ensure funds to import materials.'));
+    if(this.funds<500)tips.push(T('💸 現金流緊縮！暫停擴廠，完成幾筆訂單以補充資金。','💸 Cash tight! Pause building and finish orders for funds.'));
     
-    if(this.stageIdx===0&&this.c.dye<2)tips.push('🌡️ 初期必須先擴建【傳統高溫染整線】，奠定代工基礎。');
-    if(this.stageIdx===1&&this.c.vietnam===0)tips.push('🌏 快時尚要求一站式服務，強烈建議投資【東南亞成衣廠】跟隨客戶腳步。');
-    if(this.stageIdx===2&&this.c.waterless===0)tips.push('🛸 缺水危機是染整業的致命傷！建造【無水染機】不僅能度過大旱，還能大幅提升 ESG！');
-    if(this.stageIdx===3&&this.esg<70)tips.push('♻️ 毒衣物風暴來襲，請多投資綠能或研發，購買【環保回收酯粒】提升企業形象。');
+    if(this.stageIdx===0&&this.c.dye_old<2)tips.push(T('🏭 初期必須先擴建【傳統染整線】，奠定產能基礎。','🏭 Expand [Trad. Dye Line] initially to build foundation.'));
+    if(this.stageIdx===1&&this.c.dye_new===0)tips.push(T('⚙️ 面對中國產能擴張，強烈建議投資【智慧無水染整】降低用水與生產成本。','⚙️ Battle China expansion: Invest in [Smart Waterless Dye] to cut water/costs.'));
+    if(this.stageIdx===2&&this.c.mbr===0)tips.push(T('🦠 廢水稽查是染整業的痛！建造【MBR生物薄膜】不僅能防範罰款，還能大幅提升 ESG！','🦠 Wastewater audits! Build [MBR] to avoid fines and boost ESG!'));
+    if(this.stageIdx===3&&this.c.zld===0)tips.push(T('♻️ 水情嚴峻，請務必挑戰【廢水零排放(ZLD)】，這將是吸引高階品牌的關鍵！','♻️ Severe drought! Challenge [ZLD System] to attract premium brands!'));
     
-    if(tips.length===0)tips.push('✅ 觀音中樞運作順暢！繼續推動無水染整與回收技術，讓和美成為全球綠色紡織標竿。');
+    if(tips.length===0)tips.push(T('✅ 觀音廠區運作順暢！繼續推動零排放與智慧染整，讓和美紡織成為全球綠色標竿。','✅ HQ runs smoothly! Keep pushing ZLD and smart dyeing.'));
     return tips[0];
   },
 
   saveToSheets(){
-    const url = 'https://script.google.com/macros/s/AKfycbzPiIQOSrJSDcCJeYDIYUX5vjDJXD0oKbW0Tv3YYStw3ULkhy4akj3GoEYXwqTPphsA/exec';
-    UI.toast('📊 正在上傳成績至資料庫...', 'good', 3000);
-    
-    const bldg=BKEYS.filter(k=>this.c[k]>0).map(k=>B[k].name+'×'+this.c[k]).join(' ');
-    const totalBuys=Object.values(this.matBuys).reduce((a,b)=>a+b,0);
-    const purch=totalBuys===0?'無':SUP.filter(s=>(this.matBuys[s.id]||0)>0).map(s=>s.name+':'+Math.round((this.matBuys[s.id]||0)/totalBuys*100)+'%').join(' ');
-    const ifrId='gs-ifr-'+Date.now();
-    const ifr=document.createElement('iframe');ifr.name=ifrId;ifr.style.display='none';document.body.appendChild(ifr);
-    const frm=document.createElement('form');frm.method='POST';frm.action=url;frm.target=ifrId;frm.style.display='none';
-    
-    const cbamStatus = this.c.zdhc >= 1 ? 'ZDHC已認證' : '未認證';
-    
-    const fields={
-      company: '和美紡織',
-      player: this.playerName,
-      date: new Date().toLocaleDateString('zh-TW'),
-      year: this.year,
-      funds: this.funds,
-      rep: this.rep,
-      tech: this.tech,
-      esg: this.esg,
-      poll: this.poll,
-      countries: this.countries.size,
-      contracts: this.done.length,
-      zdhc: cbamStatus, 
-      buildings: bldg,
-      purchases: purch,
-      contractList: this.done.join(',')
-    };
-      
-    Object.entries(fields).forEach(([k,v])=>{const inp=document.createElement('input');inp.type='hidden';inp.name=k;inp.value=v;frm.appendChild(inp);});
-    document.body.appendChild(frm);frm.submit();
-    setTimeout(()=>{if(frm.parentNode)frm.parentNode.removeChild(frm);if(ifr.parentNode)ifr.parentNode.removeChild(ifr);},5000);
+    /* Dummy Logic */
   }
 };
 
@@ -588,48 +635,48 @@ const UI={
       const card=document.createElement('div');card.className='bcard'+((locked||noMoney||maxed)?' disabled':'')+(b.green?' green-card':'');
       card.onclick=()=>{if(!locked&&!noMoney&&!maxed)G.selectCard(k);};
       let info='';
-      if(b.ot==='tech')info='<span class="info">技術+'+b.boost+'</span>';
-      else if(b.ot==='esg')info='<span class="info">ESG+'+b.boost+'</span>';
-      else if(b.ot==='hybrid')info='<span class="info">技+'+b.boostT+' ESG+'+b.boostE+'</span>';
-      else info='<span class="info">營收 $'+b.rev+'</span>';
+      if(b.ot==='tech')info=`<span class="info">${T('技術','Tech')}+${b.boost}</span>`;
+      else if(b.ot==='esg')info=`<span class="info">ESG+${b.boost}</span>`;
+      else if(b.ot==='hybrid')info=`<span class="info">${T('技','T')}+${b.boostT} ESG+${b.boostE}</span>`;
+      else info=`<span class="info">${T('營收','Rev')} $${b.rev}</span>`;
       
-      const pollTxt=b.poll>0?'<span class="poll-cost">☣️+'+b.poll+'/年</span>':(b.poll<0?'<span class="info" style="color:var(--green)">☣️'+b.poll+'/年</span>':'');
+      const pollTxt=b.poll>0?`<span class="poll-cost">☣️+${b.poll}/${T('年','y')}</span>`:(b.poll<0?`<span class="info" style="color:var(--green)">☣️${b.poll}/${T('年','y')}</span>`:'');
       let lockTxt='';
-      if(maxed)lockTxt='已認證';
-      else if(b.stageReq!==undefined&&G.stageIdx<b.stageReq)lockTxt=`第${STAGE_LABEL[b.stageReq]}階段`;
-      else if(b.treq>G.tech)lockTxt='技術≥'+b.treq;
+      if(maxed)lockTxt=T('已認證','Certified');
+      else if(b.stageReq!==undefined&&G.stageIdx<b.stageReq)lockTxt=`${T('第','Stage ')}${STAGE_LABEL[b.stageReq]}${T('階段','')}`;
+      else if(b.treq>G.tech)lockTxt=T('技術≥','Tech≥')+b.treq;
       else if(b.ereq&&b.ereq>G.esg)lockTxt='ESG≥'+b.ereq;
-      else if(b.maxPoll!==undefined&&G.poll>b.maxPoll)lockTxt='污染≤'+b.maxPoll;
+      else if(b.maxPoll!==undefined&&G.poll>b.maxPoll)lockTxt=T('污染≤','Poll≤')+b.maxPoll;
       
-      card.innerHTML=(cnt>0?'<div class="badge">'+cnt+'</div>':'')+'<span class="emoji">'+b.e+'</span><span class="name">'+b.name+'</span><div class="divider"></div>'+info+pollTxt+'<div style="margin-top:auto;"><span class="cost">$'+b.cost+'</span></div>'+(lockTxt?'<div class="lock-ov">🔒<br>'+lockTxt+'</div>':'');
+      card.innerHTML=(cnt>0?'<div class="badge">'+cnt+'</div>':'')+'<span class="emoji">'+b.e+'</span><span class="name">'+tObj(b,'name')+'</span><div class="divider"></div>'+info+pollTxt+'<div style="margin-top:auto;"><span class="cost">$'+b.cost+'</span></div>'+(lockTxt?'<div class="lock-ov">🔒<br>'+lockTxt+'</div>':'');
       dk.appendChild(card);});
   },
   renderTrade(){
     const dk=document.getElementById('trade-deck');dk.innerHTML='';
     const mg=document.createElement('div');
     mg.style.cssText='flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 6px;border-radius:8px;border:1.5px solid '+(G.managerActive?'var(--teal)':'var(--brd)')+';background:'+(G.managerActive?'rgba(21,67,96,0.1)':'rgba(255,255,255,0.4)')+';cursor:pointer;min-width:56px;';
-    mg.innerHTML='<span style="font-size:16px;">🤵</span><span style="font-size:8px;font-weight:700;color:'+(G.managerActive?'var(--teal)':'var(--muted)')+';">'+(G.managerActive?'採購運作中':'聘用經理</span><span style="font-size:7px;color:var(--muted);">$60/年')+'</span>';
+    mg.innerHTML='<span style="font-size:16px;">🤵</span><span style="font-size:8px;font-weight:700;color:'+(G.managerActive?'var(--teal)':'var(--muted)')+';">'+(G.managerActive?T('採購運作中','Active'):T('聘用經理','Hire Mgr'))+'</span><span style="font-size:7px;color:var(--muted);">$60/'+T('年','yr')+'</span>';
     mg.onclick=()=>{
       if(G.tutStep!==0)return;
       if(G.managerActive){
-        UI.showModal('🤵 解雇採購經理','<div style="font-size:13px;line-height:1.8;text-align:left;">確定要解雇採購經理？<br><br>解雇後將<b>停止自動採購</b>，每年節省 <b style="color:var(--green);">$60</b>，但需親自緊盯國際紗線價格。</div>',null);
+        UI.showModal(T('🤵 解雇採購經理','🤵 Fire Manager'),`<div style="font-size:13px;line-height:1.8;text-align:left;">${T('確定要解雇採購經理？<br><br>解雇後將<b>停止自動採購</b>，每年節省 <b style="color:var(--green);">$60</b>，但需親自緊盯國際原料行情。','Fire purchasing manager?<br><br>You will save <b style="color:var(--green);">$60/year</b> but you must manually buy materials.')}</div>`,null);
         const foot=document.getElementById('m-foot');foot.innerHTML='';
-        const yes=document.createElement('button');yes.className='mbtn red';yes.innerText='✅ 確定解雇';
-        yes.onclick=()=>{G.managerActive=false;UI.closeModal();UI.toast('🤵 採購經理已離職','warn');UI.renderTrade();};foot.appendChild(yes);
-        const no=document.createElement('button');no.className='mbtn';no.style.marginTop='6px';no.innerText='❌ 繼續任用';
+        const yes=document.createElement('button');yes.className='mbtn red';yes.innerText=T('✅ 確定解雇','✅ Fire');
+        yes.onclick=()=>{G.managerActive=false;UI.closeModal();UI.toast(T('🤵 採購經理已離職','🤵 Manager fired'),'warn');UI.renderTrade();};foot.appendChild(yes);
+        const no=document.createElement('button');no.className='mbtn';no.style.marginTop='6px';no.innerText=T('❌ 繼續任用','❌ Keep');
         no.onclick=()=>UI.closeModal();foot.appendChild(no);
       }else{
-        const html='<div style="font-size:13px;line-height:1.8;text-align:left;"><div style="background:rgba(21,67,96,0.07);border-radius:8px;padding:10px;margin-bottom:10px;"><b>🤵 採購經理職能：</b><br><br>✅ <b>自動跨國採購</b>：每年依國際原料行情自動補貨。<br>✅ <b>戰略情報</b>：提供精準的產能與永續轉型建議。</div>💰 年薪：<b style="color:var(--gold);">$60/年</b><br><br>確定要聘用嗎？</div>';
-        UI.showModal('🤵 聘用採購經理',html,null);
+        const html=`<div style="font-size:13px;line-height:1.8;text-align:left;"><div style="background:rgba(21,67,96,0.07);border-radius:8px;padding:10px;margin-bottom:10px;"><b>🤵 ${T('採購經理職能：','Manager Role:')}</b><br><br>✅ <b>${T('自動跨國採購','Auto-Buy')}</b>：${T('每年依國際原料行情自動補貨。','Automatically buys materials based on market.')}<br>✅ <b>${T('戰略情報','Advice')}</b>：${T('提供精準的產能與永續轉型建議。','Provides strategy and eco tips.')}</div>💰 ${T('年薪：','Salary:')}<b style="color:var(--gold);">$60/${T('年','yr')}</b><br><br>${T('確定要聘用嗎？','Hire them?')}</div>`;
+        UI.showModal(T('🤵 聘用採購經理','🤵 Hire Manager'),html,null);
         const foot=document.getElementById('m-foot');foot.innerHTML='';
-        const yes=document.createElement('button');yes.className='mbtn gold';yes.innerText='✅ 是，立即聘用';
-        yes.onclick=()=>{G.managerActive=true;UI.closeModal();UI.toast('🤵 經理上任！自動盯緊國際紗價（$60/年）','good');UI.renderTrade();};foot.appendChild(yes);
-        const no=document.createElement('button');no.className='mbtn';no.style.marginTop='6px';no.innerText='❌ 自己處理';
+        const yes=document.createElement('button');yes.className='mbtn gold';yes.innerText=T('✅ 是，立即聘用','✅ Yes, Hire');
+        yes.onclick=()=>{G.managerActive=true;UI.closeModal();UI.toast(T('🤵 經理上任！自動盯緊胚布價（$60/年）','🤵 Manager hired! ($60/yr)'),'good');UI.renderTrade();};foot.appendChild(yes);
+        const no=document.createElement('button');no.className='mbtn';no.style.marginTop='6px';no.innerText=T('❌ 自己處理','❌ Handle Manually');
         no.onclick=()=>UI.closeModal();foot.appendChild(no);
       }
     };
     dk.appendChild(mg);
-    const sm=document.createElement('div');sm.className='sep-label';sm.innerText='原料';dk.appendChild(sm);
+    const sm=document.createElement('div');sm.className='sep-label';sm.innerText=T('原料','Mat');dk.appendChild(sm);
     SUP.forEach(s=>{
       const locked = s.req && G.c[s.req] < 1;
       const card=document.createElement('div');
@@ -638,14 +685,22 @@ const UI={
       const mkt=G.matMarket[s.id]||1.0;const estPrice=Math.floor(s.base*mkt);
       const mktClr=mkt>1.3?'var(--red)':mkt>1.1?'var(--gold)':mkt<0.8?'var(--green)':'var(--txt)';
       const mktLbl=mkt>1.3?'↑↑':mkt>1.1?'↑':mkt<0.8?'↓':'—';
-      const lockIcon = locked ? '<div class="lock-ov">🔒<br>需'+B[s.req].name+'</div>' : '';
-      card.innerHTML='<span class="flag">'+s.flag+'</span><span class="cname">'+s.name+'</span><span class="creq">'+s.label+'</span><span class="crwd" style="color:'+mktClr+'">$'+estPrice+' '+mktLbl+'</span>'+lockIcon;dk.appendChild(card);});
-    const sc=document.createElement('div');sc.className='sep-label';sc.innerText='訂單';dk.appendChild(sc);
+      const lockIcon = locked ? `<div class="lock-ov">🔒<br>${T('需','Req ')}${tObj(B[s.req],'name')}</div>` : '';
+      card.innerHTML=`<span class="flag">${s.flag}</span><span class="cname">${tObj(s,'name')}</span><span class="creq">${tObj(s,'label')}</span><span class="crwd" style="color:${mktClr}">$${estPrice} ${mktLbl}</span>${lockIcon}`;dk.appendChild(card);});
+    const sc=document.createElement('div');sc.className='sep-label';sc.innerText=T('訂單','Order');dk.appendChild(sc);
     for(let si=1;si<=G.stageIdx+1;si++){(CONTRACTS[si]||[]).forEach(ct=>{const isDone=G.done.includes(ct.id);
       const card=document.createElement('div');card.className='tcard'+(isDone?' done':'');
       card.onclick=()=>{if(!isDone)G.tryContract(ct.id);};
-      let reqs=[];if(ct.reqs.dye)reqs.push('🌡️≥'+ct.reqs.dye);if(ct.reqs.eco_dye)reqs.push('🌬️≥'+ct.reqs.eco_dye);if(ct.reqs.waterless)reqs.push('🛸≥'+ct.reqs.waterless);if(ct.reqs.vietnam)reqs.push('🌏≥'+ct.reqs.vietnam);if(ct.reqs.zdhc)reqs.push('🏅≥'+ct.reqs.zdhc);if(ct.reqs.tech)reqs.push('🔬≥'+ct.reqs.tech);if(ct.reqs.esg)reqs.push('🌿≥'+ct.reqs.esg);if(ct.reqs.maxPoll!==undefined)reqs.push('☣️≤'+ct.reqs.maxPoll);
-      card.innerHTML='<span class="flag">'+ct.flag+'</span><span class="cname">'+ct.client+'</span><span class="creq">'+reqs.join(' ')+'</span><span class="crwd">'+(isDone?'✅已出貨':'$'+ct.rwd.funds+' 🏆+'+ct.rwd.rep)+'</span>';dk.appendChild(card);});}
+      let reqs=[];
+      if(ct.reqs.dye_old)reqs.push(`🏭≥${ct.reqs.dye_old}`);
+      if(ct.reqs.dye_new)reqs.push(`⚙️≥${ct.reqs.dye_new}`);
+      if(ct.reqs.mbr)reqs.push(`🦠≥${ct.reqs.mbr}`);
+      if(ct.reqs.zld)reqs.push(`♻️≥${ct.reqs.zld}`);
+      if(ct.reqs.bluesign)reqs.push(`🏅≥${ct.reqs.bluesign}`);
+      if(ct.reqs.tech)reqs.push(`🔬≥${ct.reqs.tech}`);
+      if(ct.reqs.esg)reqs.push(`🌿≥${ct.reqs.esg}`);
+      if(ct.reqs.maxPoll!==undefined)reqs.push(`☣️≤${ct.reqs.maxPoll}`);
+      card.innerHTML=`<span class="flag">${ct.flag}</span><span class="cname">${tObj(ct,'client')}</span><span class="creq">${reqs.join(' ')}</span><span class="crwd">${isDone?T('✅已出貨','✅Done'):'$'+ct.rwd.funds+' 🏆+'+ct.rwd.rep}</span>`;dk.appendChild(card);});}
   },
   updateAll(){
     document.getElementById('h-funds').innerText=G.funds.toLocaleString();
@@ -656,55 +711,55 @@ const UI={
     const repEl=document.getElementById('h-rep');repEl.className='stat-val '+(G.rep>60?'teal':G.rep>30?'':'red');
     const pollEl=document.getElementById('h-poll');pollEl.className='stat-val '+(G.poll<25?'green':G.poll<50?'gold':G.poll<70?'red':'red');
     const pollBox=pollEl.closest('.stat-box');pollBox.className='stat-box'+(G.poll>=50?' danger':G.poll>=25?' warn':'');
-    document.getElementById('year-display').innerText=G.year+'年';
-    document.getElementById('stage-badge').innerText='第'+STAGE_LABEL[G.stageIdx]+'階段';
-    const zb=document.getElementById('cbam-badge');if(zb)zb.style.display=G.c.zdhc>=1?'block':'none';
-    document.getElementById('story-text').innerText=STAGES[G.stageIdx].short;
+    document.getElementById('year-display').innerText=G.year+T('年','');
+    document.getElementById('stage-badge').innerText=T('第'+STAGE_LABEL[G.stageIdx]+'階段','Stage '+(G.stageIdx+1));
+    const zb=document.getElementById('bluesign-badge');if(zb)zb.style.display=G.c.bluesign>=1?'block':'none';
+    document.getElementById('story-text').innerText=tObj(STAGES[G.stageIdx],'short');
     const gl=document.getElementById('goal-list');gl.innerHTML='';
-    STAGES[G.stageIdx].goals.forEach(g=>{const met=g.ck(G);const d=document.createElement('div');d.className='goal-item';d.innerHTML='<span class="gc '+(met?'done':'')+'">'+(met?'✅':'⬜')+'</span><span>'+g.txt+'</span>';gl.appendChild(d);});
+    STAGES[G.stageIdx].goals.forEach(g=>{const met=g.ck(G);const d=document.createElement('div');d.className='goal-item';d.innerHTML='<span class="gc '+(met?'done':'')+'">'+(met?'✅':'⬜')+'</span><span>'+tObj(g,'txt')+'</span>';gl.appendChild(d);});
     document.getElementById('s-rev').innerText='$'+G.calcRev();
     document.getElementById('s-fac').innerText=G.totalFac();
     document.getElementById('s-mat').innerText=G.materials;
     const pd=G.calcPollPerTurn();const pdEl=document.getElementById('s-polly');pdEl.innerText=(pd>=0?'+':'')+pd;pdEl.className='dval'+(pd>0?' bad':'');
-    document.getElementById('s-exp').innerText=G.countries.size+'家';
+    document.getElementById('s-exp').innerText=G.countries.size+T('家','');
     const pct=Math.min(100,G.poll);document.getElementById('poll-fill').style.width=pct+'%';
-    document.getElementById('poll-fill').style.background=G.poll<25?'#145a32':G.poll<50?'#b9770e':G.poll<70?'#c0392b':'#922b21';
+    document.getElementById('poll-fill').style.background=G.poll<25?'#1e8449':G.poll<50?'#b9770e':G.poll<70?'#c0392b':'#922b21';
     document.getElementById('poll-label').innerText='☣️ '+G.poll;
     const fv=document.getElementById('factory-view');fv.className='';if(G.poll>=70)fv.className='very-polluted';else if(G.poll>=40)fv.className='polluted';
     const fg=document.getElementById('factory-grid');fg.innerHTML='';
-    const zones=[{label:'生產',keys:['dye','eco_dye','waterless','vietnam']},{label:'研發',keys:['rd']},{label:'環保',keys:['water_treat','solar','zdhc']}];
-    zones.forEach(z=>{const items=z.keys.filter(k=>G.c[k]>0);if(!items.length&&z.label!=='生產')return;const zone=document.createElement('div');zone.className='fac-zone';const lbl=document.createElement('span');lbl.className='fac-zone-label';lbl.innerText=z.label;zone.appendChild(lbl);if(!items.length){const emp=document.createElement('span');emp.className='fac-empty';emp.innerText='尚無設施';zone.appendChild(emp);}items.forEach(k=>{const tile=document.createElement('div');tile.className='fac-tile';tile.title=B[k].name;tile.innerHTML='<span class="fe">'+B[k].e+'</span><span class="fc">×'+G.c[k]+'</span>';zone.appendChild(tile);});fg.appendChild(zone);});
+    const zones=[{label:T('染整','Prod'),keys:['dye_old','dye_new']},{label:T('研發','R&D'),keys:['rd']},{label:T('環保','Eco'),keys:['esp','heat','mbr','zld','bluesign']}];
+    zones.forEach(z=>{const items=z.keys.filter(k=>G.c[k]>0);if(!items.length&&z.label!==T('染整','Prod'))return;const zone=document.createElement('div');zone.className='fac-zone';const lbl=document.createElement('span');lbl.className='fac-zone-label';lbl.innerText=z.label;zone.appendChild(lbl);if(!items.length){const emp=document.createElement('span');emp.className='fac-empty';emp.innerText=T('尚無設施','None');zone.appendChild(emp);}items.forEach(k=>{const tile=document.createElement('div');tile.className='fac-tile';tile.title=tObj(B[k],'name');tile.innerHTML='<span class="fe">'+B[k].e+'</span><span class="fc">×'+G.c[k]+'</span>';zone.appendChild(tile);});fg.appendChild(zone);});
     this.renderBuild();
   },
   toast(msg,type='good',dur=1500){const c=document.getElementById('toast-c');const t=document.createElement('div');t.className='toast '+type;t.innerText=msg;c.appendChild(t);setTimeout(()=>{t.classList.add('hiding');setTimeout(()=>t.remove(),500);},dur);},
   showModal(title,html,onClose){document.getElementById('m-title').innerHTML=title;document.getElementById('m-body').innerHTML='<div style="font-size:13px;line-height:1.6;color:var(--txt);text-align:left;">'+html+'</div>';
-    document.getElementById('modal-ov').style.display='flex';const foot=document.getElementById('m-foot');foot.innerHTML='';const btn=document.createElement('button');btn.id='m-btn';btn.className='mbtn';btn.innerText='確 定';btn.onclick=onClose||(()=>this.closeModal());foot.appendChild(btn);},
+    document.getElementById('modal-ov').style.display='flex';const foot=document.getElementById('m-foot');foot.innerHTML='';const btn=document.createElement('button');btn.id='m-btn';btn.className='mbtn';btn.innerText=T('確 定','OK');btn.onclick=onClose||(()=>this.closeModal());foot.appendChild(btn);},
   closeModal(){document.getElementById('modal-ov').style.display='none';},
   showEvent(ev){
-    let html='<div style="font-size:14px;font-weight:700;color:'+(ev.tone==='bad'?'var(--red)':ev.tone==='good'?'var(--green)':'var(--gold)')+';margin-bottom:6px;">'+ev.hl+'</div>';
-    html+='<div style="font-size:12px;margin-bottom:8px;">'+ev.dt+'</div>';
-    if(ev.fact)html+='<div style="font-size:11px;color:var(--teal);background:rgba(21,67,96,0.06);padding:6px;border-radius:6px;margin-bottom:8px;">'+ev.fact+'</div>';
-    if(ev.eff&&!ev.choices){G.applyEff(ev.eff);let et=[];if(ev.eff.funds)et.push('資金'+(ev.eff.funds>0?'+':'')+ev.eff.funds);if(ev.eff.rep)et.push('聲譽'+(ev.eff.rep>0?'+':'')+ev.eff.rep);if(ev.eff.tech)et.push('技術'+(ev.eff.tech>0?'+':'')+ev.eff.tech);if(ev.eff.esg)et.push('ESG'+(ev.eff.esg>0?'+':'')+ev.eff.esg);
-      if(et.length)html+='<div style="font-size:11px;color:var(--gold);background:rgba(185,119,14,0.08);padding:4px 8px;border-radius:6px;margin-bottom:6px;">影響：'+et.join('、')+'</div>';}
+    let html=`<div style="font-size:14px;font-weight:700;color:${ev.tone==='bad'?'var(--red)':ev.tone==='good'?'var(--green)':'var(--gold)'};margin-bottom:6px;">${tObj(ev,'hl')}</div>`;
+    html+=`<div style="font-size:12px;margin-bottom:8px;">${tObj(ev,'dt')}</div>`;
+    if(ev.fact)html+=`<div style="font-size:11px;color:var(--teal);background:rgba(21,67,96,0.06);padding:6px;border-radius:6px;margin-bottom:8px;">${tObj(ev,'fact')}</div>`;
+    if(ev.eff&&!ev.choices){G.applyEff(ev.eff);let et=[];if(ev.eff.funds)et.push(T('資金','Funds')+(ev.eff.funds>0?'+':'')+ev.eff.funds);if(ev.eff.rep)et.push(T('聲譽','Rep')+(ev.eff.rep>0?'+':'')+ev.eff.rep);if(ev.eff.tech)et.push(T('技術','Tech')+(ev.eff.tech>0?'+':'')+ev.eff.tech);if(ev.eff.esg)et.push('ESG'+(ev.eff.esg>0?'+':'')+ev.eff.esg);
+      if(et.length)html+=`<div style="font-size:11px;color:var(--gold);background:rgba(185,119,14,0.08);padding:4px 8px;border-radius:6px;margin-bottom:6px;">${T('影響：','Effects:')}${et.join('、')}</div>`;}
     if(ev.choices&&ev.choices.length){
       if(ev.eff)G.applyEff(ev.eff);
-      this.showModal(ev.tone==='bad'?'⚠️ 產業危機':'📰 戰略決策',html,null);
+      this.showModal(ev.tone==='bad'?T('⚠️ 產業危機','⚠️ Crisis'):T('📰 戰略決策','📰 Strategy'),html,null);
       const foot=document.getElementById('m-foot');foot.innerHTML='';
       ev.choices.forEach(ch=>{
         const btn=document.createElement('div');btn.className='ch-btn';
-        btn.innerHTML='<div class="ch-title">'+ch.label+'</div><div class="ch-desc">'+ch.desc+'</div>';
+        btn.innerHTML=`<div class="ch-title">${tObj(ch,'label')}</div><div class="ch-desc">${tObj(ch,'desc')}</div>`;
         if(ch.certify){
           btn.onclick=()=>{
-            if(G.c.zdhc>=1){UI.toast('🏅 已完成認證','warn');this.closeModal();UI.updateAll();return;}
-            if(G.tech<60||G.esg<75||G.poll>20){
-              UI.toast(`❌ 條件未達！需技≥60、ESG≥75、污≤20 (目前:技${G.tech} ESG${G.esg} 污${G.poll})`,'bad',4500);
+            if(G.c.bluesign>=1){UI.toast(T('🏅 已完成認證','🏅 Already Certified'),'warn');this.closeModal();UI.updateAll();return;}
+            if(G.tech<70||G.esg<75||G.poll>20){
+              UI.toast(T(`❌ 條件未達！需技≥70、ESG≥75、污≤20 (目前:技${G.tech} ESG${G.esg} 污${G.poll})`,`❌ Unmet! Req Tech≥70 ESG≥75 Poll≤20 (Cur: Tech${G.tech} ESG${G.esg} Poll${G.poll})`),'bad',4500);
               return;
             }
-            if(G.funds<1500){UI.toast('❌ 資金不足 $1,500！','bad');return;}
-            G.c.zdhc=1;G.funds=Math.max(0,G.funds-1500);
-            G.esg=Math.min(100,G.esg+20);G.poll=Math.max(0,G.poll-2);G.rep=Math.min(100,G.rep+10);
+            if(G.funds<1200){UI.toast(T('❌ 資金不足 $1,200！','❌ Funds < $1,200!'),'bad');return;}
+            G.c.bluesign=1;G.funds=Math.max(0,G.funds-1200);
+            G.esg=Math.min(100,G.esg+20);G.poll=Math.max(0,G.poll-1);G.rep=Math.min(100,G.rep+10);
             this.closeModal();
-            UI.toast('🏅 ZDHC零排放認證完成！ESG+20 污染-2 聲譽+10','good',4000);
+            UI.toast(T('🏅 Bluesign藍天使認證完成！ESG+20 污染-1 聲譽+10','🏅 Bluesign Certified! ESG+20 Poll-1 Rep+10'),'good',4000);
             UI.updateAll();UI.renderBuild();
             G.checkStageClear(); 
           };
@@ -717,10 +772,10 @@ const UI={
             if(fx.tech)et.push('🔬'+(fx.tech>0?'+':'')+fx.tech);
             if(fx.esg)et.push('🌿'+(fx.esg>0?'+':'')+fx.esg);
             if(fx.poll)et.push('☣️'+(fx.poll>0?'+':'')+fx.poll);
-            if(fx.mkt)Object.entries(fx.mkt).forEach(([sid,d])=>{const s=SUP.find(x=>x.id===sid);if(s)et.push(s.flag+'紗線'+(d>0?'↑':'↓'));});
+            if(fx.mkt)Object.entries(fx.mkt).forEach(([sid,d])=>{const s=SUP.find(x=>x.id===sid);if(s)et.push(s.flag+T('胚布原料','Fabric')+(d>0?'↑':'↓'));});
             this.closeModal();
             const hasNeg=et.some(t=>/(💰|🏆|🔬|🌿)-|☣️\+/.test(t));
-            UI.toast('▸ 決策結果：'+(et.length?et.join(' ｜ '):'已生效'),hasNeg?'warn':'good',3500);
+            UI.toast(T('▸ 決策結果：','▸ Result: ')+(et.length?et.join(' ｜ '):T('已生效','Applied')),hasNeg?'warn':'good',3500);
             UI.updateAll();UI.renderBuild();
             G.checkStageClear(); 
           };
@@ -728,7 +783,7 @@ const UI={
         foot.appendChild(btn);
       });
     }else{
-      this.showModal(ev.tone==='bad'?'⚠️ 突發事件':'📰 產業新聞',html,()=>{
+      this.showModal(ev.tone==='bad'?T('⚠️ 突發事件','⚠️ Event'):T('📰 產業新聞','📰 News'),html,()=>{
         this.closeModal();
         UI.updateAll();
         G.checkStageClear(); 
@@ -738,73 +793,84 @@ const UI={
   showTurnReport(inc,maint,cTax,pollD,mgrReport,msgs,ev){
     let html='<div style="font-size:13px;">';
     html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;">';
-    html+='<div style="background:rgba(185,119,14,0.1);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">年營收</div><div style="font-size:18px;color:var(--gold);font-weight:bold;font-family:\'Playfair Display\',serif;">+$'+inc+'</div></div>';
-    html+='<div style="background:rgba(192,57,43,0.08);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">維護費</div><div style="font-size:18px;color:var(--red);font-weight:bold;font-family:\'Playfair Display\',serif;">−$'+maint+'</div></div>';
-    if(cTax>0)html+='<div style="background:rgba(192,57,43,0.06);padding:8px;border-radius:8px;text-align:center;grid-column:1/-1;"><div style="font-size:10px;color:var(--muted);">廢水處置費（☣️'+G.poll+'×4）</div><div style="font-size:16px;color:var(--red);font-weight:bold;">−$'+cTax+'</div></div>';
-    html+='<div style="background:rgba(108,52,131,0.1);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">污染變化</div><div style="font-size:18px;font-weight:bold;color:'+(pollD>0?'var(--red)':'var(--green)')+'">'+(pollD>0?'+':'')+pollD+'</div></div>';
-    html+='<div style="background:rgba(30,132,73,0.07);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">ESG ／ 技術</div><div style="font-size:16px;font-weight:bold;color:var(--green);">🌿'+G.esg+' 🔬'+G.tech+'</div></div>';
+    html+=`<div style="background:rgba(185,119,14,0.1);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">${T('年營收','Revenue')}</div><div style="font-size:18px;color:var(--gold);font-weight:bold;font-family:'Playfair Display',serif;">+$${inc}</div></div>`;
+    html+=`<div style="background:rgba(192,57,43,0.08);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">${T('維護費','Maint.')}</div><div style="font-size:18px;color:var(--red);font-weight:bold;font-family:'Playfair Display',serif;">−$${maint}</div></div>`;
+    if(cTax>0)html+=`<div style="background:rgba(192,57,43,0.06);padding:8px;border-radius:8px;text-align:center;grid-column:1/-1;"><div style="font-size:10px;color:var(--muted);">${T(`廢水/排污罰金（☣️${G.poll}×4）`,`Pollution Penalty (☣️${G.poll}×4)`)}</div><div style="font-size:16px;color:var(--red);font-weight:bold;">−$${cTax}</div></div>`;
+    html+=`<div style="background:rgba(108,52,131,0.1);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">${T('污染變化','Pollution Δ')}</div><div style="font-size:18px;font-weight:bold;color:${pollD>0?'var(--red)':'var(--green)'}">${pollD>0?'+':''}${pollD}</div></div>`;
+    html+=`<div style="background:rgba(30,132,73,0.07);padding:8px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:var(--muted);">${T('ESG ／ 技術','ESG / Tech')}</div><div style="font-size:16px;font-weight:bold;color:var(--green);">🌿${G.esg} 🔬${G.tech}</div></div>`;
     html+='</div>';
     if(msgs&&msgs.length){
       html+='<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px;">';
       msgs.forEach(m=>{
-        const clr=m.type==='bad'?'var(--red)':m.type==='warn'?'#935116':'var(--teal)';
+        const clr=m.type==='bad'?'var(--red)':m.type==='warn'?'#b9770e':'var(--teal)';
         const bg=m.type==='bad'?'rgba(192,57,43,0.08)':m.type==='warn'?'rgba(185,119,14,0.09)':'rgba(21,67,96,0.06)';
         const bd=m.type==='bad'?'var(--red)':m.type==='warn'?'#b9770e':'var(--teal)';
-        html+='<div style="padding:6px 10px;border-radius:7px;font-size:12px;background:'+bg+';color:'+clr+';border-left:3px solid '+bd+';line-height:1.5;">'+m.text+'</div>';
+        html+=`<div style="padding:6px 10px;border-radius:7px;font-size:12px;background:${bg};color:${clr};border-left:3px solid ${bd};line-height:1.5;">${m.text}</div>`;
       });
       html+='</div>';
     }
-    if(mgrReport)html+='<div style="padding:8px 10px;background:rgba(21,67,96,0.07);border-radius:8px;font-size:11px;line-height:1.8;border-left:3px solid var(--teal);margin-bottom:6px;">🤵 <b>採購經理報告</b><br>'+mgrReport+'</div>';
-    html+='<div style="font-size:11px;color:var(--muted);text-align:right;">📦 紗線庫存 '+G.materials+' ｜ 🏆 聲譽 '+G.rep+'</div>';
+    if(mgrReport)html+=`<div style="padding:8px 10px;background:rgba(21,67,96,0.07);border-radius:8px;font-size:11px;line-height:1.8;border-left:3px solid var(--teal);margin-bottom:6px;">🤵 <b>${T('採購總監報告','Director Report')}</b><br>${mgrReport}</div>`;
+    html+=`<div style="font-size:11px;color:var(--muted);text-align:right;">📦 ${T('胚布庫存','Fabric Stock')} ${G.materials} ｜ 🏆 ${T('聲譽','Rep')} ${G.rep}</div>`;
     html+='</div>';
     if(ev){
-      this.showModal(G.year+'年 📊 營運報告',html,()=>{
+      this.showModal(G.year+T('年 📊 營運報告',' 📊 Annual Report'),html,()=>{
         this.closeModal();
         setTimeout(()=>this.showEvent(ev),120); 
       });
-      const btn=document.getElementById('m-btn');btn.innerText='📰 處理本年事件 →';btn.className='mbtn gold';
+      const btn=document.getElementById('m-btn');btn.innerText=T('📰 處理本年事件 →','📰 Resolve Event →');btn.className='mbtn gold';
     }else{
-      this.showModal(G.year+'年 📊 營運報告',html,()=>{
+      this.showModal(G.year+T('年 📊 營運報告',' 📊 Annual Report'),html,()=>{
         this.closeModal();
         G.checkStageClear(); 
       });
     }
   },
   showStageComplete(ci,next){
-    const voices=['','💬「大批的水和染料成就了我們的利潤，但也染黑了觀音的河水。」','💬「快時尚要得急，我們要得是活下去。東南亞是唯一的出口。」','💬「當河川不再哭泣，超臨界無水染技術，是我們對這片土地的贖罪。」','💬「我們不再只是代工廠，我們是全球綠色供應鏈的守門人。」'];
-    const voice=voices[G.stageIdx]||'';const goals=next.goals.map(g=>'🔹 '+g.txt).join('<br>');
-    let html='<div style="text-align:center;"><div style="font-size:24px;margin-bottom:8px;">🎉💧✨</div><div style="font-size:16px;font-weight:900;color:var(--gold);margin-bottom:6px;">'+STAGES[ci].title+'<br>達成！</div>';
-    if(voice)html+='<div style="font-size:12px;color:var(--muted);margin:10px 0;padding:8px;background:rgba(0,0,0,0.04);border-radius:8px;border-left:3px solid var(--teal);">'+voice+'</div>';
-    html+='<hr style="border:none;border-top:1.5px dashed var(--brd);margin:10px 0;"><div style="text-align:left;line-height:1.6;">'+next.desc+'<br><br><span style="color:var(--gold)">🏆 新階段挑戰：</span><br>'+goals+'</div></div>';
-    this.showModal('💧 企業躍升',html,()=>{this.closeModal();UI.renderBuild();UI.renderTrade();UI.updateAll();});
-    document.getElementById('m-btn').innerText='🏭 啟動新戰略';document.getElementById('m-btn').className='mbtn gold';
+    const voices=['','💬「快時尚的背後，是觀音無法負荷的污水與碳排。」','💬「看見台灣，也看見了染整業必須重生的宿命。」','💬「將每一滴水循環再利用，這就是我們給這片土地的承諾。」','💬「取得最高認證，和美紡織向世界證明了綠色的力量。」'];
+    const voices_en=['','💬 "Behind fast fashion lies wastewater Guanyin cannot bear."','💬 "Seeing Taiwan meant seeing the inevitable rebirth of dyeing."','💬 "Recycling every drop of water is our promise to this land."','💬 "With the highest cert, Homei proves the power of green to the world."'];
+    const voice=T(voices[G.stageIdx],voices_en[G.stageIdx])||'';
+    const goals=next.goals.map(g=>'🔹 '+tObj(g,'txt')).join('<br>');
+    let html=`<div style="text-align:center;"><div style="font-size:24px;margin-bottom:8px;">🎉💧✨</div><div style="font-size:16px;font-weight:900;color:var(--gold);margin-bottom:6px;">${tObj(STAGES[ci],'title')}<br>${T('達成！','Achieved!')}</div>`;
+    if(voice)html+=`<div style="font-size:12px;color:var(--muted);margin:10px 0;padding:8px;background:rgba(0,0,0,0.04);border-radius:8px;border-left:3px solid var(--teal);">${voice}</div>`;
+    html+=`<hr style="border:none;border-top:1.5px dashed var(--brd);margin:10px 0;"><div style="text-align:left;line-height:1.6;">${tObj(next,'desc')}<br><br><span style="color:var(--gold)">🏆 ${T('新階段挑戰：','New Challenges:')}</span><br>${goals}</div></div>`;
+    this.showModal(T('💧 企業躍升','💧 Corporate Ascent'),html,()=>{this.closeModal();UI.renderBuild();UI.renderTrade();UI.updateAll();});
+    document.getElementById('m-btn').innerText=T('🏭 啟動新戰略','🏭 Launch Strategy');document.getElementById('m-btn').className='mbtn gold';
   },
-  showGameOver(){this.showModal('💔 企業重整','<div style="text-align:center;"><div style="font-size:40px;">📉</div><div style="font-size:14px;color:var(--red);font-weight:700;margin:8px 0;">環境災難與品牌危機</div><div style="font-size:12px;">因嚴重廢水污染或違反零排放禁令，跨國品牌全面抽單。<br>和美紡織無法度過本次危機。</div></div>',null);
-    document.getElementById('m-foot').innerHTML='<button class="mbtn red" onclick="G.restart()">🔄 重返 1980</button>';},
+  showGameOver(){this.showModal(T('💔 企業重整','💔 Bankruptcy'),`<div style="text-align:center;"><div style="font-size:40px;">📉</div><div style="font-size:14px;color:var(--red);font-weight:700;margin:8px 0;">${T('環境災難與品牌危機','Eco Disaster & Brand Crisis')}</div><div style="font-size:12px;">${T('因嚴重廢水超標與空污，跨國品牌全面抽單。<br>和美紡織無法度過本次危機。','Brands pulled orders due to severe wastewater & pollution.<br>Homei Textile did not survive.')}</div></div>`,null);
+    document.getElementById('m-foot').innerHTML=`<button class="mbtn red" onclick="G.restart()">🔄 ${T('重返 1993','Return to 1993')}</button>`;},
 
   showVictory(){
-    let html='<div style="text-align:center;"><div style="font-size:28px;">🏆💧🌍</div><div style="font-size:16px;font-weight:900;color:var(--gold);margin:6px 0;font-family:\'Noto Serif TC\',serif;">恭喜策略長！'+G.playerName+'</div><div style="font-size:11px;margin-bottom:8px;">1980 高污染染整廠 ➡️ 2030 全球綠色紡織樞紐</div></div>';
+    let html=`<div style="text-align:center;"><div style="font-size:28px;">🏆💧🌍</div><div style="font-size:16px;font-weight:900;color:var(--gold);margin:6px 0;font-family:'Noto Serif TC',serif;">${T('恭喜永續長！','Congratulations CSO ')}${G.playerName}</div><div style="font-size:11px;margin-bottom:8px;">${T('1993 高耗水染整廠 ➡️ 2030 全球零排放標竿','1993 High-Water Dye Plant ➡️ 2030 Global ZLD Benchmark')}</div></div>`;
     html+=this.buildChart();
     html+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:8px 0;text-align:center;">';
-    html+='<div style="background:rgba(21,67,96,0.08);padding:4px;border-radius:6px;"><div style="font-size:8px;color:var(--muted);">品牌客戶群</div><div style="font-family:\'Playfair Display\',serif;font-size:14px;color:var(--teal);">'+G.countries.size+'家</div></div>';
-    html+='<div style="background:rgba(185,119,14,0.08);padding:4px;border-radius:6px;"><div style="font-size:8px;color:var(--muted);">跨國大單</div><div style="font-family:\'Playfair Display\',serif;font-size:14px;color:var(--gold);">'+G.done.length+'筆</div></div>';
-    html+='<div style="background:rgba(30,132,73,0.08);padding:4px;border-radius:6px;"><div style="font-size:8px;color:var(--muted);">終局ESG/污染</div><div style="font-family:\'Playfair Display\',serif;font-size:14px;color:var(--green);">'+G.esg+'/☣️'+G.poll+'</div></div></div>';
-    html+='<div style="text-align:left;font-size:11px;background:rgba(21,67,96,0.04);padding:6px;border-radius:6px;margin-bottom:6px;"><b>🏭 企業版圖：</b><br>';
-    BKEYS.forEach(k=>{if(G.c[k]>0)html+=B[k].e+' '+B[k].name+' ×'+G.c[k]+'&emsp;';});
+    html+=`<div style="background:rgba(21,67,96,0.08);padding:4px;border-radius:6px;"><div style="font-size:8px;color:var(--muted);">${T('品牌客戶群','Brand Clients')}</div><div style="font-family:'Playfair Display',serif;font-size:14px;color:var(--teal);">${G.countries.size}${T('家','')}</div></div>`;
+    html+=`<div style="background:rgba(185,119,14,0.08);padding:4px;border-radius:6px;"><div style="font-size:8px;color:var(--muted);">${T('跨國大單','Global Orders')}</div><div style="font-family:'Playfair Display',serif;font-size:14px;color:var(--gold);">${G.done.length}${T('筆','')}</div></div>`;
+    html+=`<div style="background:rgba(30,132,73,0.08);padding:4px;border-radius:6px;"><div style="font-size:8px;color:var(--muted);">${T('終局ESG/污染','Final ESG/Poll')}</div><div style="font-family:'Playfair Display',serif;font-size:14px;color:var(--green);">${G.esg}/☣️${G.poll}</div></div></div>`;
+    html+=`<div style="text-align:left;font-size:11px;background:rgba(21,67,96,0.04);padding:6px;border-radius:6px;margin-bottom:6px;"><b>🏭 ${T('企業版圖：','Facilities:')}</b><br>`;
+    BKEYS.forEach(k=>{if(G.c[k]>0)html+=B[k].e+' '+tObj(B[k],'name')+' ×'+G.c[k]+'&emsp;';});
     html+='</div>';
-    html+='<div style="text-align:left;font-size:11px;background:rgba(185,119,14,0.06);padding:6px;border-radius:6px;margin-bottom:6px;"><b>🌍 全球綠色同盟：</b><br>';
-    if(G.done.length===0)html+='（無）';
-    G.done.forEach(id=>{for(let s=1;s<=5;s++){const ct=(CONTRACTS[s]||[]).find(x=>x.id===id);if(ct){html+=ct.flag+' '+ct.client+'<br>';break;}}});
+    html+=`<div style="text-align:left;font-size:11px;background:rgba(185,119,14,0.06);padding:6px;border-radius:6px;margin-bottom:6px;"><b>🌍 ${T('全球綠色同盟：','Global Alliance:')}</b><br>`;
+    if(G.done.length===0)html+=T('（無）','(None)');
+    G.done.forEach(id=>{for(let s=1;s<=5;s++){const ct=(CONTRACTS[s]||[]).find(x=>x.id===id);if(ct){html+=ct.flag+' '+tObj(ct,'client')+'<br>';break;}}});
     html+='</div>';
-    html+='<div style="text-align:left;font-size:10px;background:rgba(30,132,73,0.06);padding:6px;border-radius:6px;line-height:1.5;"><b>📚 從遊戲看懂和美紡織：</b><br>';
-    html+='✅ <b>水資源拉鋸：</b>染整業是高耗水、高污染產業。在台灣缺水危機下，MBR 廢水回收與無水染整是唯一出路。<br>';
-    html+='✅ <b>零排放革命：</b>面對國際環保組織的毒衣物指控，取得 ZDHC 認證是接軌 Nike、Adidas 等大廠的硬門票。<br>';
-    html+='✅ <b>循環經濟：</b>使用廢寶特瓶回收酯粒，不僅解決塑料污染，更能滿足歐美市場對環保材質的剛性需求。<br>';
-    html+='✅ <b>生態與經濟雙贏：</b>從桃園觀音出發，和美紡織證明了傳統產業也能透過科技轉型，成為全球綠色供應鏈的守門人。</div>';
+    
+    if (LANG === 'zh') {
+      html+='<div style="text-align:left;font-size:10px;background:rgba(30,132,73,0.06);padding:6px;border-radius:6px;line-height:1.5;"><b>📚 從遊戲看懂和美紡織：</b><br>';
+      html+='✅ <b>染整業宿命：</b>桃園觀音曾有許多傳統染整廠，面臨高耗水與廢水污染的十字路口。<br>';
+      html+='✅ <b>看見台灣的警醒：</b>2013年的稽查風暴是台灣環保的轉捩點，迫使染整業投資 MBR 生物薄膜等高階處理技術。<br>';
+      html+='✅ <b>零排放奇蹟：</b>廢水零排放 (ZLD) 系統能將每一滴水循環再利用，是解決缺水與污染的終極武器。<br>';
+      html+='✅ <b>世界標竿：</b>當取得 Bluesign® 藍天使認證，台灣的紡織業就不再是夕陽產業，而是引領全球綠色供應鏈的領航者。</div>';
+    } else {
+      html+='<div style="text-align:left;font-size:10px;background:rgba(30,132,73,0.06);padding:6px;border-radius:6px;line-height:1.5;"><b>📚 Homei Textile in Reality:</b><br>';
+      html+='✅ <b>Dyeing Destiny:</b> Guanyin had many traditional dyeing plants facing the crossroads of high water use and pollution.<br>';
+      html+='✅ <b>Eco-Awakening:</b> The 2013 "Beyond Beauty" audit storm forced the industry to invest in MBR bio-membrane tech.<br>';
+      html+='✅ <b>ZLD Miracle:</b> Zero Liquid Discharge (ZLD) recycles every drop of water, the ultimate weapon against droughts and pollution.<br>';
+      html+='✅ <b>Global Benchmark:</b> Obtaining Bluesign® proves Taiwan textiles are not a sunset industry, but leaders in global green supply chains.</div>';
+    }
     
     G.saveToSheets();
-    this.showModal('🏆 永續水脈的勝利',html,null);
-    document.getElementById('m-foot').innerHTML='<button class="mbtn gold" onclick="G.captureScreen()">📸 截圖留念</button><button class="mbtn" onclick="G.restart()" style="margin-top:6px;">🔄 再玩一次</button>';
+    this.showModal(T('🏆 綠色水脈的勝利','🏆 Green Waterway Victory'),html,null);
+    document.getElementById('m-foot').innerHTML=`<button class="mbtn gold" onclick="G.captureScreen()">📸 ${T('截圖留念','Screenshot')}</button><button class="mbtn" onclick="G.restart()" style="margin-top:6px;">🔄 ${T('再玩一次','Play Again')}</button>`;
   },
 
   buildChart(){
@@ -823,26 +889,34 @@ const UI={
       pollPts+=x+','+toY(d.poll,maxPoll)+' ';
       revPts+=x+','+toY(d.rev,maxRev)+' ';
     });
-    let svg='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;margin:6px 0;background:rgba(0,0,0,0.03);border-radius:8px;" overflow="hidden">';
-    svg+='<defs><clipPath id="cp"><rect x="'+P+'" y="'+P+'" width="'+(W-2*P)+'" height="'+(H-2*P)+'"/></clipPath></defs>';
-    for(let i=0;i<=4;i++){const y=P+(H-2*P)*i/4;svg+='<line x1="'+P+'" y1="'+y+'" x2="'+(W-P)+'" y2="'+y+'" stroke="#ddd" stroke-width="0.5"/>';}
+    let svg=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;margin:6px 0;background:rgba(0,0,0,0.03);border-radius:8px;" overflow="hidden">`;
+    svg+=`<defs><clipPath id="cp"><rect x="${P}" y="${P}" width="${W-2*P}" height="${H-2*P}"/></clipPath></defs>`;
+    for(let i=0;i<=4;i++){const y=P+(H-2*P)*i/4;svg+=`<line x1="${P}" y1="${y}" x2="${W-P}" y2="${y}" stroke="#ddd" stroke-width="0.5"/>`;}
     svg+='<g clip-path="url(#cp)">';
-    svg+='<polyline points="'+esgPts+'" fill="none" stroke="#1e8449" stroke-width="2" opacity="0.85"/>';
-    svg+='<polyline points="'+pollPts+'" fill="none" stroke="#c0392b" stroke-width="2" opacity="0.85"/>';
-    svg+='<polyline points="'+revPts+'" fill="none" stroke="#b9770e" stroke-width="2" opacity="0.85" stroke-dasharray="4 2"/>';
+    svg+=`<polyline points="${esgPts}" fill="none" stroke="#1e8449" stroke-width="2" opacity="0.85"/>`;
+    svg+=`<polyline points="${pollPts}" fill="none" stroke="#c0392b" stroke-width="2" opacity="0.85"/>`;
+    svg+=`<polyline points="${revPts}" fill="none" stroke="#b9770e" stroke-width="2" opacity="0.85" stroke-dasharray="4 2"/>`;
     svg+='</g>';
-    svg+='<text x="'+P+'" y="13" font-size="9" fill="#1e8449" font-family="sans-serif">🌿ESG</text>';
-    svg+='<text x="'+(P+55)+'" y="13" font-size="9" fill="#c0392b" font-family="sans-serif">☣️污染</text>';
-    svg+='<text x="'+(P+110)+'" y="13" font-size="9" fill="#b9770e" font-family="sans-serif">💰年收(虛線)</text>';
-    if(h.length>0){svg+='<text x="'+P+'" y="'+(H-3)+'" font-size="8" fill="#888" font-family="sans-serif">'+h[0].year+'</text>';svg+='<text x="'+(W-P-22)+'" y="'+(H-3)+'" font-size="8" fill="#888" font-family="sans-serif">'+h[h.length-1].year+'</text>';}
+    svg+=`<text x="${P}" y="13" font-size="9" fill="#1e8449" font-family="sans-serif">🌿ESG</text>`;
+    svg+=`<text x="${P+40}" y="13" font-size="9" fill="#c0392b" font-family="sans-serif">☣️${T('污染','Poll')}</text>`;
+    svg+=`<text x="${P+85}" y="13" font-size="9" fill="#b9770e" font-family="sans-serif">💰${T('年收(虛線)','Rev')}</text>`;
+    if(h.length>0){svg+=`<text x="${P}" y="${H-3}" font-size="8" fill="#888" font-family="sans-serif">${h[0].year}</text>`;svg+=`<text x="${W-P-22}" y="${H-3}" font-size="8" fill="#888" font-family="sans-serif">${h[h.length-1].year}</text>`;}
     svg+='</svg>';
-    return '<div style="margin:4px 0;"><div style="font-size:10px;font-weight:700;color:var(--teal);margin-bottom:2px;">📊 企業轉型趨勢圖</div>'+svg+'</div>';
+    return `<div style="margin:4px 0;"><div style="font-size:10px;font-weight:700;color:var(--teal);margin-bottom:2px;">📊 ${T('企業轉型趨勢圖','Trend Chart')}</div>${svg}</div>`;
   },
 
-  help(type){const h={funds:'【💰 資金】\n建廠與購買紗線都需要資金。\n原料不足會導致工廠產能降載。\n後期污染過高會被環保局課徵重額廢水處置費。',rep:'【🏆 聲譽】\n國際大廠對你的信任。\n發生「毒衣物」或「廢水污染」等危機將大幅扣減，歸零即破產。',tech:'【🔬 技術力】\n從「傳統染整」跨足「無水染機」的關鍵。\n建造【綠色紡織實驗室】可快速提升。',esg:'【🌿 ESG分數】\n代表企業誠信與生態保護能力。\n歐盟 CBAM、Nike 等頂級客戶要求極高的 ESG 達標才能接單。\n投資【MBR廢水處理】與【無水染機】可大幅加分。',poll:'【☣️ 污染值 (廢水/化學)】\n傳統染布會產生大量有毒廢水。\n累積過高會引發裁罰，甚至強迫關廠並引發水資源危機。\n也會每年腐蝕你的 ESG 分數。'};
-    this.showModal('❓ 營運指標說明','<div style="white-space:pre-line;font-size:13px;line-height:1.6;">'+((h[type])||'')+'</div>',()=>this.closeModal());},
-  stageDetail(){const s=STAGES[G.stageIdx];const goals=s.goals.map(g=>'🔹 '+g.txt).join('<br>');this.showModal(s.title,'<div style="line-height:1.6;">'+s.desc+'<br><br><span style="color:var(--gold)">🏆 階段目標：</span><br>'+goals+'</div>',()=>this.closeModal());},
-  hlEl(sel,text){document.getElementById('tut-ov').style.display='block';const el=document.querySelector(sel);if(el){el.classList.add('hl-target');const bp=el.closest('#bottom-panel')||el.closest('#hud');if(bp)bp.style.zIndex='2001';}document.getElementById('tut-text').innerHTML='<div class="tut-t">策略指引</div>'+text.replace(/\n/g,'<br>');document.getElementById('tut-tip').style.display='block';},
+  help(type){
+    const h={
+      funds:T('【💰 資金】\n建廠與購買胚布原料都需要資金。\n原料不足會導致工廠產能降載。\n後期污染過高會被環保局重罰。','[💰 Funds]\nBuilding plants and buying fabric needs funds.\nShortages cause capacity drops.\nHigh pollution incurs heavy EPA penalties.'),
+      rep:T('【🏆 聲譽】\n國際大廠對你的信任。\n發生「廢水偷排」或「空污」等危機將大幅扣減，歸零即破產。','[🏆 Rep]\nTrust from global brands.\n"Wastewater" or "Air Poll" crises slash it. 0 = Game Over.'),
+      tech:T('【🔬 技術力】\n從「傳統染整」跨足「智慧無水染」的關鍵。\n建造【綠色紡織研發部】可快速提升。','[🔬 Tech]\nKey to shift from Trad. Dyeing to Smart Waterless.\nBuild [R&D Dept] to boost.'),
+      esg:T('【🌿 ESG分數】\n代表企業環保與永續能力。\n歐盟、Nike 等頂級客戶要求極高的 ESG 達標才能接單。\n投資【MBR生物薄膜】與【廢水零排放(ZLD)】可大幅加分。','[🌿 ESG]\nCorporate eco & sustainability index.\nEU & Nike demand high ESG.\nInvest in [MBR] & [ZLD] to boost.'),
+      poll:T('【☣️ 污染值 (廢水/空污)】\n傳統染整業會產生大量高溫廢水污染。\n累積過高會引發裁罰，甚至強迫關廠。\n也會每年腐蝕你的 ESG 分數。','[☣️ Pollution (Water/Air)]\nTrad. dyeing creates huge high-temp wastewater.\nHigh levels bring fines & shutdowns.\nAlso erodes ESG score yearly.')
+    };
+    this.showModal(T('❓ 營運指標說明','❓ Stat Guide'),'<div style="white-space:pre-line;font-size:13px;line-height:1.6;">'+((h[type])||'')+'</div>',()=>this.closeModal());
+  },
+  stageDetail(){const s=STAGES[G.stageIdx];const goals=s.goals.map(g=>'🔹 '+tObj(g,'txt')).join('<br>');this.showModal(tObj(s,'title'),'<div style="line-height:1.6;">'+tObj(s,'desc')+'<br><br><span style="color:var(--gold)">🏆 '+T('階段目標：','Goals:')+'</span><br>'+goals+'</div>',()=>this.closeModal());},
+  hlEl(sel,text){document.getElementById('tut-ov').style.display='block';const el=document.querySelector(sel);if(el){el.classList.add('hl-target');const bp=el.closest('#bottom-panel')||el.closest('#hud');if(bp)bp.style.zIndex='2001';}document.getElementById('tut-text').innerHTML=`<div class="tut-t">${T('策略指引','Strategy Tip')}</div>`+text.replace(/\n/g,'<br>');document.getElementById('tut-tip').style.display='block';},
   clearHL(){document.getElementById('tut-ov').style.display='none';document.getElementById('tut-tip').style.display='none';document.querySelectorAll('.hl-target').forEach(el=>el.classList.remove('hl-target'));const bp=document.getElementById('bottom-panel');if(bp)bp.style.zIndex='100';const hud=document.getElementById('hud');if(hud)hud.style.zIndex='100';}
 };
 window.addEventListener('DOMContentLoaded',()=>G.init());
